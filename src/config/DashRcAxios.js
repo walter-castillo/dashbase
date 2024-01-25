@@ -1,8 +1,9 @@
 import axios from 'axios';
+const baseURL =  import.meta.env.VITE_URL
 
 
 export const dashAxios = axios.create({
-    baseURL: 'http://localhost:3030/api/',
+    baseURL,
     timeout: 12000,
 });
 
@@ -10,7 +11,7 @@ dashAxios.interceptors.request.use( config  => {
 
     config.headers = {
         ...config.headers,
-        'x-token-data': localStorage.getItem('tokenRc'),
+        'x-token': localStorage.getItem('tokenRc'),
     }
     return  config;
 });

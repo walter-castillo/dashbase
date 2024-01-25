@@ -20,7 +20,7 @@ export const AuthProvider = ({ children }) =>  {
     const login = async (email,  password) =>  {
 
         try {
-            const { data } = await dashAxios.post('auth/user/login', {
+            const { data } = await dashAxios.post('auth/login', {
                 email,
                 password
             });
@@ -93,7 +93,24 @@ export const AuthProvider = ({ children }) =>  {
         }
     }
 
-
+ const register = async (dataUserRegister) =>  {
+        try {
+            /* const idd = {name: 'Andrew Mccarthy', email: 'sod6o@mailinator.com', phone:"1234567811", password: 'Pa$$w0rd!', passwordConfirmation: 'Pa$$w0rd!'} */
+            const data = await dashAxios.post('user/', dataUserRegister);
+            console.log(data)
+            dispatch({
+                type:  types.auth.onRegister,
+                payload: user 
+            });
+        } catch (errors) {
+            
+            
+            dispatch({
+                type: types.auth.onRegister,
+                payload: errors
+            })
+        }
+    }
     
 
     return (
@@ -102,6 +119,7 @@ export const AuthProvider = ({ children }) =>  {
             login,
             logout,
             checkAuthToken,
+            register
         }}>
             { children }
         </AuthContext.Provider>

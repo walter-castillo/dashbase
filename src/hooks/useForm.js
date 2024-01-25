@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useState } from 'react';
 
 
 
@@ -17,6 +17,7 @@ export const useForm = ( initialForm = {}) => {
             ...formState,
             [ name ]: value
         });
+        
     }
 
     const onResetForm = () => {

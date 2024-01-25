@@ -1,26 +1,26 @@
-import * as React from 'react';
 import { Link } from 'react-router-dom';
 
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { createTheme } from '@mui/material/styles';
+import { useForm } from '../../hooks/useForm';
+import { useContext } from 'react';
+import { AuthContext } from '../../contexts/AuthContext';
 
-
-// TODO remove, this demo shouldn't need to reset the theme.
-
-const defaultTheme = createTheme();
 
 export default function RegisterPage() {
-    
+  
+  const { formState, onInputChange} = useForm({})
+  const {register, state}= useContext(AuthContext)
+   
   const handleSubmit = (event) => {
     event.preventDefault();
+    // console.log(formState)
+    register(formState)
   };
 
   return (
@@ -29,22 +29,22 @@ export default function RegisterPage() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            DashRc
+          DashBoard
           </Typography>
           <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
             <Grid container spacing={2}>
-              <Grid item xs={12} sm={6}>
+              <Grid item xs={12}>
                 <TextField
                   autoComplete="given-name"
-                  name="firstName"
+                  name="name"
                   required
                   fullWidth
-                  id="firstName"
                   label="Nombre"
                   autoFocus
+                  onChange={ (e) => onInputChange(e) }
                 />
               </Grid>
-              <Grid item xs={12} sm={6}>
+              {/* <Grid item xs={12} sm={6}>
                 <TextField
                   required
                   fullWidth
@@ -52,16 +52,30 @@ export default function RegisterPage() {
                   label="Apellido"
                   name="lastName"
                   autoComplete="family-name"
+                  onChange={ (e) => onInputChange(e) }
                 />
-              </Grid>
+              </Grid> */}
               <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
                   id="email"
                   label="Correo Electronico"
-                  name="mail"
+                  name="email"
                   autoComplete="email"
+                  onChange={ (e) => onInputChange(e) }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="phone"
+                  label="Telefono"
+                  type="phone"
+                  id="phone"
+                  autoComplete="tel"
+                  onChange={ (e) => onInputChange(e) }
                 />
               </Grid>
               <Grid item xs={12}>
@@ -73,6 +87,19 @@ export default function RegisterPage() {
                   type="password"
                   id="password"
                   autoComplete="new-password"
+                  onChange={ (e) => onInputChange(e) }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="passwordConfirmation"
+                  label="Confirmar Password"
+                  type="password"
+                  id="passwordConfirmation"
+                  autoComplete="new-password"
+                  onChange={ (e) => onInputChange(e) }
                 />
               </Grid>
             </Grid>
