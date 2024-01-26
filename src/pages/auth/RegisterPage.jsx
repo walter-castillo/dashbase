@@ -17,10 +17,21 @@ export default function RegisterPage() {
   const { formState, onInputChange} = useForm({})
   const {register, state}= useContext(AuthContext)
    
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // console.log(formState)
-    register(formState)
+    try {
+      await register({
+        name: formState.name,
+        email: formState.email,
+        phone: formState.phone,
+        password: formState.password,
+        passwordConfirmation: formState.passwordConfirmation,
+      });
+
+      console.log('Registro exitoso');
+    } catch (error) {
+      console.error('Error durante el registro', error);
+    }
   };
 
   return (

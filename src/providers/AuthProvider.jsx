@@ -5,10 +5,10 @@ import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
 
 const initialState =  {
-    user: null,
+   /*  user: null,
     isLogged: false,
     errorMessage: '',
-    isLoading: true,
+    isLoading: true, */
 }
 
 
@@ -19,7 +19,7 @@ export const AuthProvider = ({ children }) =>  {
 
     const login = async (email,  password) =>  {
 
-        try {
+    /*     try {
             const { data } = await dashAxios.post('auth/login', {
                 email,
                 password
@@ -42,26 +42,26 @@ export const AuthProvider = ({ children }) =>  {
                     errorMessage: data.msg
                 }
             })
-        }
+        } */
     }
     
     
     const logout = () => {
         
-        localStorage.clear();
+       /*  localStorage.clear();
 
         dispatch({
             type: types.auth.onLogout,
             payload: {
                 errorMessage: ''
             }
-        });
+        }); */
     }
 
 
     const checkAuthToken = async () => {
 
-        try {
+     /*    try {
             const token = localStorage.getItem('tokenRc');
             if(!token){
                 return dispatch({
@@ -90,24 +90,24 @@ export const AuthProvider = ({ children }) =>  {
                     errorMessage: ''
                 }
             });
-        }
+        } */
     }
 
  const register = async (dataUserRegister) =>  {
         try {
-            /* const idd = {name: 'Andrew Mccarthy', email: 'sod6o@mailinator.com', phone:"1234567811", password: 'Pa$$w0rd!', passwordConfirmation: 'Pa$$w0rd!'} */
-            const data = await dashAxios.post('user/', dataUserRegister);
-            console.log(data)
+  
+            const {data} = await dashAxios.post('user/', dataUserRegister);
+               console.log(data);
             dispatch({
                 type:  types.auth.onRegister,
-                payload: user 
+                payload: data.user,
             });
-        } catch (errors) {
+        } catch (error) {
             
-            
+             console.error('Error during registration', error);
             dispatch({
                 type: types.auth.onRegister,
-                payload: errors
+                payload: error
             })
         }
     }

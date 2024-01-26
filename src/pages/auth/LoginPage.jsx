@@ -40,7 +40,7 @@ export const LoginPage = () => {
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
-              error={state.errorMessage.length > 0 ?  true : false}
+              // error={state.errorMessage.length > 0 ?  true : false}
               margin="normal"
               required
               fullWidth
@@ -52,7 +52,7 @@ export const LoginPage = () => {
               onChange={ (event ) => onInputChange(event) }
             />
             <TextField
-              error={state.errorMessage.length > 0 ?  true : false}
+              // error={state.errorMessage.length > 0 ?  true : false}
               margin="normal"
               required
               fullWidth
