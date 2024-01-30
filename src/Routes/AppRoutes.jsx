@@ -29,6 +29,7 @@ export const AppRoutes = () => {
             } />
 
             <Route path='/*' element={
+                // <PrivateRoutes  isLogged={true}>
                 <PrivateRoutes  isLogged={state.isLogged}>
                     <GeneralLayout />
                 </PrivateRoutes>

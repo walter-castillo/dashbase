@@ -4,15 +4,21 @@ export const types =  {
         onLogin:    '[AUTH]-LOGIN',
         onLogout:   '[AUTH]-LOGOUT',
         onRegister: '[AUTH]-REGISTER',
+        userAuth:   '[AUTH]-USER AUTH',
+        onToken:    '[AUTH]-TOKEN',
+        loading:    '[AUTH]-LOADING',
+        error:      '[AUTH]-ERROR',
+        success:    '[AUTH]-SUCCESS',
     },
 
     user: {
         getUsers:   '[USERS]-USERS ALL',
-        getOneUser: '[USERS]-USER BY ID',
+        getUser:    '[USERS]-USER BY ID',
         editUser:   '[USERS]-USER UPDATE',
         deleteUser: '[USERS]-USER DELETE',
-        activeUser: '[USERS]-USER ACTIVE',
-        messages:   '[USERS]-USER ERROR MESSAGE',
         loading:    '[USERS]-USER LOADING',
+        error:      '[USERS]-USER ERROR',
+        success:    '[USERS]-USER SUCCESS',
+
     }
 }

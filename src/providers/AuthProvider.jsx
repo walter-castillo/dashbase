@@ -4,19 +4,92 @@ import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
 
-const initialState =  {
-   /*  user: null,
-    isLogged: false,
-    errorMessage: '',
-    isLoading: true, */
+const initialState = {
+  user: {}, 
+  isLogged: false,
+  isLoading: false,
+  token: '',
+  success: [],
+  error: [],
+  users: [],
+
 }
+ 
+
 
 
 export const AuthProvider = ({ children }) =>  {
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
+    // const [isLoading, setIsLoading] = useState(true);
 
+ const register = async (dataUserRegister) =>  {
+        /* try {
+  
+            const {data} = await dashAxios.post('user/', dataUserRegister);
+               console.log(data.user);
+            dispatch({
+                type:  types.auth.onRegister,
+                payload: data.user,
+            });
 
+        } catch (error) {
+            
+             console.error(error.response.data);
+            dispatch({
+                type: types.auth.onRegister,
+                payload: error
+            })
+        } */
+        try {
+  
+            const {data} = await dashAxios.post('user/', dataUserRegister);
+                 return  dispatch({
+            type: types.auth.onRegister,
+            payload:  {
+                
+                          user: data.user
+            },
+        });
+
+        } catch (errors) {
+            console.log('desde catch', errors.response.data)
+           return dispatch({
+                type: types.auth.error,
+                payload: {
+                    messageStatus: 'ERROR',
+                    msg: 'No Existen usuarios en el sistema',
+                    error: errors.response.data.errors
+                }
+            })
+        };
+      /*   try {
+  
+            const {data} = await dashAxios.post('user/', dataUserRegister);
+                 return  dispatch({
+            type: types.auth.onRegister,
+            payload:  {
+                          user: data.user
+            },
+        });
+
+        } catch (errors) {
+            console.log('desde catch', errors.response.data)
+           return dispatch({
+                type: types.auth.onRegister,
+                payload: {
+                    ...state,
+                    user:null,
+                    messageStatus: 'ERROR',
+                    msg: 'No Existen usuarios en el sistema',
+                    errors
+                }
+            })
+        }; */
+         
+        
+    }
+    
     const login = async (email,  password) =>  {
 
     /*     try {
@@ -93,25 +166,7 @@ export const AuthProvider = ({ children }) =>  {
         } */
     }
 
- const register = async (dataUserRegister) =>  {
-        try {
-  
-            const {data} = await dashAxios.post('user/', dataUserRegister);
-               console.log(data);
-            dispatch({
-                type:  types.auth.onRegister,
-                payload: data.user,
-            });
-        } catch (error) {
-            
-             console.error('Error during registration', error);
-            dispatch({
-                type: types.auth.onRegister,
-                payload: error
-            })
-        }
-    }
-    
+   
 
     return (
         <AuthContext.Provider value={{
