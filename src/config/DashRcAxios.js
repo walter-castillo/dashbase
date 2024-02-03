@@ -1,5 +1,6 @@
 import axios from 'axios';
 const baseURL =  import.meta.env.VITE_URL
+const  token =  import.meta.env.VITE_TOKEN_NAME
 
 
 export const dashAxios = axios.create({
@@ -11,7 +12,7 @@ dashAxios.interceptors.request.use( config  => {
 
     config.headers = {
         ...config.headers,
-        'x-token': localStorage.getItem('tokenRc'),
+        bearer: localStorage.getItem(token),
     }
     return  config;
 });

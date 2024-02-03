@@ -4,148 +4,76 @@ import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
 
+const  token =  import.meta.env.VITE_TOKEN_NAME
+
 const initialState = {
-  user: {}, 
+  user: null, 
   isLogged: false,
-  isLoading: false,
   token: '',
-  success: [],
+  success: null,
   error: [],
-  users: [],
+  isLoading: false,
 
 }
  
-
-
-
 export const AuthProvider = ({ children }) =>  {
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
-    // const [isLoading, setIsLoading] = useState(true);
 
- const register = async (dataUserRegister) =>  {
-        /* try {
-  
+    const register = async (dataUserRegister) =>  {
+        try {
+            dispatch({ type: types.auth.startLoading });
             const {data} = await dashAxios.post('user/', dataUserRegister);
-               console.log(data.user);
-            dispatch({
-                type:  types.auth.onRegister,
-                payload: data.user,
-            });
+            // console.log(data.user)
+           return dispatch({type: types.auth.onRegister});
 
         } catch (error) {
-            
-             console.error(error.response.data);
-            dispatch({
-                type: types.auth.onRegister,
-                payload: error
-            })
-        } */
-        try {
-  
-            const {data} = await dashAxios.post('user/', dataUserRegister);
-                 return  dispatch({
-            type: types.auth.onRegister,
-            payload:  {
-                
-                          user: data.user
-            },
-        });
-
-        } catch (errors) {
-            console.log('desde catch', errors.response.data)
-           return dispatch({
+            return dispatch({
                 type: types.auth.error,
-                payload: {
-                    messageStatus: 'ERROR',
-                    msg: 'No Existen usuarios en el sistema',
-                    error: errors.response.data.errors
-                }
+                payload: { error: error.response.data.errors},
             })
-        };
-      /*   try {
-  
-            const {data} = await dashAxios.post('user/', dataUserRegister);
-                 return  dispatch({
-            type: types.auth.onRegister,
-            payload:  {
-                          user: data.user
-            },
-        });
 
-        } catch (errors) {
-            console.log('desde catch', errors.response.data)
-           return dispatch({
-                type: types.auth.onRegister,
-                payload: {
-                    ...state,
-                    user:null,
-                    messageStatus: 'ERROR',
-                    msg: 'No Existen usuarios en el sistema',
-                    errors
-                }
-            })
-        }; */
-         
-        
+        } finally { dispatch({ type: types.auth.stopLoading }) }            
     }
     
-    const login = async (email,  password) =>  {
+    const login = async (dataUserLogin) =>  {
 
-    /*     try {
-            const { data } = await dashAxios.post('auth/login', {
-                email,
-                password
-            });
-
-            localStorage.setItem('tokenRc', data.res.token);
+        dispatch({ type: types.auth.startLoading })        
+        try {
+            const { data } = await dashAxios.post('auth/login', dataUserLogin);
+             localStorage.setItem(token, data.token);
     
-            dispatch({
+           dispatch({
                 type:  types.auth.onLogin,
                 payload:  {
-                    user: data.res
+                    user: data.user,
+                    token: data.token
                 }
             });
-        } catch (error) {
-            const { data }  = error.response
-            
-            dispatch({
-                type: types.auth.onLogout,
-                payload: {
-                    errorMessage: data.msg
-                }
+        } catch (error) {  
+           return dispatch({
+                type: types.auth.error,
+                payload: { error: error.response.data.errors},
             })
-        } */
+        }finally { dispatch({ type: types.auth.stopLoading }) }         
     }
     
     
     const logout = () => {
-        
-       /*  localStorage.clear();
-
-        dispatch({
-            type: types.auth.onLogout,
-            payload: {
-                errorMessage: ''
-            }
-        }); */
+        dispatch({ type: types.auth.startLoading });
+        storage.removeItem(token);
+        dispatch({ type: types.auth.onLogout });
+        dispatch({ type: types.auth.stopLoading }); 
     }
 
 
     const checkAuthToken = async () => {
 
-     /*    try {
+        try {
             const token = localStorage.getItem('tokenRc');
-            if(!token){
-                return dispatch({
-                    type: types.auth.onLogout,
-                    payload: {
-                        errorMessage: ''
-                    }
-                });
-            }
+            if(!token){ return dispatch({type: types.auth.onLogout})}
 
-            const { data } = await dashAxios.get('auth/user/review/token');
+            const { data } = await dashAxios.get('auth//token/user');
             localStorage.setItem('tokenRc', data.res.token);
 
             dispatch({
@@ -163,7 +91,7 @@ export const AuthProvider = ({ children }) =>  {
                     errorMessage: ''
                 }
             });
-        } */
+        }
     }
 
    
@@ -177,6 +105,6 @@ export const AuthProvider = ({ children }) =>  {
             register
         }}>
             { children }
-        </AuthContext.Provider>
+        </ AuthContext.Provider>
     )
 }

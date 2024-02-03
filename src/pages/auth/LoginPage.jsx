@@ -1,4 +1,3 @@
-
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
@@ -14,7 +13,11 @@ import Typography from '@mui/material/Typography';
 import { FormHelperText } from '@mui/material';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm } from '../../hooks/useForm';
+import { Loading } from '../../components/ui/Loading';
 
+ import { useFormik } from 'formik';
+ import * as Yup from 'yup';
+ 
 
 
 
@@ -23,12 +26,10 @@ export const LoginPage = () => {
     const { login, state } = useContext(AuthContext);
     const { formState, onInputChange } = useForm();
 
-    const handleSubmit = (event) => {
+    const handleSubmit =async (event) => {
         event.preventDefault();
-        login(formState.email, formState.password);
+       await login({email:'admin@mail.com', password:'Pa$$w0rd!'});
     };
-
-
   return (
     
     <>
@@ -40,7 +41,7 @@ export const LoginPage = () => {
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
             <TextField
-              // error={state.errorMessage.length > 0 ?  true : false}
+
               margin="normal"
               required
               fullWidth
@@ -50,9 +51,10 @@ export const LoginPage = () => {
               autoComplete="email"
               autoFocus
               onChange={ (event ) => onInputChange(event) }
+
             />
             <TextField
-              // error={state.errorMessage.length > 0 ?  true : false}
+
               margin="normal"
               required
               fullWidth
@@ -62,6 +64,7 @@ export const LoginPage = () => {
               id="password"
               autoComplete="current-password"
               onChange={ (event ) => onInputChange(event) }
+
             />
             <FormHelperText 
               id="component-helper-text"
