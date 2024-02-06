@@ -1,30 +1,5 @@
 import { types } from "../types/types";
 
-//  auth: {
-//         onRegister: '[AUTH]-REGISTER',
-
-
-//         onLogin:    '[AUTH]-LOGIN',
-//         onLogout:   '[AUTH]-LOGOUT',
-//         userAuth:   '[AUTH]-USER AUTH',
-//         onToken:    '[AUTH]-TOKEN',
-//         startLoading:  '[AUTH]-LOADING',
-//         stopLoading:'[AUTH]-STOP LOADING',
-//         error:      '[AUTH]-ERROR',
-//         success:    '[AUTH]-SUCCESS',
-//     },
-
-
-// const initialState = {
-//   user: null, 
-//   isLogged: false,
-//   token: '',
-//   success: null,
-//   error: null,
-//   isLoading: false,
-
-// }
-
 export const AuthReducer = (state={}, action ) => {
 
         switch (action.type) {

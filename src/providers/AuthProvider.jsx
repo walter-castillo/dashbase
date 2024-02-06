@@ -11,7 +11,7 @@ const initialState = {
   isLogged: false,
   token: '',
   success: null,
-  error: [],
+  error: null,
   isLoading: false,
 
 }
@@ -24,15 +24,14 @@ export const AuthProvider = ({ children }) =>  {
         try {
             dispatch({ type: types.auth.startLoading });
             const {data} = await dashAxios.post('user/', dataUserRegister);
-            // console.log(data.user)
-           return dispatch({type: types.auth.onRegister});
+            return dispatch({type: types.auth.onRegister});
 
         } catch (error) {
             return dispatch({
                 type: types.auth.error,
                 payload: { error: error.response.data.errors},
             })
-
+            
         } finally { dispatch({ type: types.auth.stopLoading }) }            
     }
     
@@ -41,9 +40,8 @@ export const AuthProvider = ({ children }) =>  {
         dispatch({ type: types.auth.startLoading })        
         try {
             const { data } = await dashAxios.post('auth/login', dataUserLogin);
-             localStorage.setItem(token, data.token);
-    
-           dispatch({
+            localStorage.setItem(token, data.token);
+            dispatch({
                 type:  types.auth.onLogin,
                 payload:  {
                     user: data.user,
@@ -51,10 +49,15 @@ export const AuthProvider = ({ children }) =>  {
                 }
             });
         } catch (error) {  
-           return dispatch({
+            dispatch({
                 type: types.auth.error,
                 payload: { error: error.response.data.errors},
             })
+            setTimeout(() => {
+            dispatch({ 
+                type: types.auth.error, 
+                payload: { error: null } });
+            }, 5000);
         }finally { dispatch({ type: types.auth.stopLoading }) }         
     }
     
