@@ -12,7 +12,6 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
-const  company =  import.meta.env.VITE_COMPANY
 
 export const LoginPage = () => {
 
@@ -31,7 +30,7 @@ export const LoginPage = () => {
         <LockOutlinedIcon />
       </Avatar>
       <Typography component="h1" variant="h5">
-        {company}
+        {import.meta.env.VITE_COMPANY}
       </Typography>
       <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
         <TextField
@@ -68,7 +67,7 @@ export const LoginPage = () => {
           {...register("password", {
           required: {
             value: true,
-            message: "Nombre es requerido",
+            message: "el password es requerido",
           },
           maxLength: 25,
           minLength: 2,

@@ -7,26 +7,28 @@ import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
-import { useForm } from '../../hooks/useForm';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
+import { useForm} from 'react-hook-form'
+import Errors from '../../components/ui/Errors';
+
 
 
 export default function RegisterPage() {
-    // const navigate = useNavigate();
-    const { formState, onInputChange} = useForm({})
-    const {state, register}= useContext(AuthContext)
+    const {register:sendForm, state}= useContext(AuthContext)
 
-    const handleSubmit = async (event) => {
-        event.preventDefault();
-        await register({
-            name: formState.name,
-            email: formState.email,
-            phone: formState.phone,
-            password: formState.password,
-            passwordConfirmation: formState.passwordConfirmation,
+     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+      
+  const onSubmit = handleSubmit(async (data)=>{
+    await sendForm({
+            // name: formState.name,
+            // email: formState.email,
+            // phone: formState.phone,
+            // password: formState.password,
+            // passwordConfirmation: formState.passwordConfirmation,
         });
-    }
+    reset();
+  })
     
 return (
     <>
@@ -35,9 +37,9 @@ return (
         <LockOutlinedIcon />
     </Avatar>
     <Typography component="h1" variant="h5">
-    DashBoard
+    {import.meta.env.VITE_COMPANY}
     </Typography>
-    <Box component="form" noValidate onSubmit={handleSubmit} sx={{ mt: 3 }}>
+    <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
         <Grid item xs={12}>
             <TextField
@@ -47,8 +49,18 @@ return (
             fullWidth
             label="Nombre"
             autoFocus
-            onChange={ (e) => onInputChange(e) }
+            {...register("name", {
+            required: {
+                value: true,
+                message: "Nombre es requerido",
+            },
+            maxLength: 25,
+            minLength: 2,
+            })}
             />
+            {errors.name?.type === "required" &&  <Alert severity="error">Password es requerido</Alert>}
+            {errors.name?.type === "minLength" &&  <Alert severity="error">Password debe ser mayor a 2 caracteres</Alert>}
+            {errors.name?.type === "maxLength" &&  <Alert severity="error">Password debe ser menor a 25 caracteres</Alert>}
         </Grid>
         {/* <Grid item xs={12} sm={6}>
             <TextField
@@ -69,7 +81,7 @@ return (
             label="Correo Electronico"
             name="email"
             autoComplete="email"
-            onChange={ (e) => onInputChange(e) }
+
             />
         </Grid>
         <Grid item xs={12}>
@@ -81,7 +93,7 @@ return (
             type="phone"
             id="phone"
             autoComplete="tel"
-            onChange={ (e) => onInputChange(e) }
+
             />
         </Grid>
         <Grid item xs={12}>
@@ -93,7 +105,7 @@ return (
             type="password"
             id="password"
             autoComplete="new-password"
-            onChange={ (e) => onInputChange(e) }
+
             />
         </Grid>
         <Grid item xs={12}>
@@ -105,7 +117,7 @@ return (
             type="password"
             id="passwordConfirmation"
             autoComplete="new-password"
-            onChange={ (e) => onInputChange(e) }
+
             />
         </Grid>
         </Grid>

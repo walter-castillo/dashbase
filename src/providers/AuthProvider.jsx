@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) =>  {
             dispatch({ 
                 type: types.auth.error, 
                 payload: { error: null } });
-            }, 5000);
+            }, 3000);
         }finally { dispatch({ type: types.auth.stopLoading }) }         
     }
     
@@ -81,18 +81,14 @@ export const AuthProvider = ({ children }) =>  {
 
             dispatch({
                 type:  types.auth.onLogin,
-                payload: {
-                    user: data.res
-                }
+                payload: { user: data.res }
             });
             
         } catch (error) {
             localStorage.clear();
             dispatch({
                 type: types.auth.onLogout,
-                payload: {
-                    errorMessage: ''
-                }
+                payload: {  errorMessage: '' }
             });
         }
     }
