@@ -12,17 +12,29 @@ import { AuthContext } from '../../contexts/AuthContext';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
+import { yupResolver } from "@hookform/resolvers/yup";
+import * as yup from "yup";
+
+const loginSchema= yup.object().shape({
+    email: yup.string()
+      .email('Ingrese un correo electrónico válido')
+      .required('El correo electrónico es requerido'),
+    password: yup.string()
+      .required('El password es requerida')
+      .min(3, 'Debe tener al menos 3 carácteres')
+      .max(20,'Debe tener máximo  20 carácteres')
+})
 
 export const LoginPage = () => {
-
   const { login, state } = useContext(AuthContext);
-      
-  const { register, handleSubmit, formState: { errors }, reset } = useForm();
-      
-  const onSubmit = handleSubmit(async (data)=>{
+  const { register, handleSubmit, reset, formState: { errors }} = 
+  useForm({resolver: yupResolver(loginSchema)});
+
+  const onSubmit = async(data) => {
     await login({email:data.email, password:data.password});
     reset();
-  })
+  };
+
 
   return (
     <>
@@ -32,7 +44,7 @@ export const LoginPage = () => {
       <Typography component="h1" variant="h5">
         {import.meta.env.VITE_COMPANY}
       </Typography>
-      <Box component="form" onSubmit={onSubmit} noValidate sx={{ mt: 1 }}>
+      <Box component="form"  onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
           required
@@ -42,16 +54,7 @@ export const LoginPage = () => {
           name="email"
           autoComplete="email"
           autoFocus
-          {...register("email", {
-          required: {
-            value: true,
-            message: "Correo es requerido",
-          },
-          pattern: {
-            value: /^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/,
-            message: "Correo no válido",
-          },
-        })}
+          {...register("email")}
         />
         {errors.email && <Alert severity="error">{errors.email.message}</Alert> }  
         
@@ -64,18 +67,9 @@ export const LoginPage = () => {
           type="password"
           id="password"
           autoComplete="current-password"
-          {...register("password", {
-          required: {
-            value: true,
-            message: "el password es requerido",
-          },
-          maxLength: 25,
-          minLength: 2,
-        })}
+          {...register("password")}
         />
-        {errors.password?.type === "required" &&  <Alert severity="error">Password es requerido</Alert>}
-        {errors.password?.type === "minLength" &&  <Alert severity="error">Password debe ser mayor a 2 caracteres</Alert>}
-        {errors.password?.type === "maxLength" &&  <Alert severity="error">Password debe ser menor a 25 caracteres</Alert>}
+        {errors.password && <Alert severity="error">{errors.password.message}</Alert> } 
 
         {state.error && <Errors errorsBack={state.error} />}
 
