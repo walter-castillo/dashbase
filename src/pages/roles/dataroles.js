@@ -123,4 +123,83 @@ export const data = {
         }
     ]
 }
-    
+
+
+export const rolePrueba = {
+  "role": {
+    "_id": "65c67708a75280d5ba213bb3",
+    "role": "Administrador",
+    "description": "con casi todos los permisos",
+    "status": true,
+    "permissions": [
+      {
+        "_id": "65c67708a75280d5ba213bbd",
+        "permission": "usuario.crear"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bbe",
+        "permission": "usuario.actualizar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bbf",
+        "permission": "usuario.ver"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc0",
+        "permission": "usuarios.ver.todos"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc1",
+        "permission": "usuario.eliminar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc2",
+        "permission": "estudio.crear"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc3",
+        "permission": "estudio.actualizar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc4",
+        "permission": "estudio.ver"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc5",
+        "permission": "estudios.ver.todos"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc6",
+        "permission": "estudio.eliminar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc7",
+        "permission": "rol.crear"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc8",
+        "permission": "rol.actualizar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bc9",
+        "permission": "rol.ver"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bca",
+        "permission": "roles.ver.todos"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bcb",
+        "permission": "rol.eliminar"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bcc",
+        "permission": "permiso.ver"
+      },
+      {
+        "_id": "65c67708a75280d5ba213bcd",
+        "permission": "permisos.ver.todos"
+      }
+    ]
+  }
+}

@@ -4,7 +4,7 @@ import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
 
-const  token =  import.meta.env.VITE_TOKEN_NAME
+const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 const initialState = {
   user: null, 
@@ -13,34 +13,38 @@ const initialState = {
   success: null,
   error: null,
   isLoading: false,
-
 }
  
+
 export const AuthProvider = ({ children }) =>  {
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
-
+   
     const register = async (dataUserRegister) =>  {
         try {
             dispatch({ type: types.auth.startLoading });
             const {data} = await dashAxios.post('user/', dataUserRegister);
-            return dispatch({type: types.auth.onRegister});
+            dispatch({type: types.auth.onRegister});
+
+            successClear();
 
         } catch (error) {
-            return dispatch({
+            dispatch({
                 type: types.auth.error,
                 payload: { error: error.response.data.errors},
             })
-            
+
+            errorsClear()
+
         } finally { dispatch({ type: types.auth.stopLoading }) }            
-    }
+    };
     
     const login = async (dataUserLogin) =>  {
 
         dispatch({ type: types.auth.startLoading })        
         try {
             const { data } = await dashAxios.post('auth/login', dataUserLogin);
-            localStorage.setItem(token, data.token);
+            localStorage.setItem(tokenName, data.token);
             dispatch({
                 type:  types.auth.onLogin,
                 payload:  {
@@ -48,36 +52,36 @@ export const AuthProvider = ({ children }) =>  {
                     token: data.token
                 }
             });
+
+            successClear();
+
         } catch (error) {  
             dispatch({
                 type: types.auth.error,
                 payload: { error: error.response.data.errors},
             })
-            setTimeout(() => {
-            dispatch({ 
-                type: types.auth.error, 
-                payload: { error: null } });
-            }, 3000);
+
+            errorsClear()
+            
         }finally { dispatch({ type: types.auth.stopLoading }) }         
-    }
-    
+    };
     
     const logout = () => {
         dispatch({ type: types.auth.startLoading });
-        storage.removeItem(token);
+        localStorage.removeItem(tokenName);
         dispatch({ type: types.auth.onLogout });
         dispatch({ type: types.auth.stopLoading }); 
-    }
-
+        successClear()
+    };
 
     const checkAuthToken = async () => {
 
         try {
-            const token = localStorage.getItem('tokenRc');
+            const token = localStorage.getItem('tokenName');
             if(!token){ return dispatch({type: types.auth.onLogout})}
 
-            const { data } = await dashAxios.get('auth//token/user');
-            localStorage.setItem('tokenRc', data.res.token);
+            const { data } = await dashAxios.get('auth/token/user');
+            localStorage.setItem(tokenName, data.res.token);
 
             dispatch({
                 type:  types.auth.onLogin,
@@ -91,9 +95,25 @@ export const AuthProvider = ({ children }) =>  {
                 payload: {  errorMessage: '' }
             });
         }
-    }
+    };
 
-   
+    const errorsClear = () => {
+        return setTimeout(() => {
+            dispatch({ 
+                type: types.auth.error, 
+                payload: { error: null } 
+            });
+        }, 3000);
+    };
+
+    const successClear = () => {
+        return setTimeout(() => {
+            dispatch({ 
+                type: types.auth.success, 
+                payload: { success: null } 
+            });
+        }, 3000);
+    };
 
     return (
         <AuthContext.Provider value={{

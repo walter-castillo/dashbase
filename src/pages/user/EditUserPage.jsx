@@ -9,25 +9,26 @@ import { useForm } from '../../hooks/useForm';
 export const EditUserPage = () => {
 
     const { id } = useParams();
-    const { getUser, state } = useContext(UserContext);
+    // const { getUser, state } = useContext(UserContext);
 
-    const { formState, onInputChange} = useForm({
+/*     const { formState, onInputChange} = useForm({
         name: state?.user.name,
         lastname: state.user.lastname,
         email: state.user.email,
         is_active: state.user.is_active
-    });
+    }); */
     
-    useEffect( () => {
+   /*  useEffect( () => {
         if(id){
             getUser(id);
         }
     }, [])
-
+ */
 
   return (
     <Paper>
-        <Box padding={3}>
+        {id}
+       {/*  <Box padding={3}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sx={{ 
                         borderBottom: 2, 
@@ -201,7 +202,7 @@ export const EditUserPage = () => {
                     <Button variant='contained' size='large' color='info'>GUARDAR</Button>
                 </Grid>
             </Grid>
-        </Box>
+        </Box> */}
     </Paper>
   )
 }

@@ -8,7 +8,7 @@ const Errors = ({errorsBack}) => {
 	borderColor="lightcoral"
 	borderRadius={5}
 	p={1}
-	mb={1}
+	my={3}
 	backgroundColor="#f9b3b3"
 	>
 		<ul>

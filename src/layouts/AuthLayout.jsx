@@ -7,15 +7,12 @@ import { FooterLayout } from '../components/ui/FooterLayout';
 import { Route, Routes } from 'react-router-dom';
 import RegisterPage from '../pages/auth/RegisterPage';
 import { LoginPage } from '../pages/auth';
-
-
+import { ForgotPassword } from '../pages/auth/ForgotPassword';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function AuthLayout() {
-    
-  
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -27,15 +24,15 @@ export default function AuthLayout() {
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',
+             minHeight: '80vh'
           }}
         >
-
-          <Routes>
+         <Routes>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
+            <Route path='/forgotPassword' element={<ForgotPassword /> } />
           </Routes>
-
-          
+   
         </Box>
         <FooterLayout sx={{ mt: 8, mb: 4 }} />
       </Container>

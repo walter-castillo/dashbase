@@ -1,126 +1,148 @@
 import { Link } from 'react-router-dom';
-
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
+import { Alert } from '@mui/material';
 import { useContext } from 'react';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
+import { yupResolver } from "@hookform/resolvers/yup";
+import { object, string, ref } from 'yup';
+import { HeaderAuth } from './HeaderAuth';
 
+const registerSchema = object().shape({
+    name: string()
+        .min(3, 'El nombre debe tener al menos 3 caracteres')
+        .max(50, 'El nombre no debe exceder los 50 caracteres')
+        .required('El nombre es requerido'),
+
+    lastName: string()
+        .min(3, 'El apellido debe tener al menos 3 caracteres')
+        .max(50, 'El apellido no debe exceder los 50 caracteres')
+        .required('El apellido es requerido'),
+
+    email: string()
+        .email('Ingrese un correo electrónico válido')
+        .required('El correo electrónico es requerido'),
+
+    phone: string()
+        .matches(/^\d{5}$/, 'Ingrese un número de teléfono válido de 10 dígitos')
+        .required('El teléfono es requerido'),
+
+    password: string()
+        .min(4, 'La contraseña debe tener al menos 8 caracteres')
+        .min(8, 'La contraseña debe tener al menos 8 caracteres')
+        .required('La contraseña es requerida'),
+
+    passwordConfirmation: string()
+        .required('Debe confirmar la contraseña')
+        .oneOf([ref('password'), null], 'Las contraseñas deben coincidir'),
+});
 
 export default function RegisterPage() {
-    const {register:sendForm, state}= useContext(AuthContext)
 
-     const { register, handleSubmit, formState: { errors }, reset } = useForm();
+    const {register:registerContext, state}= useContext(AuthContext)
+
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({resolver: yupResolver(registerSchema)});
       
-  const onSubmit = handleSubmit(async (data)=>{
-    await sendForm({
-            // name: formState.name,
-            // email: formState.email,
-            // phone: formState.phone,
-            // password: formState.password,
-            // passwordConfirmation: formState.passwordConfirmation,
-        });
-    reset();
-  })
-    
+    const onSubmit = handleSubmit(async (data)=>{
+      await registerContext({
+        name: data.name,
+        email: data.email,
+        phone: data.phone,
+        password: data.password,
+        passwordConfirmation: data.passwordConfirmation,
+      });
+      reset();
+    })
+ 
 return (
     <>
-    {/* {state.user && <Navigate to={"/dashboard"} />} */}
-    <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        <LockOutlinedIcon />
-    </Avatar>
-    <Typography component="h1" variant="h5">
-    {import.meta.env.VITE_COMPANY}
-    </Typography>
-    <Box component="form" noValidate onSubmit={onSubmit} sx={{ mt: 3 }}>
+    <HeaderAuth  />
+    <Box component="form" noValidate   onSubmit={handleSubmit(onSubmit)} sx={{ mt: 3 }}>
         <Grid container spacing={2}>
-        <Grid item xs={12}>
-            <TextField
-            autoComplete="given-name"
-            name="name"
-            required
-            fullWidth
-            label="Nombre"
-            autoFocus
-            {...register("name", {
-            required: {
-                value: true,
-                message: "Nombre es requerido",
-            },
-            maxLength: 25,
-            minLength: 2,
-            })}
-            />
-            {errors.name?.type === "required" &&  <Alert severity="error">Password es requerido</Alert>}
-            {errors.name?.type === "minLength" &&  <Alert severity="error">Password debe ser mayor a 2 caracteres</Alert>}
-            {errors.name?.type === "maxLength" &&  <Alert severity="error">Password debe ser menor a 25 caracteres</Alert>}
+            <Grid item xs={12}>
+                <TextField
+                autoComplete="given-name"
+                name="name"
+                required
+                fullWidth
+                label="Nombre"
+                autoFocus
+                {...register("name")}
+                />
+                {errors.name && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.name.message}</Alert> }    
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                id="lastName"
+                label="Apellido"
+                name="lastName"
+                autoComplete="family-name"
+                {...register("lastName")}   
+                />
+                {errors.lastName && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.lastName.message}</Alert> }  
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                id="email"
+                label="Correo Electronico"
+                name="email"
+                autoComplete="email"
+                {...register("email")}
+                />
+                {errors.email && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.email.message}</Alert> }                 
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                name="phone"
+                label="Telefono"
+                type="phone"
+                id="phone"
+                autoComplete="tel"
+                {...register("phone")}
+                />
+                {errors.phone && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.phone.message}</Alert> }                 
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                {...register("password")}
+                />
+                {errors.password && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.password.message}</Alert> }                 
+            </Grid>
+            <Grid item xs={12}>
+                <TextField
+                required
+                fullWidth
+                name="passwordConfirmation"
+                label="Confirmar Password"
+                type="password"
+                id="passwordConfirmation"
+                autoComplete="new-password"
+                {...register("passwordConfirmation")}
+                />
+                {errors.passwordConfirmation && <Alert severity="error" sx={{ mt: 1, mb:2 }}>{errors.passwordConfirmation.message}</Alert> }                 
+            </Grid>
         </Grid>
-        {/* <Grid item xs={12} sm={6}>
-            <TextField
-            required
-            fullWidth
-            id="lastName"
-            label="Apellido"
-            name="lastName"
-            autoComplete="family-name"
-            onChange={ (e) => onInputChange(e) }
-            />
-        </Grid> */}
-        <Grid item xs={12}>
-            <TextField
-            required
-            fullWidth
-            id="email"
-            label="Correo Electronico"
-            name="email"
-            autoComplete="email"
 
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <TextField
-            required
-            fullWidth
-            name="phone"
-            label="Telefono"
-            type="phone"
-            id="phone"
-            autoComplete="tel"
+        {state.error && <Errors errorsBack={state.error} />}
 
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <TextField
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="new-password"
-
-            />
-        </Grid>
-        <Grid item xs={12}>
-            <TextField
-            required
-            fullWidth
-            name="passwordConfirmation"
-            label="Confirmar Password"
-            type="password"
-            id="passwordConfirmation"
-            autoComplete="new-password"
-
-            />
-        </Grid>
-        </Grid>
         <Button
         type="submit"
         fullWidth

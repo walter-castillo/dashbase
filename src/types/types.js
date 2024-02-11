@@ -12,6 +12,23 @@ export const types =  {
         success:    '[AUTH]-SUCCESS',
     },
 
+    role: {
+        getRoles:       '[ROLES]-ROLES ALL',
+        editrole:       '[ROLES]-ROLE UPDATE',
+        deleterole:     '[ROLES]-ROLE DELETE',
+        allPermissions: '[ROLES]-ALL PERMISSIONS',
+        getRoleById:    '[ROLES]-ROLE BY ID',
+        loading:        '[ROLES]-ROLE LOADING',
+        error:          '[ROLES]-ROLE ERROR',
+        success:        '[ROLES]-ROLE SUCCESS',
+
+
+        onLoading:  '[ROLES]-LOADING',
+        stopLoading:'[ROLES]-STOP LOADING',
+        error:      '[ROLES]-ERROR',
+        success:    '[ROLES]-SUCCESS',
+
+    },
     user: {
         getUsers:   '[USERS]-USERS ALL',
         getUser:    '[USERS]-USER BY ID',

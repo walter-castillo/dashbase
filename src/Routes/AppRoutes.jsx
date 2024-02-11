@@ -11,30 +11,27 @@ export const AppRoutes = () => {
 
     const { checkAuthToken, state }  = useContext(AuthContext);
 
-    useEffect( () => {
-        checkAuthToken();
-    }, []);
+    useEffect( () => { checkAuthToken() }, []);
 
-    if(state.isLoading){
-        return (<Loading />);
-    }
+    if(state.isLoading){  return (<Loading />) }
 
-  return (
-    <>
-        <Routes>
-            <Route path='/auth/*' element={
-                <PublicRoutes isLogged={state.isLogged}>
-                    <AuthLayout />
-                </PublicRoutes>
-            } />
+    return (
+        <>
+            <Routes>
+                <Route path='/auth/*' element={
+                    <PublicRoutes isLogged={true}>
+                    {/* <PublicRoutes isLogged={state.isLogged}> */}
+                        <AuthLayout />
+                    </PublicRoutes>
+                } />
 
-            <Route path='/*' element={
-                // <PrivateRoutes  isLogged={true}>
-                <PrivateRoutes  isLogged={state.isLogged}>
-                    <GeneralLayout />
-                </PrivateRoutes>
-            } />
-        </Routes>
-    </>
-  )
+                <Route path='/*' element={
+                    <PrivateRoutes  isLogged={true}>
+                    {/* <PrivateRoutes  isLogged={state.isLogged}> */}
+                        <GeneralLayout />
+                    </PrivateRoutes>
+                } />
+            </Routes>
+        </>
+    )
 }

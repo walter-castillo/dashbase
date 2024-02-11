@@ -13,18 +13,15 @@ import Logout from '@mui/icons-material/Logout';
 import { AuthContext } from "../../../contexts/AuthContext";
 
 export default function Profile() {
- const { logout } = useContext( AuthContext );
-  const onClickLogout = () => { logout() }
+  const { logout } = useContext( AuthContext );
+  // const onClickLogout = () => { logout() }
 
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
+  const handleClick = (event) => {  setAnchorEl(event.currentTarget)};
+  const handleClose = () => {setAnchorEl(null)};
+  
   return (
     <>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
@@ -95,12 +92,19 @@ export default function Profile() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem onClick={onClickLogout}>
+
+
+
+
+        <MenuItem onClick={logout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
           Logout
         </MenuItem>
+
+
+
       </Menu>
     </>
   );

@@ -1,29 +1,27 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
-import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import Typography from '@mui/material/Typography';
 import { Alert } from '@mui/material';
 import { AuthContext } from '../../contexts/AuthContext';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import { object, string } from 'yup';
+import { HeaderAuth } from './HeaderAuth';
 
-const loginSchema= yup.object().shape({
-    email: yup.string()
-      .email('Ingrese un correo electrónico válido')
-      .required('El correo electrónico es requerido'),
-    password: yup.string()
-      .required('El password es requerida')
-      .min(3, 'Debe tener al menos 3 carácteres')
-      .max(20,'Debe tener máximo  20 carácteres')
-})
+const loginSchema = object().shape({
+    email: string(),
+      // .email('Ingrese un correo electrónico válido')
+      // .required('El correo electrónico es requerido'),
+    password: string()
+      // .required('El password es requerida')
+      // .min(3, 'Debe tener al menos 3 caracteres')
+      // .max(30,'Debe tener máximo  30 caracteres')
+});
 
 export const LoginPage = () => {
   const { login, state } = useContext(AuthContext);
@@ -31,19 +29,15 @@ export const LoginPage = () => {
   useForm({resolver: yupResolver(loginSchema)});
 
   const onSubmit = async(data) => {
-    await login({email:data.email, password:data.password});
+    // await login({email:data.email, password:data.password});
+    await login({email:'email3@email.com', password: '123123Abc' });
     reset();
   };
 
-
   return (
     <>
-      <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
-        <LockOutlinedIcon />
-      </Avatar>
-      <Typography component="h1" variant="h5">
-        {import.meta.env.VITE_COMPANY}
-      </Typography>
+      <HeaderAuth  />
+
       <Box component="form"  onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
@@ -84,7 +78,7 @@ export const LoginPage = () => {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Link to={'/auth/forgot'} >
+            <Link to={'/auth/forgotPassword'} >
               <Button variant='text'>
                 Olvide la contraseña
               </Button>

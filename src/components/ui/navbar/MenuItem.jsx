@@ -7,6 +7,7 @@ import InboxIcon from "@mui/icons-material/MoveToInbox";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
+import { Link } from "react-router-dom";
 import { useState } from "react";
 
 export default function MenuItem() {
@@ -25,23 +26,15 @@ export default function MenuItem() {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton onClick={() => handleClick(0)}>
+      <ListItemButton   component={Link} to="/dashboard/roles">
+      {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Inbox" />
-        {open[0] ? <ExpandLess /> : <ExpandMore />}
+        <ListItemText primary="Roles/Permisos" />
+        {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
       </ListItemButton>
-      <Collapse in={open[0]} timeout="auto" unmountOnExit>
-        <List component="div" disablePadding>
-          <ListItemButton sx={{ pl: 4 }}>
-            <ListItemIcon>
-              <StarBorder />
-            </ListItemIcon>
-            <ListItemText primary="texto1" />
-          </ListItemButton>
-        </List>
-      </Collapse>
+      
 
       <ListItemButton onClick={() => handleClick(1)}>
         <ListItemIcon>

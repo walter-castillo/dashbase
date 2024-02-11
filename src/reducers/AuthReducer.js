@@ -23,8 +23,8 @@ export const AuthReducer = (state={}, action ) => {
                     user: null, 
                     isLogged: false,
                     token: '',
-                    success: null,
-                    error: null,
+                    success: 'Sesion cerrada correctamente',
+                    error: null
                 };
 
             case types.auth.userAuth:
@@ -54,7 +54,10 @@ export const AuthReducer = (state={}, action ) => {
                 };
         
             case types.auth.success:
-                return {};
+                return {
+                    ...state,
+                     success: action.payload.success
+                };
 
             default:
             return state;
