@@ -45,11 +45,10 @@ export const RolesPage = () => {
                   ))}
                 </ul>
               </TableCell>
-
-                    <TableCell style={{ border: '1px solid black' }}>
-                        <Button component={Link} to={`eliminar/${role._id}`}><DeleteIcon /></Button> 
-                        <Button component={Link} to={`editar/${role._id}`}><EditIcon /></Button> 
-                    </TableCell>
+                <TableCell style={{ border: '1px solid black' }}>
+                    <Button component={Link} to={`eliminar/${role._id}`}><DeleteIcon /></Button> 
+                    <Button component={Link} to={`editar/${role._id}`}><EditIcon /></Button> 
+                </TableCell>
 
 
                {/* <TableCell style={{ border: '1px solid black' }}>

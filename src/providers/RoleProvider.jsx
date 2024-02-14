@@ -52,7 +52,7 @@ export const RoleProvider = ({ children }) => {
     const allPermissions = async () =>  {
         try {
             const { data } = await dashAxios.get('permission');
-            console.log(data)
+            // console.log(data.permission)
             dispatch({
                     type: types.role.allPermissions,
                     payload: {
@@ -67,7 +67,7 @@ export const RoleProvider = ({ children }) => {
                     }
                 })
             }; */
-            
+            return data.permission
         } catch (error) {
             console.log(error)
         }
@@ -83,7 +83,7 @@ export const RoleProvider = ({ children }) => {
 
           try {
             const { data } = await dashAxios.get(`role/${id}`);
-            console.log(data)
+            // console.log(data)
             dispatch({
                 type: types.role.getRoleById,
                 payload: {
@@ -98,6 +98,7 @@ export const RoleProvider = ({ children }) => {
                     }
                 })
             }; */
+            return data.role;  
             
         } catch (error) {
             console.log(error)

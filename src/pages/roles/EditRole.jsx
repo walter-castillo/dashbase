@@ -1,64 +1,96 @@
-import {useParams} from "react-router-dom";
-import { useContext, useEffect } from 'react';
+import { useParams,  Link } from "react-router-dom";
+import { useContext, useEffect, useState } from 'react';
 import { RoleContext } from '../../contexts/RoleContext';
-import Checkbox from '@mui/material/Checkbox';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import { Typography } from '@mui/material';
+import { Loading } from "../../components/ui/Loading";
+import { Button, Grid, ListItemButton } from "@mui/material";
 
 export const EditRole = () => {
   const { id } = useParams();
   const { state, allPermissions, getRoleById } = useContext(RoleContext);
+  const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
 
-  useEffect(() => {
-    fetchData();
-  }, []);
+  useEffect(() => { fetchData()}, []);
 
   const fetchData = async () => {
-    await getRoleById(id);
-    await allPermissions();
+    const [allPerm, roleById] = await Promise.all([allPermissions(), getRoleById(id)]);
+    setIdsPermissionsRole(roleById.permissions.map(permission => permission._id));
   };
 
- const handlePermissionChange = async (permissionId) => {
-  // Encuentra el índice del permiso seleccionado en el estado del rol
-  const index = state.role.permissions.findIndex(rolePermission => rolePermission._id === permissionId);
+  const handlePermissionChange = (e) => {
+    const { value, checked } = e.target;
+    if (checked) {
+      setIdsPermissionsRole([...idsPermissionsRole, value]);
+    } else {
+      setIdsPermissionsRole(idsPermissionsRole.filter(item => item !== value));
+    }
+  };
 
-  // Si el permiso está presente en el estado del rol, quítalo; de lo contrario, agrégalo
-  let updatedPermissions = [...state.role.permissions];
-  if (index !== -1) {
-    updatedPermissions.splice(index, 1); // Quita el permiso
-  } else {
-    updatedPermissions.push(state.permissions.find(permission => permission._id === permissionId)); // Agrega el permiso
-  }
-console.log(updatedPermissions)
-  // Actualiza el estado del rol con los permisos actualizados
-//   await updateRolePermissions(updatedPermissions);
-};
-  if (!state.role || !state.permissions) {
-    return <div>Cargando...</div>;
+  if (!state.role || !state.permissions) {  
+    return <Loading /> 
   }
 
   return (
-    <div>
-      <h3>{state.role.role}</h3>
-      {state.permissions.map(permission => (
-        <div key={permission._id}>
-          <FormControlLabel
-            control={
-              <Checkbox
-                checked={state.role.permissions.some(rolePermission => rolePermission._id === permission._id)}
-                onChange={() => handlePermissionChange(permission._id)}
-                name={permission.permission}
-              />
-            }
-            label={
-              <div style={{ display: 'flex', alignItems: 'center' }}>
-                <Typography variant="subtitle1" fontWeight="bold" style={{ marginRight: '0.5rem' }}>{permission.permission}</Typography>
-                <Typography variant="body2">{` - ( ${permission.description} )`}</Typography>
-              </div>
-            }
-          />
+    <Grid container spacing={2} justifyContent="center">
+      <Grid item xs={12} md={6}>
+        <div>
+          <h3>{state.role.role}</h3>
+          {state.permissions.map(permission => (
+            <div key={permission._id}>
+              <label>
+                <input
+                  type="checkbox"
+                  value={permission._id}
+                  name={permission.permission}
+                  checked={idsPermissionsRole?.includes(permission._id)}
+                  onChange={handlePermissionChange}
+                />
+                <span style={{ fontWeight: 'bold', fontSize: '1.1em', margin: '5px 0' }}>{permission.permission}</span> - ({permission.description})
+              </label> <br />
+            </div>
+          ))}
+          <Button
+            variant="contained"
+            size='large'
+            sx={{ mt: 3, ml: 2 }}
+            component={Link}
+            to="/dashboard/roles"
+          >
+            Volver
+          </Button>
+          <Button
+            type="submit"
+            variant="contained"
+            size='large'
+            sx={{ mt: 3, ml: 2 }}
+          >
+            Registrarse
+          </Button> 
         </div>
-      ))}
-    </div>
+      </Grid>
+    </Grid>
   );
 };
+
+
+{/*    {
+    "role": "Medico",
+    "description": "Solo permisos para ver todos los estudios",
+    "status": true,
+    "permissions": [
+            "659200c0c020a40feb03d133",
+            "6599a57dabbe13def65945e5"
+        ]
+}
+ */}
+
+{/*  {state.error && <Errors errorsBack={state.error} />} 
+
+         <Button
+        type="submit"
+        fullWidth
+        variant="contained"
+        size='large'
+        sx={{ mt: 3, mb: 2 }}
+        >
+        Registrarse
+        </Button>  */}
