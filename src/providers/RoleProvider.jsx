@@ -108,6 +108,18 @@ export const RoleProvider = ({ children }) => {
 
     }
 
+    const roleUpdate = async (dataEditRole) => {
+
+            const  data  = await dashAxios.put(`role/${dataEditRole.id}`, dataEditRole);
+            /* dispatch({
+                type: types.role.editRole,
+                payload: {
+                    role: data.role
+            }}) */
+            console.log(data)
+           
+    }
+
 /* 
     const editUser = async (dataUser) => {
 
@@ -176,7 +188,8 @@ export const RoleProvider = ({ children }) => {
             state,
             getRoles,
             allPermissions,
-            getRoleById
+            getRoleById,
+            roleUpdate
         }}>
             { children }
         </RoleContext.Provider>

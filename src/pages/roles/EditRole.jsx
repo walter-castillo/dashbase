@@ -1,51 +1,47 @@
-import { useParams, Link } from "react-router-dom";
-import { useContext, useEffect, useState } from 'react';
+
+import { useState, useEffect, useContext } from 'react';
+import { useParams, Link, useNavigate } from "react-router-dom";
+import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid } from "@mui/material";
 import { RoleContext } from '../../contexts/RoleContext';
-import { Loading } from "../../components/ui/Loading";
-import { Button, Grid, TextField, RadioGroup, Radio, FormControlLabel, Divider } from "@mui/material";
+import { Loading } from '../../components/ui/Loading';
+// import {useForm} from '../../hooks/useform';
 
-/* 
-import { yupResolver } from "@hookform/resolvers/yup";
-import { object, string, ref } from 'yup';
 
-const registerSchema = object().shape({
-    name: string()
-        .min(3, 'El nombre debe tener al menos 3 caracteres')
-        .max(50, 'El nombre no debe exceder los 50 caracteres')
-        .required('El nombre es requerido'),
-
-    lastName: string()
-        .min(3, 'El apellido debe tener al menos 3 caracteres')
-        .max(50, 'El apellido no debe exceder los 50 caracteres')
-        .required('El apellido es requerido'),
-
-    email: string()
-        .email('Ingrese un correo electrónico válido')
-        .required('El correo electrónico es requerido'),
-
-    phone: string()
-        .matches(/^\d{5}$/, 'Ingrese un número de teléfono válido de 10 dígitos')
-        .required('El teléfono es requerido'),
-
-    password: string()
-        .min(4, 'La contraseña debe tener al menos 8 caracteres')
-        .min(8, 'La contraseña debe tener al menos 8 caracteres')
-        .required('La contraseña es requerida'),
-
-    passwordConfirmation: string()
-        .required('Debe confirmar la contraseña')
-        .oneOf([ref('password'), null], 'Las contraseñas deben coincidir'),
-});
- */
 
 export const EditRole = () => {
   const { id } = useParams();
-  const { state, allPermissions, getRoleById } = useContext(RoleContext);
+   const navigate = useNavigate();
+  const { state, allPermissions, getRoleById, roleUpdate } = useContext(RoleContext);
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
+  const [roleEdit, setRoleEdit] = useState({
+    id: '',
+    role: '',
+    description: '',
+    permission:[],
+  status: ''
+  });
 
-  const [roleName, setRoleName] = useState(undefined);
-  const [roleDescription, setRoleDescription] = useState(undefined);
-  const [roleStatus, setRoleStatus] = useState(undefined);
+const handleSubmit = async(e) => {
+  e.preventDefault(); 
+  try {
+    console.log({ id, role: roleEdit.role,
+    description: roleEdit.description,
+    status: roleEdit.status,
+    permissions: idsPermissionsRole})
+    await roleUpdate({
+    id,
+    role: roleEdit.role,
+    description: roleEdit.description,
+    status: roleEdit.status,
+    permissions: idsPermissionsRole
+  })  
+
+   navigate('/dashboard/roles')
+  } catch (error) {
+    console.log(error.response.data)
+  }
+
+}
 
   useEffect(() => {
     fetchData();
@@ -54,32 +50,27 @@ export const EditRole = () => {
   const fetchData = async () => {
     const [allPerm, roleById] = await Promise.all([allPermissions(), getRoleById(id)]);
     setIdsPermissionsRole(roleById.permissions.map(permission => permission._id));
-    setRoleName(roleById.role.role);
-    setRoleDescription(roleById.role.description);
-    setRoleStatus(roleById.role.status ? "true" : "false");
+    setRoleEdit({
+      ...roleEdit,
+      role: roleById.role,
+      description: roleById.description,
+      status: roleById.status ,
+      permissions: roleById.permissions.map(permission => permission._id)
+    });
+  };
+
+  const onchangeInput = (e) => {
+  const { name, value } = e.target;
+  setRoleEdit({ ...roleEdit, [name]: value });
+
   };
 
   const handlePermissionChange = (e) => {
     const { value, checked } = e.target;
     checked ?
-    setIdsPermissionsRole([...idsPermissionsRole, value]):
-    setIdsPermissionsRole(idsPermissionsRole.filter(item => item !== value))
+      setIdsPermissionsRole([...idsPermissionsRole, value]) :
+      setIdsPermissionsRole(idsPermissionsRole.filter(item => item !== value));
   };
-
-const handleSubmit = async (e) => {
-  e.preventDefault();
-  
-
-  const dataToSend = {
-    roleName,
-    roleDescription,
-    roleStatus,
-    idsPermissionsRole
-  };
-		
-  console.log("Datos a enviar:", dataToSend);
-
-};
 
   if (!state.role || !state.permissions) {
     return <Loading />;
@@ -88,25 +79,18 @@ const handleSubmit = async (e) => {
   return (
     <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12} md={6}>
-        <form onSubmit={handleSubmit}>
+        <form noValidate onSubmit={handleSubmit}>
+          <h3>Editar rol</h3>
           <TextField
             label="Nombre del Rol"
-            name="roleName"
+            name="role"
             variant="outlined"
             fullWidth
             margin="normal"
-            value={roleName || ""}
-            onChange={(e) => setRoleName(e.target.value)}
+            value={roleEdit.role}
+            onChange={onchangeInput}
           />
-          <RadioGroup
-            aria-label="Estado del Rol"
-            name="roleStatus"
-            value={roleStatus || ""}
-            onChange={(e) => setRoleStatus(e.target.value)}
-          >
-            <FormControlLabel value="active" control={<Radio />} label="Activo" />
-            <FormControlLabel value="inactive" control={<Radio />} label="Inactivo" />
-          </RadioGroup>
+
           <TextField
             label="Descripción del Rol"
             variant="outlined"
@@ -114,10 +98,23 @@ const handleSubmit = async (e) => {
             rows={4}
             fullWidth
             margin="normal"
-            value={roleDescription || ""}
-            onChange={(e) => setRoleDescription(e.target.value)}
+            name="description"
+            value={roleEdit.description}
+            onChange={onchangeInput}
           />
-          <h3>{state.role.role}</h3>
+
+          <Divider sx={{ my: 1 }} />
+          <RadioGroup
+            aria-label="Estado del Rol"
+            name="status"
+            value={roleEdit.status}
+            onChange={onchangeInput}
+          >
+            <FormControlLabel value="true" control={<Radio />} label="Activo" />
+            <FormControlLabel value="false" control={<Radio />} label="Inactivo" />
+          </RadioGroup>
+
+          <Divider sx={{ my: 1 }} />
           {state.permissions.map(permission => (
             <div key={permission._id}>
               <label>
@@ -132,24 +129,24 @@ const handleSubmit = async (e) => {
               </label> <br />
             </div>
           ))}
-          <Divider sx={{ my: 3 }} />   
+          <Divider sx={{ my: 3 }} />
+
           <Button
             type="submit"
             variant="contained"
             size='large'
             sx={{ mt: 3, ml: 2 }}
-            // disabled={loading}
           >
             Guardar Cambios
-            {/* {loading ? "Guardando..." : "Guardar Cambios"} */}
           </Button>
+
+
           <Button
             component={Link}
             to="/dashboard/roles"
             variant="contained"
             size='large'
             sx={{ mt: 3, ml: 2 }}
-            // disabled={loading}
           >
             Volver
           </Button>
@@ -157,29 +154,4 @@ const handleSubmit = async (e) => {
       </Grid>
     </Grid>
   );
-};
-
-
-
-{/*    {
-    "role": "Medico",
-    "description": "Solo permisos para ver todos los estudios",
-    "status": true,
-    "permissions": [
-            "659200c0c020a40feb03d133",
-            "6599a57dabbe13def65945e5"
-        ]
-}
- */}
-
-{/*  {state.error && <Errors errorsBack={state.error} />} 
-
-         <Button
-        type="submit"
-        fullWidth
-        variant="contained"
-        size='large'
-        sx={{ mt: 3, mb: 2 }}
-        >
-        Registrarse
-        </Button>  */}
+}; 

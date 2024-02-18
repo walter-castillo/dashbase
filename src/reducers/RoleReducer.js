@@ -27,14 +27,14 @@ export const RoleReducer = (state={}, action) => {
               role: action.payload.role,
               // totalRoles: action.payload.totalRows
             }
-     /*    case types.role.getOneRole:
+        case types.role.editRole:
           return {
-            ...state,
-            isLoading: false,
-            role: action.payload.role
+              ...state,
+              success: "Role editado con exito",
+              error: null 
           }
 
-        case types.role.deleteRole:
+     /*    case types.role.deleteRole:
           return {
             ...state,
             isLoading: false,

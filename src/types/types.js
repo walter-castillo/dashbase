@@ -14,7 +14,7 @@ export const types =  {
 
     role: {
         getRoles:       '[ROLES]-ROLES ALL',
-        editrole:       '[ROLES]-ROLE UPDATE',
+        editRole:       '[ROLES]-ROLE UPDATE',
         deleterole:     '[ROLES]-ROLE DELETE',
         allPermissions: '[ROLES]-ALL PERMISSIONS',
         getRoleById:    '[ROLES]-ROLE BY ID',
