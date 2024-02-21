@@ -44,10 +44,7 @@ const handleSubmit = async(e) => {
 }
 
   useEffect(() => {
-    fetchData();
-  }, []);
-
-  const fetchData = async () => {
+     const fetchData = async () => {
     const [allPerm, roleById] = await Promise.all([allPermissions(), getRoleById(id)]);
     setIdsPermissionsRole(roleById.permissions.map(permission => permission._id));
     setRoleEdit({
@@ -58,6 +55,10 @@ const handleSubmit = async(e) => {
       permissions: roleById.permissions.map(permission => permission._id)
     });
   };
+    fetchData();
+  }, []);
+
+ 
 
   const onchangeInput = (e) => {
   const { name, value } = e.target;

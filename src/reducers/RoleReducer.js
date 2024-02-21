@@ -9,6 +9,7 @@ export const RoleReducer = (state={}, action) => {
           return {
             ...state,
             isLoading: false,
+            role: "",
             roles: action.payload.roles,
             // totalRoles: action.payload.totalRows
           }

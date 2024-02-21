@@ -22,29 +22,16 @@ export const RoleProvider = ({ children }) => {
 
 
     const getRoles = async () =>  {
-        try {
-            const { data } = await dashAxios.get('role');
+                    const { data } = await dashAxios.get('role');
             // console.log(data.roles)
             dispatch({
                     type: types.role.getRoles,
                     payload: {
                         roles: data.roles
                     }})
-         /*    if(!data){
-                return dispatch({
-                    type: types.user.messages,
-                    payload: {
-                        messageStatus: 'ERROR',
-                        msg: 'No Existen usuarios en el sistema',
-                    }
-                })
-            }; */
+      
             
-        } catch (error) {
-            console.log(error)
-        }
-        // finally{  dispatch({ type: types.user.stopLoading })
-        // }
+      
 
         
        
