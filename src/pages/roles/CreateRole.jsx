@@ -3,94 +3,94 @@ import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid } from "@mui/material";
 import { RoleContext } from '../../contexts/RoleContext';
 import { Loading } from '../../components/ui/Loading';
-import Errors from '../../components/ui/Errors';
 import { Error404Page } from '../error/Error404Page';
+import Errors from '../../components/ui/Errors';
 
-export const EditRole = () => {
-  const { id } = useParams();
-   const navigate = useNavigate();
-  const { state, allPermissions, getRoleById, roleUpdate, startLoading, stopLoading } = useContext(RoleContext);
+
+export const CreateRole = () => {
+
+     const navigate = useNavigate();
+  const { state, allPermissions, roleCreate } = useContext(RoleContext);
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
-  const [errorEdit, setErrorEdit] = useState(null)
-  const [errorEditLoad, setErrorEditLoad] = useState(null)
-  const [roleEdit, setRoleEdit] = useState({
-    id: '',
+  const [errorCreateLoad, setErrorCreateLoad] = useState(null)
+  const [errorCreate, setErrorCreate] = useState(null)
+  const createRoleInicial = {
     role: '',
     description: '',
-    permissions:[],
-  status: ''
-  });
- 
-  const handleSubmit = async(e) => {
-    e.preventDefault(); 
-    setErrorEdit(null)
-   try {
-    await roleUpdate({
-    id,
-    role: roleEdit.role,
-    description: roleEdit.description,
-    status: roleEdit.status,
-    permissions: idsPermissionsRole
-  })  
-
-   navigate('/dashboard/roles')
-  } catch (error) {
-    console.log(error.response.data)
-    setErrorEdit(error.response.data.errors)
+    permissions: [] ,
+    status: true
   }
-}
-
-
+  const [createRole, setCreateRole] = useState(createRoleInicial);
+ 
  useEffect(() => {
-  setErrorEditLoad(null)
+  setErrorCreateLoad(null)
+  state.isLoading = true
   const fetchData = async () => {
     try {
-      const [allPerm, roleById] = await Promise.all([allPermissions(), getRoleById(id)]);
-      setIdsPermissionsRole(roleById.permissions.map(permission => permission._id));
-      setRoleEdit({
-        ...roleEdit,
-        role: roleById.role,
-        description: roleById.description,
-        status: roleById.status ,
-        permissions: roleById.permissions.map(permission => permission._id)
-      });
+      const allPerm = await allPermissions();
+      
     } catch (error) {
       console.log(error.response.data); 
-      setErrorEditLoad(error.response.data.errors);
+      setErrorCreateLoad(error.response.data.errors);
     }
-  };
-
-  fetchData();
+ };
+ fetchData();
+ state.isLoading = false
 }, []);
 
-  const onchangeInput = (e) => {
-    const { name, value } = e.target;
-    setRoleEdit({ ...roleEdit, [name]: value });
+  const handleSubmit = async(e) => {
+    e.preventDefault(); 
+    state.isLoading=true
+    setErrorCreate(null)
+    try {
+      createRole.permissions = idsPermissionsRole;
+      console.log(createRole)
+      await roleCreate(createRole);
+      // await allPermissions()
+      navigate('/dashboard/roles')
+    } catch (error) {
+      console.log(error.response.data) 
+      setErrorCreate(error.response.data.errors)
+    }
+    state.isLoading = false
   };
-  
-  const handlePermissionChange = (e) => {
+
+
+  const onchangeInput = ({ target }) => {
+    const { name, value } = target;
+    setCreateRole({
+        ...createRole,
+        [ name ]: value
+    });
+    
+  }
+
+
+const handlePermissionChange = (e) => {
     const { value, checked } = e.target;
     checked ?
       setIdsPermissionsRole([...idsPermissionsRole, value]) :
       setIdsPermissionsRole(idsPermissionsRole.filter(item => item !== value));
   };
-  if (errorEditLoad) { return <Error404Page /> }
- if (!state.role ) { return <Loading />}
+
+  if (errorCreateLoad) { return <Error404Page /> }
   
+  if (state.isLoading  ) { return <Loading />}   
+  // if (!state.permissions  ) { return <Loading />}   
  return (
     <>
       <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12} md={6}>
         <form noValidate onSubmit={handleSubmit}>
-          <h3>Editar rol</h3>
-          {errorEdit && <Errors errorsBack={errorEdit} />}
+          <h3>Crear rol</h3>
+          {errorCreate && <Errors errorsBack={errorCreate} />}
           <TextField
             label="Nombre del Rol"
             name="role"
             variant="outlined"
             fullWidth
             margin="normal"
-            value={roleEdit.role}
+           value = {createRole.role}
             onChange={onchangeInput}
           />
 
@@ -102,7 +102,7 @@ export const EditRole = () => {
             fullWidth
             margin="normal"
             name="description"
-            value={roleEdit.description}
+            value={createRole.description}
             onChange={onchangeInput}
           />
 
@@ -110,7 +110,8 @@ export const EditRole = () => {
           <RadioGroup
             aria-label="Estado del Rol"
             name="status"
-            value={roleEdit.status}
+            value={createRole.status}
+
             onChange={onchangeInput}
           >
             <FormControlLabel value="true" control={<Radio />} label="Activo" />
@@ -125,10 +126,10 @@ export const EditRole = () => {
                   type="checkbox"
                   value={permission._id}
                   name={permission.permission}
-                  checked={idsPermissionsRole.includes(permission._id)}
                   onChange={handlePermissionChange}
                 />
-                <span style={{ fontWeight: 'bold', fontSize: '1.1em', margin: '5px 0' }}>{permission.permission}</span> - ({permission.description})
+                <span style={{ fontWeight: 'bold', fontSize: '1.1em', margin: '5px 0' }}>
+                  {permission.permission}</span> - ({permission.description})
               </label> <br />
             </div>
           ))}
@@ -140,7 +141,8 @@ export const EditRole = () => {
             size='large'
             sx={{ mt: 3, ml: 2 }}
           >
-            Guardar Cambios
+            {state.isLoading ? "Cargando..." : "Crear Rol"}
+
           </Button>
 
 

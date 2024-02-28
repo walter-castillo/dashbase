@@ -8,66 +8,63 @@ export const RoleReducer = (state={}, action) => {
         case types.role.getRoles:
           return {
             ...state,
-            isLoading: false,
             role: "",
             roles: action.payload.roles,
-            // totalRoles: action.payload.totalRows
           }
 
-          case types.role.allPermissions:
-            return {
-              ...state,
-              isLoading: false,
-              permissions: action.payload.permissions,
-            }
+        case types.role.allPermissions:
+          return {
+            ...state,
+            permissions: action.payload.permissions,
+          }
             
-          case types.role.getRoleById:
-            return {
-              ...state,
-              isLoading: false,
-              role: action.payload.role,
-              // totalRoles: action.payload.totalRows
-            }
+        case types.role.getRoleById:
+          return {
+            ...state,
+            role: action.payload.role,
+          }
+
         case types.role.editRole:
           return {
               ...state,
-              success: "Role editado con exito",
               error: null 
           }
 
-     /*    case types.role.deleteRole:
+        case types.role.createRole:
           return {
-            ...state,
-            isLoading: false,
-            roles: action.payload.roles
+              error: null
           }
 
-        case types.role.activeRole:
+        case types.role.deleteRole:
           return {
-            ...state,
-            isLoading: false,
-            roles: action.payload.roles
-          } */
+              ...state,
+              roles: action.payload.roles,
+          }
 
-    
-        default:  state;
-    }
-}
+     /*    case types.role.startLoading:
+              return {
+                  ...state,
+                  isLoading: true
+              };
 
-
-/* export const RoleReducer = (state = {}, action) => {
-  
-    switch (action.type) {
-
-        case types.role.getRoles:
+        case types.role.stopLoading:
             return {
                 ...state,
                 isLoading: false,
-                roles: action.payload.roles,
-                // totalRoles: action.payload.totalRows
-            }
-
-        default:
-            return state;
+            }; */
+        
+        case types.role.error:
+              return {
+                errors: action.payload.errors
+            };
+    
+        case types.role.success:
+            return {
+                ...state,
+                  success: action.payload.success
+            };
+    
+        default: state;
     }
-} */
+}
+

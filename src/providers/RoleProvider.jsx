@@ -7,176 +7,118 @@ import { types } from "../types/types"
 
 const initialState = {
     roles: null,
-    role: null,
-    isLoading: false,
-    totalRows: 0,
     errorMessage: null,
     succesMessage: null,
+    isLoading: false
 }
 
 
 export const RoleProvider = ({ children }) => {
 
-    const [ state, dispatch ] = useReducer(RoleReducer,  initialState);
+   const [ state, dispatch ] = useReducer(RoleReducer,  initialState);
     
+   const getRoles = async () =>  {
 
+      // await new Promise(resolve => setTimeout(resolve, 1000));
 
-    const getRoles = async () =>  {
-                    const { data } = await dashAxios.get('role');
-            // console.log(data.roles)
-            dispatch({
-                    type: types.role.getRoles,
-                    payload: {
-                        roles: data.roles
-                    }})
-      
-            
-      
+      try {
+         const { data } = await dashAxios.get('role');
+         dispatch({
+            type: types.role.getRoles,
+            payload: {
+               roles: data.roles
+            }
+         })
+      } catch (error) {
+         console.log(error.response.data.errors)
+         dispatch({
+            type: types.role.error,
+            payload: { 
+               errors: error.response.data.errors
+            }
+          })
+      }
+ 
+   }
 
-        
+   const allPermissions = async () =>  {
        
-    }
-    const allPermissions = async () =>  {
-        try {
-            const { data } = await dashAxios.get('permission');
-            // console.log(data.permission)
-            dispatch({
-                    type: types.role.allPermissions,
-                    payload: {
-                        permissions: data.permission
-                    }})
-         /*    if(!data){
-                return dispatch({
-                    type: types.user.messages,
-                    payload: {
-                        messageStatus: 'ERROR',
-                        msg: 'No Existen usuarios en el sistema',
-                    }
-                })
-            }; */
-            return data.permission
-        } catch (error) {
-            console.log(error)
-        }
-        // finally{  dispatch({ type: types.user.stopLoading })
-        // }
+      const { data } = await dashAxios.get('permission');
 
-        
-       
+      dispatch({
+         type: types.role.allPermissions,
+         payload: {
+            permissions: data.permission
+         }
+      })
+   
+      return data.permission
+   }
+
+
+   const getRoleById = async (id) => {
+
+ 
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
+      const { data } = await dashAxios.get(`role/${id}`);
+      dispatch({
+            type: types.role.getRoleById,
+            payload: {
+               role: data.role
+      }})   
+      return data.role;     
     }
 
 
-    const getRoleById = async (id) => {
-
-          try {
-            const { data } = await dashAxios.get(`role/${id}`);
-            // console.log(data)
-            dispatch({
-                type: types.role.getRoleById,
-                payload: {
-                    role: data.role
-            }})
-         /*    if(!data){
-                return dispatch({
-                    type: types.user.messages,
-                    payload: {
-                        messageStatus: 'ERROR',
-                        msg: 'No Existen usuarios en el sistema',
-                    }
-                })
-            }; */
-            return data.role;  
-            
-        } catch (error) {
-            console.log(error)
-        }
-        // finally{  dispatch({ type: types.user.stopLoading })
-        // }
-
-    }
-
-    const roleUpdate = async (dataEditRole) => {
-
-            const  data  = await dashAxios.put(`role/${dataEditRole.id}`, dataEditRole);
-            /* dispatch({
-                type: types.role.editRole,
-                payload: {
-                    role: data.role
-            }}) */
-            console.log(data)
-           
-    }
-
-/* 
-    const editUser = async (dataUser) => {
-
-        const { id } = dataUser;
-
-        const { data } = await dashAxios.put(`users/${id}`, {
-            dataUser,
-        });
-
-        console.log(data)
-    }
-
-        
-    const deleteUser = async (id) => {
-
-        const { data } = await dashAxios.delete(`users/${id}`);
-
-        if(data){
-            const users = state.users.filter( (item) => {
-                if(item.id == id){
-                    item.is_active = false
-                }
-
-                return item;
-            });
-
-            dispatch({
-                type: types.user.deleteUser,
-                payload: {
-                    users,
-                }
-            })
-        }
-
-    }
 
 
-    const activeUser = async (id) => {
+   const roleUpdate = async (dataEditRole) => {
 
-        const { data }  =  await dashAxios.put(`users/${id}`, {
-            is_active: true,
-        });
+      // await new Promise(resolve => setTimeout(resolve, 2000));
 
-        if(data){
-            const users =  state.users.filter( (item) => {
-                if(item.id == id){
-                    item.is_active = true
-                }
+      const { data } = await dashAxios.put(`role/${dataEditRole.id}`, dataEditRole);
+      dispatch({ 
+         type: types.role.editRole,
+         payload: {
+            role: data.role
+         }
+      });      
+   }
 
-                return item;
-            });
+   const roleCreate = async (dataCreateRole) => {
 
-            dispatch({
-                type: types.user.activeUser,
-                payload: {
-                    users
-                }
-            });
-        }
+// await new Promise(resolve => setTimeout(resolve, 1000));
 
+const { data } = await dashAxios.post('role', dataCreateRole);
+console.log(data)
+dispatch({ type: types.role.createRole });      
 
-    } */
+}
 
+   const roleDelete = async (id) => {
+   try {
+      const { data } = await dashAxios.delete(`role/${id}`);
+      
+   
+         await getRoles();
+
+         console.log("Rol eliminado:", data);
+   } catch (error) {
+      console.error("Error al eliminar el rol:", error);
+   }
+   };
+
+   
     return (
         <RoleContext.Provider value={{
             state,
             getRoles,
             allPermissions,
             getRoleById,
-            roleUpdate
+            roleUpdate,
+            roleCreate,
+            roleDelete
         }}>
             { children }
         </RoleContext.Provider>

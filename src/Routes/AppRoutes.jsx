@@ -6,13 +6,16 @@ import AuthLayout from '../layouts/AuthLayout'
 import { PublicRoutes } from './PublicRoutes'
 import { AuthContext } from '../contexts/AuthContext'
 import { Loading } from '../components/ui/Loading'
+import { RoleContext } from '../contexts/RoleContext'
 
 export const AppRoutes = () => {
 
+    const {state:stateRole} = useContext(RoleContext)
     const { checkAuthToken, state }  = useContext(AuthContext);
 
     useEffect( () => { checkAuthToken() }, []);
 
+    if(stateRole.isLoading){  return (<Loading />) }
     if(state.isLoading){  return (<Loading />) }
 
     return (

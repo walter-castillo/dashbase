@@ -1,7 +1,7 @@
 import { types } from "../types/types";
 
 
-export const UserReducer = (state, action) => {
+export const UserReducer = (state={}, action) => {
   
     switch (action.type) {
 
@@ -26,6 +26,7 @@ export const UserReducer = (state, action) => {
             isLoading: false,
             users: action.payload.users
           }
+          
 
         case types.user.activeUser:
           return {

@@ -16,3 +16,4 @@ export const Error404Page = () => {
     </>
   )
 }
+ 

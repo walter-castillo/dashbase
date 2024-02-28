@@ -5,14 +5,14 @@ const  token =  import.meta.env.VITE_TOKEN_NAME
 
 export const dashAxios = axios.create({
     baseURL,
-    timeout: 5000,
+    timeout: 3000,
 });
 
 dashAxios.interceptors.request.use( config  => {
 
     config.headers = {
         ...config.headers,
-        bearer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWM2NzcwOWE3NTI4MGQ1YmEyMTNiZWMiLCJpYXQiOjE3MDc1MDU1NTUsImV4cCI6MTczOTA2MzE1NX0.HwGy4zXiWanGsZNon5PtkLF89jm8ktVR91YLmBccp8o',
+        bearer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWQ3OGE5ZjJmOThmODM0ZDNmNTRhNzIiLCJpYXQiOjE3MDg2MjQ1NjAsImV4cCI6MTc0MDE4MjE2MH0.Kgh7L2d3isW8Xa_1HcmVa-IMdkqR4tu0T0PlBoC4du8',
         // bearer: localStorage.getItem(token),
     }
     return  config;
