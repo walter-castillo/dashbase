@@ -32,7 +32,9 @@ export const RoleReducer = (state={}, action) => {
 
         case types.role.createRole:
           return {
-              error: null
+              error: null,
+              success: 'El role se creo con exito'
+
           }
 
         case types.role.deleteRole:
@@ -41,7 +43,7 @@ export const RoleReducer = (state={}, action) => {
               roles: action.payload.roles,
           }
 
-     /*    case types.role.startLoading:
+     /* case types.role.startLoading:
               return {
                   ...state,
                   isLoading: true

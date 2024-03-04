@@ -5,6 +5,7 @@ import { RoleContext } from '../../contexts/RoleContext';
 import { Loading } from '../../components/ui/Loading';
 import { Error404Page } from '../error/Error404Page';
 import Errors from '../../components/ui/Errors';
+  import  {showAlert} from '../../helpers/showAlert';
 
 
 export const CreateRole = () => {
@@ -14,6 +15,8 @@ export const CreateRole = () => {
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
   const [errorCreateLoad, setErrorCreateLoad] = useState(null)
   const [errorCreate, setErrorCreate] = useState(null)
+const [buttonLoading, setButtonLoading] = useState(false)
+
   const createRoleInicial = {
     role: '',
     description: '',
@@ -40,7 +43,7 @@ export const CreateRole = () => {
 
   const handleSubmit = async(e) => {
     e.preventDefault(); 
-    state.isLoading=true
+    setButtonLoading(true)
     setErrorCreate(null)
     try {
       createRole.permissions = idsPermissionsRole;
@@ -52,10 +55,10 @@ export const CreateRole = () => {
       console.log(error.response.data) 
       setErrorCreate(error.response.data.errors)
     }
-    state.isLoading = false
+    setButtonLoading(false)
   };
-
-
+  
+  
   const onchangeInput = ({ target }) => {
     const { name, value } = target;
     setCreateRole({
@@ -73,10 +76,14 @@ const handlePermissionChange = (e) => {
       setIdsPermissionsRole(idsPermissionsRole.filter(item => item !== value));
   };
 
+ 
+
+
   if (errorCreateLoad) { return <Error404Page /> }
   
   if (state.isLoading  ) { return <Loading />}   
-  // if (!state.permissions  ) { return <Loading />}   
+  if (!state.permissions  ) { return <Loading />}   
+
  return (
     <>
       <Grid container spacing={2} justifyContent="center">
@@ -141,7 +148,7 @@ const handlePermissionChange = (e) => {
             size='large'
             sx={{ mt: 3, ml: 2 }}
           >
-            {state.isLoading ? "Cargando..." : "Crear Rol"}
+            {buttonLoading ? "Cargando..." : "Crear Rol"}
 
           </Button>
 
