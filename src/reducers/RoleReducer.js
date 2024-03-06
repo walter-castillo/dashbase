@@ -1,6 +1,5 @@
 import { types } from "../types/types";
 
-
 export const RoleReducer = (state={}, action) => {
   
     switch (action.type) {
@@ -27,13 +26,14 @@ export const RoleReducer = (state={}, action) => {
         case types.role.editRole:
           return {
               ...state,
-              error: null 
+              error: null,
+              success: action.payload.success
           }
 
         case types.role.createRole:
           return {
               error: null,
-              success: 'El role se creo con exito'
+              success: action.payload.success
 
           }
 
@@ -43,18 +43,7 @@ export const RoleReducer = (state={}, action) => {
               roles: action.payload.roles,
           }
 
-     /* case types.role.startLoading:
-              return {
-                  ...state,
-                  isLoading: true
-              };
-
-        case types.role.stopLoading:
-            return {
-                ...state,
-                isLoading: false,
-            }; */
-        
+           
         case types.role.error:
               return {
                 errors: action.payload.errors

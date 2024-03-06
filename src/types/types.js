@@ -19,8 +19,6 @@ export const types =  {
         deleteRole:     '[ROLES]-ROLE DELETE',
         allPermissions: '[ROLES]-ALL PERMISSIONS',
         getRoleById:    '[ROLES]-ROLE BY ID',
-        startLoading:   '[ROLES]-LOADING',
-        stopLoading:    '[ROLES]-STOP LOADING',
         error:          '[ROLES]-ROLE ERROR',
         success:        '[ROLES]-ROLE SUCCESS',
     },

@@ -16,13 +16,11 @@ export const RolesPage = () => {
   const { state, getRoles, roleDelete } = useContext(RoleContext);
 
   useEffect(() => {
-     if (state.success) { 
-    console.log('alershow')
-    showAlert('Rol creado con exito', 'success',900) 
-   }
-
-     getRoles()},
-      []);
+    if (state.success?.accion=='edit')    showAlert(state.success.msg, 'success',900) 
+    if (state.success?.accion=='create')  showAlert(state.success.msg, 'success',900) 
+ 
+    getRoles()},
+  []);
 
 const handleDelete = (roleId) => {
   ConfirmationDeleteAlert('¿Desea elimanar el rol?', 'question').then((result) => {

@@ -39,6 +39,7 @@ const [buttonLoading, setButtonLoading] = useState(false)
  };
  fetchData();
  state.isLoading = false
+
 }, []);
 
   const handleSubmit = async(e) => {
@@ -49,7 +50,6 @@ const [buttonLoading, setButtonLoading] = useState(false)
       createRole.permissions = idsPermissionsRole;
       console.log(createRole)
       await roleCreate(createRole);
-      // await allPermissions()
       navigate('/dashboard/roles')
     } catch (error) {
       console.log(error.response.data) 

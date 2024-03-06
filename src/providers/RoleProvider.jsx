@@ -6,9 +6,8 @@ import { types } from "../types/types"
 
 const initialState = {
    roles: null,
-   errorMessage: null,
-   succesMessage: null,
-   isLoading: false
+   success: null,
+
 }
 
 export const RoleProvider = ({ children }) => {
@@ -16,7 +15,7 @@ export const RoleProvider = ({ children }) => {
    const [ state, dispatch ] = useReducer(RoleReducer,  initialState);
     
    const getRoles = async () =>  {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       try {
          const { data } = await dashAxios.get('role');
          dispatch({
@@ -37,7 +36,7 @@ export const RoleProvider = ({ children }) => {
    }
 
    const allPermissions = async () =>  {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       const { data } = await dashAxios.get('permission');
       dispatch({
          type: types.role.allPermissions,
@@ -61,25 +60,31 @@ export const RoleProvider = ({ children }) => {
    }
 
    const roleUpdate = async (dataEditRole) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       const { data } = await dashAxios.put(`role/${dataEditRole.id}`, dataEditRole);
       dispatch({ 
          type: types.role.editRole,
          payload: {
-            role: data.role
+            role: data.role ,
+            success: {accion: 'edit', msg:"El rol fue editado con exito"}
          }
       });      
+      successClear() 
    }
 
    const roleCreate = async (dataCreateRole) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       const { data } = await dashAxios.post('role', dataCreateRole);
-      dispatch({ type: types.role.createRole });   
+      dispatch({ 
+         type: types.role.createRole,
+         payload:{success: {accion: 'create', msg:"El rol fue creado con exito"}
+         } 
+      });   
       successClear()   
    }
 
    const roleDelete = async (id) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       try {
          const { data } = await dashAxios.delete(`role/${id}`);
             const roles = state.roles.filter((item) => item._id !== id);
