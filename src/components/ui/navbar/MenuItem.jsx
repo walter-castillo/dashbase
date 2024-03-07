@@ -35,6 +35,15 @@ export default function MenuItem() {
         {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
       </ListItemButton>
       
+      <ListItemButton   component={Link} to="/dashboard/usuarios">
+      {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
+        <ListItemIcon>
+          <InboxIcon />
+        </ListItemIcon>
+        <ListItemText primary="Usuarios" />
+        {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
+      </ListItemButton>
+      
 
       <ListItemButton onClick={() => handleClick(1)}>
         <ListItemIcon>

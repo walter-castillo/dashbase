@@ -10,7 +10,7 @@ const initialState = {
     isActive: false,
     users: [],
     user: {},
-    totalRows: 0,
+    total: 0,
     errorMessage: '',
     succesMessage: '',
 }
@@ -21,7 +21,31 @@ export const UserProvider = ({ children }) => {
     const [ state, dispatch ] = useReducer(UserReducer,  initialState);
 
 
-    const getUsers = async (page = 0) =>  {
+    const getUsers = async (page = 0,limit = 25) =>  {
+
+        // const limit = 25;
+        const {data} = await dashAxios.get(`user/?limit=${limit}&from=${page}`);
+    
+        console.log(data)
+        if(!data){
+            return dispatch({
+                type: types.user.messages,
+                payload: {
+                    messageStatus: 'ERROR',
+                    msg: 'No Existen usuarios en el sistema',
+                }
+            })
+        };
+        
+        dispatch({
+            type: types.user.getUsers,
+            payload:  {
+                users:  data.users,
+                total: data.total
+            }
+        });
+    }
+    /* const getUsers = async (page = 0) =>  {
 
         const limit = 25;
         const { data } = await dashAxios.get(`users?limit=${limit}&page=${page}`);
@@ -134,16 +158,12 @@ export const UserProvider = ({ children }) => {
         }
 
 
-    }
+    } */
 
     return (
         <UserContext.Provider value={{
             state,
-            getUsers,
-            getUser,
-            deleteUser,
-            activeUser,
-            editUser
+            getUsers
         }}>
             { children }
         </UserContext.Provider>
