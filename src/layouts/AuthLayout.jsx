@@ -27,7 +27,7 @@ export default function AuthLayout() {
              minHeight: '80vh'
           }}
         >
-         <Routes>
+          <Routes>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />
             <Route path='/forgotPassword' element={<ForgotPassword /> } />

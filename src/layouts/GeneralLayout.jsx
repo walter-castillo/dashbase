@@ -18,6 +18,7 @@ import { EditUserPage } from '../pages/user/EditUserPage';
 import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
+import CreateUser from '../pages/user/CreateUser';
 
 
 const defaultTheme = createTheme();
@@ -44,6 +45,7 @@ export function GeneralLayout() {
 
                 <Route  path='usuarios' element={<UserPage />} />
                 <Route  path='usuarios/editar/:id' element={<EditUserPage />} />
+                <Route  path='usuarios/crear' element={<CreateUser />} />
                 <Route  path='productos' element={<ProductsPage />} />
                 {/* <Route path='/' element={<Navigate to="/dashboard" />} /> */}
                 {/* <Route  path='/' element={<DashPage />} /> */}
