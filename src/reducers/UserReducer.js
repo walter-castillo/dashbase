@@ -28,11 +28,10 @@ export const UserReducer = (state={}, action) => {
           }
           
 
-        case types.user.activeUser:
+        case types.user.isLoading:
           return {
             ...state,
-            isLoading: false,
-            users: action.payload.users
+            isLoading: true,
           }
     
         default: state;

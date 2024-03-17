@@ -28,7 +28,7 @@ export const types =  {
         getUser:    '[USERS]-USER BY ID',
         editUser:   '[USERS]-USER UPDATE',
         deleteUser: '[USERS]-USER DELETE',
-        loading:    '[USERS]-USER LOADING',
+        isLoading:  '[USERS]-USER LOADING',
         error:      '[USERS]-USER ERROR',
         success:    '[USERS]-USER SUCCESS',
 

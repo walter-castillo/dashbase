@@ -12,7 +12,7 @@ dashAxios.interceptors.request.use( config  => {
 
     config.headers = {
         ...config.headers,
-        bearer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWVlMzFjY2NjOWJkZWRiNDFhNTUxZTAiLCJpYXQiOjE3MTAxMDkyNzEsImV4cCI6MTc0MTY2Njg3MX0.dMwSg70clH1VSnoLpICtqPLJsMaTvSmYGLV08XoQ1uM',
+        bearer: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NWY2NTdmMGYzOWMwNzk1ODljYzcxZTciLCJpYXQiOjE3MTA2NDMyNDcsImV4cCI6MTc0MjIwMDg0N30.WpeQ8V1t7ngIfOcV-FzCbfuRC1PHy0MUQDZ9t4pe6NY',
         // bearer: localStorage.getItem(token),
     }
     return  config;
