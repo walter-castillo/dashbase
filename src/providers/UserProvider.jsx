@@ -21,11 +21,12 @@ export const UserProvider = ({ children }) => {
     const [ state, dispatch ] = useReducer(UserReducer,  initialState);
 
 
-    const getUsers = async (from ,limit) =>  {
+    const getUsers = async (page ,limit) =>  {
         dispatch({type: types.user.isLoading})
-        await new Promise(resolve => setTimeout(resolve, 1000));
-        const {data} = await dashAxios.get(`user/?limit=${limit}&from=${from}`);
-       
+
+        await new Promise(resolve => setTimeout(resolve, 500));
+        const {data} = await dashAxios.get(`user/?limit=${limit}&page=${page}`);
+       console.log(data)
         if(!data){
             return dispatch({
                 type: types.user.messages,

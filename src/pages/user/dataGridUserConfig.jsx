@@ -29,7 +29,8 @@ export const dataGridConfig = {
   //   '.MuiDataGrid-virtualScroller': { height: 'auto', minHeight: '100px' }
   // },
   rowHeight:35,
-  autoHeight:true
+  autoHeight:true,
+  paginationMode:"server",
+  hideFooterSelectedRowCount:true
   
-  // Aquí puedes agregar más configuraciones según sea necesario
 };

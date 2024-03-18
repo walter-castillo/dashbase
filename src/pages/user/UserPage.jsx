@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { DataGrid } from '@mui/x-data-grid';
 import { UserContext } from '../../contexts/UserContext';
-import { Link } from 'react-router-dom';
-import { Button, Typography, Box, Hidden } from '@mui/material';
+import { Link, useNavigate } from 'react-router-dom';
+import { Button, Typography, Box } from '@mui/material';
 import { columns, getDataRows, dataGridConfig } from './dataGridUserConfig'; 
 
 export const UserPage = () => {
@@ -13,7 +13,8 @@ export const UserPage = () => {
 
 
   useEffect(() => {
-       getUsers((page * pageSize ), pageSize); //paso from y limit
+
+       getUsers((page + 1), pageSize);
 
   }, [page,pageSize]);
 
@@ -31,10 +32,15 @@ export const UserPage = () => {
   const handlePaginationModelChange = (newModel) => {
     setPage(newModel.page);
     setPageSize(newModel.pageSize);
-    console.log('paginacion:', newModel);
+  };
+  
+ const navigate = useNavigate(); // Get the navigate function
+  const handleRowDoubleClick = (newModel) => {
+    const userId = newModel.row.id;
+    navigate(`editar/${userId}`); // Redirect to the edit page
   };
 
-  
+
   return (
     <div>
       <Box display="flex" justifyContent="space-between" alignItems="center">
@@ -48,15 +54,13 @@ export const UserPage = () => {
           columns={columns}
           loading={state.isLoading}
           rowCount={state.total}
-          // pageSizeOptions={[10, 20, 30]}
           pageSizeOptions={[2, 4, 6]}
           initialState={{
             pagination: { paginationModel: { pageSize, page  } },
           }}
-          paginationMode="server"
-
-          // onPageSizeChange={handlePageSizeChange}
-
+          
+          onRowDoubleClick={handleRowDoubleClick}
+          onCellDoubleClick={handleRowDoubleClick}
          
           onFilterModelChange={handleFilterModelChange}
           onSortModelChange={handleSortModelChange}
@@ -67,3 +71,5 @@ export const UserPage = () => {
     </div>
   );
 };
+
+

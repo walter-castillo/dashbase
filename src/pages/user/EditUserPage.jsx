@@ -4,31 +4,19 @@ import { Box, Button, Checkbox, Divider, FormControlLabel, Grid, InputAdornment,
 import moment from 'moment';
 import { UserContext } from '../../contexts/UserContext';
 import { Loading } from '../../components/ui/Loading';
-import { useForm } from '../../hooks/useForm';
+
 
 export const EditUserPage = () => {
-
     const { id } = useParams();
-    // const { getUser, state } = useContext(UserContext);
+    const {  state } = useContext(UserContext);
 
-/*     const { formState, onInputChange} = useForm({
-        name: state?.user.name,
-        lastname: state.user.lastname,
-        email: state.user.email,
-        is_active: state.user.is_active
-    }); */
     
-   /*  useEffect( () => {
-        if(id){
-            getUser(id);
-        }
-    }, [])
- */
+    
 
   return (
     <Paper>
         {id}
-       {/*  <Box padding={3}>
+        <Box padding={3}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sx={{ 
                         borderBottom: 2, 
@@ -39,7 +27,7 @@ export const EditUserPage = () => {
                     }}
                 >
                     <Typography variant='h6' fontFamily={'fantasy'}>Modificar Usuario</Typography>
-                    <Typography variant='caption'>Creado: {moment(state.user.created_at).format("DD/MM/YYYY hh:mm:ss") }</Typography>
+                    {/* <Typography variant='caption'>Creado: {moment(state.user.created_at).format("DD/MM/YYYY hh:mm:ss") }</Typography> */}
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField 
@@ -51,7 +39,7 @@ export const EditUserPage = () => {
                         label="Nombre"
                         name="name"
                         autoComplete="Nombre"
-                        value={formState.name}
+                        // value={formState.name}
                         // onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
@@ -65,7 +53,7 @@ export const EditUserPage = () => {
                         label="Apellido"
                         name="lastname"
                         autoComplete="Apellido"
-                        value={formState.lastname}
+                        // value={formState.lastname}
                         // onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
@@ -79,7 +67,7 @@ export const EditUserPage = () => {
                         label="Email"
                         name="email"
                         autoComplete="Email"
-                        value={formState.email}
+                        // value={formState.email}
                         // onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
@@ -187,7 +175,7 @@ export const EditUserPage = () => {
                         <MenuItem key={1} value={'admin'}>Administrador</MenuItem>
                     </TextField>
                 </Grid>
-                <Grid item xs={12} md={12}>
+                {/* <Grid item xs={12} md={12}>
                     <FormControlLabel 
                         label="Usuario Habilitado" 
                         control={
@@ -197,12 +185,12 @@ export const EditUserPage = () => {
                             />
                         } 
                     />
-                </Grid>
+                </Grid> */}
                 <Grid item xs={12} md={12}>
                     <Button variant='contained' size='large' color='info'>GUARDAR</Button>
                 </Grid>
             </Grid>
-        </Box> */}
+        </Box> 
     </Paper>
   )
 }
