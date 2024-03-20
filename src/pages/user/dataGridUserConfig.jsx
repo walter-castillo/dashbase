@@ -4,6 +4,7 @@ function BooleanRender( {value} ) {
   return value.row.status ? '✔️' : '❌'}
 
 export const columns = [
+  { field: 'enum', headerName: '#', width: 80, sortable: false },
   { field: 'id', headerName: 'ID', width: 220, sortable: false },
   { field: 'name', headerName: 'Nombre', width: 150 },
   { field: 'email', headerName: 'Correo electrónico', width: 200, sortable: false },
@@ -12,8 +13,10 @@ export const columns = [
   { field: 'status', headerName: 'Activo', width: 60, renderCell: (value) => <BooleanRender value={value} /> },
 ];
 
-export const getDataRows = (users) => {
-  return users.map(user => ({
+export const getDataRows = (users, page, pageSize) => {
+  const startIndex = page * pageSize + 1;
+  return users.map((user, index)=> ({
+    enum: startIndex + index,
     id: user.uid,
     name: user.name,
     email: user.email,

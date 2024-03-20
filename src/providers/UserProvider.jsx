@@ -21,12 +21,32 @@ export const UserProvider = ({ children }) => {
     const [ state, dispatch ] = useReducer(UserReducer,  initialState);
 
 
-    const getUsers = async (page ,limit) =>  {
+    const getUsers = async (params) =>  {
+        const{page, limit, field, operator, value, sort} = params;
         dispatch({type: types.user.isLoading})
-
+        console.log(page, limit, field, operator, value, sort)
         await new Promise(resolve => setTimeout(resolve, 500));
-        const {data} = await dashAxios.get(`user/?limit=${limit}&page=${page}`);
-       console.log(data)
+
+        let url = `user?limit=${limit}&page=${page}`;
+        if (field && operator && value) {
+            console.log('dentro de buscar')
+            url += `&field=${field}&operator=${operator}&value=${value}`;
+            console.log('filtrar', url)
+        }
+        if (field && sort) {
+            console.log('ordenar')
+            url += `&field=${field}&sort=${sort}`;
+            console.log('ordenar', url)
+        }
+        if (operator && sort) {
+            console.log('ordenar y filtrar')
+            url += `&field=${field}&operator=${operator}&value=${value}&sort=${sort}`;
+            console.log('ordenar y filtrar', url)
+        }
+
+        const {data} = await dashAxios.get(url);
+
+       console.log('data', data)
         if(!data){
             return dispatch({
                 type: types.user.messages,
