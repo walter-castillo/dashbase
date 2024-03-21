@@ -22,31 +22,24 @@ export const UserProvider = ({ children }) => {
 
 
     const getUsers = async (params) =>  {
-        const{page, limit, field, operator, value, sort} = params;
+        const{page, limit, field, operator, value, sort, fieldSort} = params;
+        
         dispatch({type: types.user.isLoading})
-        console.log(page, limit, field, operator, value, sort)
+
         await new Promise(resolve => setTimeout(resolve, 500));
 
         let url = `user?limit=${limit}&page=${page}`;
+
         if (field && operator && value) {
-            console.log('dentro de buscar')
             url += `&field=${field}&operator=${operator}&value=${value}`;
-            console.log('filtrar', url)
         }
-        if (field && sort) {
-            console.log('ordenar')
-            url += `&field=${field}&sort=${sort}`;
-            console.log('ordenar', url)
-        }
-        if (operator && sort) {
-            console.log('ordenar y filtrar')
-            url += `&field=${field}&operator=${operator}&value=${value}&sort=${sort}`;
-            console.log('ordenar y filtrar', url)
+
+        if (fieldSort && sort) {
+            url += `&fieldSort=${fieldSort}&sort=${sort}`;
         }
 
         const {data} = await dashAxios.get(url);
-
-       console.log('data', data)
+       
         if(!data){
             return dispatch({
                 type: types.user.messages,
