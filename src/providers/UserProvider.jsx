@@ -7,8 +7,7 @@ import { types } from "../types/types"
 
 const initialState = {
     isLoading: true,
-    isActive: false,
-    users: [],
+    users: null,
     user: {},
     total: 0,
     errorMessage: '',
@@ -23,41 +22,90 @@ export const UserProvider = ({ children }) => {
 
     const getUsers = async (params) =>  {
         const{page, limit, field, operator, value, sort, fieldSort} = params;
-        
-        dispatch({type: types.user.isLoading})
 
-        await new Promise(resolve => setTimeout(resolve, 500));
-
-        let url = `user?limit=${limit}&page=${page}`;
-
-        if (field && operator && value) {
-            url += `&field=${field}&operator=${operator}&value=${value}`;
-        }
-
-        if (fieldSort && sort) {
-            url += `&fieldSort=${fieldSort}&sort=${sort}`;
-        }
-
-        const {data} = await dashAxios.get(url);
-       
-        if(!data){
-            return dispatch({
-                type: types.user.messages,
-                payload: {
-                    messageStatus: 'ERROR',
-                    msg: 'No Existen usuarios en el sistema',
+        dispatch({type: types.user.startLoading})
+        try {        
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+            let url = `user?limit=${limit}&page=${page}`;
+            
+            if (field && operator && value)  url += `&field=${field}&operator=${operator}&value=${value}`
+    
+            if (fieldSort && sort) url += `&fieldSort=${fieldSort}&sort=${sort}`
+    
+            const {data} = await dashAxios.get(url);  
+    
+            dispatch({
+                type: types.user.getUsers,
+                payload:  {
+                    users:  data.users,
+                    total: data.total
                 }
-            })
-        };
-        
+            });
+            
+        } catch (error) {
+             errorsUser(error.response.data.errors)
+        }finally{
+            dispatch({type: types.user.stopLoading})
+        }
+    }
+
+    const userById = async (id) =>  {
+      
+        dispatch({type: types.user.startLoading})
+        try {        
+            await new Promise(resolve => setTimeout(resolve, 500));
+            
+             const [rolesResponse, userResponse] = await Promise.all([
+            dashAxios.get('role/all'),
+            dashAxios.get(`user/${id}`)
+        ]);
+
+        const dataRoles = rolesResponse.data.roles;
+        const data = userResponse.data;
+
         dispatch({
-            type: types.user.getUsers,
-            payload:  {
-                users:  data.users,
-                total: data.total
+            type: types.user.userById,
+            payload: {
+                user: data.user,
+                roles: dataRoles
             }
         });
+            
+        } catch (error) {
+             errorsUser(error.response.data.errors)
+        }finally{
+            dispatch({type: types.user.stopLoading})
+        }
     }
+
+
+
+     const errorsUser = (errors) => {
+            dispatch({ 
+                type: types.user.errors, 
+                payload: { errors: errors } 
+            });
+    };
+
+
+    return (
+        <UserContext.Provider value={{
+            state,
+            getUsers,
+            errorsUser,
+            userById
+        }}>
+            { children }
+        </UserContext.Provider>
+    )
+
+}
+
+
+
+
+
     /* const getUsers = async (page = 0) =>  {
 
         const limit = 25;
@@ -172,14 +220,3 @@ export const UserProvider = ({ children }) => {
 
 
     } */
-
-    return (
-        <UserContext.Provider value={{
-            state,
-            getUsers
-        }}>
-            { children }
-        </UserContext.Provider>
-    )
-
-}

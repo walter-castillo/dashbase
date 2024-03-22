@@ -4,6 +4,8 @@ import { UserContext } from '../../contexts/UserContext';
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Typography, Box } from '@mui/material';
 import { columns, getDataRows,  dataGridConfig } from './dataGridUserConfig'; 
+import { Loading } from '../../components/ui/Loading';
+import Errors from '../../components/ui/Errors';
 
 export const UserPage = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -44,11 +46,14 @@ export const UserPage = () => {
   };
   
   const navigate = useNavigate(); 
+  
   const handleRowDoubleClick = (newModel) => {
     const userId = newModel.row.id;
     navigate(`editar/${userId}`); 
   };
 
+  // if (state.errors) { return (<Errors errorsBack={state.errors} />)  }
+  if (state.users== null) { return <Loading />  }
 
   return (
     <div>
@@ -66,7 +71,8 @@ export const UserPage = () => {
          
           initialState={{ pagination: { paginationModel: { pageSize, page  } },}}
           
-          onRowDoubleClick={handleRowDoubleClick}
+          onRowClick={handleRowDoubleClick}
+          // onRowDoubleClick={handleRowDoubleClick}
           
           onFilterModelChange={handleFilterModelChange}
           onSortModelChange={handleSortModelChange}

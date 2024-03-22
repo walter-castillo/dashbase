@@ -8,15 +8,18 @@ import { Loading } from '../../components/ui/Loading';
 
 export const EditUserPage = () => {
     const { id } = useParams();
-    const {  state } = useContext(UserContext);
+    const {  state, userById } = useContext(UserContext);
 
-    
+useEffect(() => {
+userById(id)
+}, [])
+
     
 
   return (
     <Paper>
         {id}
-        <Box padding={3}>
+        {/* <Box padding={3}>
             <Grid container spacing={3}>
                 <Grid item xs={12} sx={{ 
                         borderBottom: 2, 
@@ -27,11 +30,11 @@ export const EditUserPage = () => {
                     }}
                 >
                     <Typography variant='h6' fontFamily={'fantasy'}>Modificar Usuario</Typography>
-                    {/* <Typography variant='caption'>Creado: {moment(state.user.created_at).format("DD/MM/YYYY hh:mm:ss") }</Typography> */}
+                    <Typography variant='caption'>Creado: {moment(state.user.created_at).format("DD/MM/YYYY hh:mm:ss") }</Typography>
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         required
                         fullWidth
@@ -39,13 +42,13 @@ export const EditUserPage = () => {
                         label="Nombre"
                         name="name"
                         autoComplete="Nombre"
-                        // value={formState.name}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.name}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         required
                         fullWidth
@@ -53,13 +56,13 @@ export const EditUserPage = () => {
                         label="Apellido"
                         name="lastname"
                         autoComplete="Apellido"
-                        // value={formState.lastname}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.lastname}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         required
                         fullWidth
@@ -67,8 +70,8 @@ export const EditUserPage = () => {
                         label="Email"
                         name="email"
                         autoComplete="Email"
-                        // value={formState.email}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.email}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -109,7 +112,7 @@ export const EditUserPage = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         required
                         fullWidth
@@ -117,40 +120,40 @@ export const EditUserPage = () => {
                         label="Domicilio"
                         name="domicilio"
                         autoComplete="Domicilio"
-                        // value={formState.email}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.email}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         fullWidth
                         id="dpto"
                         label="Dpto"
                         name="dpto"
                         autoComplete="Departamento"
-                        // value={formState.email}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.email}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={2}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         fullWidth
                         id="piso"
                         label="Piso"
                         name="piso"
                         autoComplete="Piso"
-                        // value={formState.email}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.email}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 
                 <Grid item xs={12} md={2}>
                     <TextField 
-                        // error={state.errorMessage.length > 0 ?  true : false}
+                        error={state.errorMessage.length > 0 ?  true : false}
                         margin="normal"
                         required
                         fullWidth
@@ -158,8 +161,8 @@ export const EditUserPage = () => {
                         label="C.P"
                         name="codpost"
                         autoComplete="CodPost"
-                        // value={formState.email}
-                        // onChange={ (event ) => onInputChange(event) }
+                        value={formState.email}
+                        onChange={ (event ) => onInputChange(event) }
                     />
                 </Grid>
                 <Grid item xs={12} md={6}>
@@ -175,7 +178,7 @@ export const EditUserPage = () => {
                         <MenuItem key={1} value={'admin'}>Administrador</MenuItem>
                     </TextField>
                 </Grid>
-                {/* <Grid item xs={12} md={12}>
+                <Grid item xs={12} md={12}>
                     <FormControlLabel 
                         label="Usuario Habilitado" 
                         control={
@@ -185,12 +188,12 @@ export const EditUserPage = () => {
                             />
                         } 
                     />
-                </Grid> */}
+                </Grid> 
                 <Grid item xs={12} md={12}>
                     <Button variant='contained' size='large' color='info'>GUARDAR</Button>
                 </Grid>
             </Grid>
-        </Box> 
+        </Box> */} 
     </Paper>
   )
 }

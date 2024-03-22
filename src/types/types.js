@@ -24,13 +24,14 @@ export const types =  {
     },
 
     user: {
-        getUsers:   '[USERS]-USERS ALL',
-        getUser:    '[USERS]-USER BY ID',
-        editUser:   '[USERS]-USER UPDATE',
-        deleteUser: '[USERS]-USER DELETE',
-        isLoading:  '[USERS]-USER LOADING',
-        error:      '[USERS]-USER ERROR',
-        success:    '[USERS]-USER SUCCESS',
+        getUsers:       '[USERS]-USERS ALL',
+        userById:       '[USERS]-USER BY ID',
+        // editUser:       '[USERS]-USER UPDATE',
+        // deleteUser:     '[USERS]-USER DELETE',
+        startLoading:   '[USERS]-USER START LOADING',
+        stopLoading:    '[USERS]-USER STOP LOADING',
+        errors:          '[USERS]-USER ERROR',
+        // success:        '[USERS]-USER SUCCESS',
 
     }
 }
