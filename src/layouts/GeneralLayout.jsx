@@ -14,7 +14,7 @@ import { DashPage } from '../pages/dashboard/DashPage';
 import { Error404Page } from '../pages/error/Error404Page';
 import { UserPage } from '../pages/user/UserPage';
 import { ProductsPage } from '../pages/products/ProductsPage';
-import { EditUserPage } from '../pages/user/EditUserPage';
+import { EditUser } from '../pages/user/EditUser';
 import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
@@ -44,7 +44,7 @@ export function GeneralLayout() {
                 <Route  path='roles/crear' element={<CreateRole />} />
 
                 <Route  path='usuarios' element={<UserPage />} />
-                <Route  path='usuarios/editar/:id' element={<EditUserPage />} />
+                <Route  path='usuarios/editar/:id' element={<EditUser />} />
                 <Route  path='usuarios/crear' element={<CreateUser />} />
                 <Route  path='productos' element={<ProductsPage />} />
                 {/* <Route path='/' element={<Navigate to="/dashboard" />} /> */}

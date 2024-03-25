@@ -7,7 +7,6 @@ export const UserReducer = (state={}, action) => {
 
         case types.user.getUsers:
           return {
-            ...state,
             isLoading: false,
             users: action.payload.users,
             total: action.payload.total

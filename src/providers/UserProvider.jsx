@@ -8,10 +8,10 @@ import { types } from "../types/types"
 const initialState = {
     isLoading: true,
     users: null,
-    user: {},
+    user: null,
+    roles: null,
     total: 0,
-    errorMessage: '',
-    succesMessage: '',
+
 }
 
 
@@ -43,49 +43,54 @@ export const UserProvider = ({ children }) => {
                 }
             });
             
-        } catch (error) {
-             errorsUser(error.response.data.errors)
-        }finally{
-            dispatch({type: types.user.stopLoading})
-        }
+        } catch (error) {errorsUser(error.response.data.errors)
+        }finally{ dispatch({type: types.user.stopLoading}) }
     }
 
-    const userById = async (id) =>  {
-      
-        dispatch({type: types.user.startLoading})
-        try {        
+    const userById = async (id) => {
+        dispatch({ type: types.user.startLoading });
             await new Promise(resolve => setTimeout(resolve, 500));
-            
-             const [rolesResponse, userResponse] = await Promise.all([
-            dashAxios.get('role/all'),
-            dashAxios.get(`user/${id}`)
-        ]);
-
-        const dataRoles = rolesResponse.data.roles;
-        const data = userResponse.data;
-
-        dispatch({
-            type: types.user.userById,
-            payload: {
-                user: data.user,
-                roles: dataRoles
-            }
-        });
-            
-        } catch (error) {
-             errorsUser(error.response.data.errors)
-        }finally{
-            dispatch({type: types.user.stopLoading})
-        }
-    }
+            const [rolesResponse, userResponse] = await Promise.all([
+                dashAxios.get('role/all'),
+                dashAxios.get(`user/${id}`)
+            ]);
 
 
+            const dataRoles = rolesResponse.data.roles;
+            const dataUser = userResponse.data.user;
 
-     const errorsUser = (errors) => {
-            dispatch({ 
-                type: types.user.errors, 
-                payload: { errors: errors } 
+            dispatch({
+                type: types.user.userById,
+                payload: {
+                    user: dataUser,
+                    roles: dataRoles
+                }
             });
+
+            dispatch({ type: types.user.stopLoading });      
+            return { user: dataUser, roles: dataRoles }; 
+
+    };
+
+    const userUpdate = async (user) => {
+      await new Promise(resolve => setTimeout(resolve, 500));
+      const { data } = await dashAxios.put(`user/${user.id}`, user);
+      console.log('response', data)
+    //   dispatch({ 
+    //      type: types.user.editRole,
+    //      payload: {
+    //         success: {accion: 'edit', msg:"El rol fue editado con exito"}
+    //      }
+    //   });      
+   }
+
+
+    const errorsUser = (errors) => {
+        console.log(errors)
+        dispatch({ 
+            type: types.user.errors, 
+            payload: errors
+        });
     };
 
 
@@ -94,7 +99,9 @@ export const UserProvider = ({ children }) => {
             state,
             getUsers,
             errorsUser,
-            userById
+            userById,
+            userUpdate
+
         }}>
             { children }
         </UserContext.Provider>
@@ -106,7 +113,7 @@ export const UserProvider = ({ children }) => {
 
 
 
-    /* const getUsers = async (page = 0) =>  {
+  /*    const getUsers = async (page = 0) =>  {
 
         const limit = 25;
         const { data } = await dashAxios.get(`users?limit=${limit}&page=${page}`);
@@ -219,4 +226,5 @@ export const UserProvider = ({ children }) => {
         }
 
 
-    } */
+    }  */
+   
