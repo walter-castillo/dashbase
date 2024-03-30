@@ -1,8 +1,4 @@
-
-
 import { Navigate, useLocation } from 'react-router-dom';
-
-
 
 export const PrivateRoutes = ({ children, isLogged}) => {
 

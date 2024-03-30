@@ -7,13 +7,9 @@ import { UserProvider } from './providers/UserProvider.jsx';
 import 'animate.css';
 import { RoleProvider } from './providers/RoleProvider.jsx';
 
-
-
-
-
-
 ReactDOM.createRoot(document.getElementById('root')).render(
-    <AuthProvider>
+    <>
+      <AuthProvider>
       <RoleProvider>
         <UserProvider>  
           <BrowserRouter>
@@ -21,5 +17,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           </BrowserRouter>
         </UserProvider>
       </RoleProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </>
 )

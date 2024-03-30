@@ -36,6 +36,18 @@ export const UserReducer = (state={}, action) => {
             roles: action.payload.roles,
           }
 
+        case types.user.allRoles:
+          return {
+            roles: action.payload.roles,
+          }
+            
+        case types.user.createUser:
+          return {
+            ...state,
+            success: {accion: 'create', msg:"El rol fue creado con exito"}
+          }
+
+            
         
 
 

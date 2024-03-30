@@ -76,6 +76,7 @@ export const AuthProvider = ({ children }) =>  {
 
     const checkAuthToken = async () => {
 
+        {console.log('desde checkAuthToken')}
         try {
             const token = localStorage.getItem('tokenName');
             if(!token){ return dispatch({type: types.auth.onLogout})}

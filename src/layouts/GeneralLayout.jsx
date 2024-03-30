@@ -18,7 +18,7 @@ import { EditUser } from '../pages/user/EditUser';
 import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
-import CreateUser from '../pages/user/CreateUser';
+import {CreateUser} from '../pages/user/CreateUser';
 
 
 const defaultTheme = createTheme();
@@ -27,7 +27,6 @@ export function GeneralLayout() {
     
     const [open, setOpen] = React.useState(false);
     const toggleDrawer = () => {setOpen(!open)};
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Box sx={{ display: 'flex' }}>
@@ -39,17 +38,20 @@ export function GeneralLayout() {
           <Container maxWidth="lg" sx={{ mt: 4, mb: 4 }}>
             <Routes>
               <Route  path='dashboard' element={<DashPage />}>
-                <Route  path='roles' element={<RolesPage />} />
-                <Route  path='roles/editar/:id' element={<EditRole />} />
-                <Route  path='roles/crear' element={<CreateRole />} />
 
                 <Route  path='usuarios' element={<UserPage />} />
                 <Route  path='usuarios/editar/:id' element={<EditUser />} />
                 <Route  path='usuarios/crear' element={<CreateUser />} />
+
+                <Route  path='roles' element={<RolesPage />} />
+                <Route  path='roles/editar/:id' element={<EditRole />} />
+                <Route  path='roles/crear' element={<CreateRole />} />
+
                 <Route  path='productos' element={<ProductsPage />} />
                 {/* <Route path='/' element={<Navigate to="/dashboard" />} /> */}
                 {/* <Route  path='/' element={<DashPage />} /> */}
               </Route>
+              
               <Route  path='/*' element={<Error404Page />} />
             </Routes>
             <FooterLayout sx={{ pt: 4 }} />

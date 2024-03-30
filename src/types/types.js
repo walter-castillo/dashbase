@@ -26,11 +26,13 @@ export const types =  {
     user: {
         getUsers:       '[USERS]-USERS ALL',
         userById:       '[USERS]-USER BY ID',
+        allRoles:       '[USERS]-ALL ROLES',
+        createUser:     '[USERS]-USER CREATE ',
         // editUser:       '[USERS]-USER UPDATE',
         // deleteUser:     '[USERS]-USER DELETE',
         startLoading:   '[USERS]-USER START LOADING',
         stopLoading:    '[USERS]-USER STOP LOADING',
-        errors:          '[USERS]-USER ERROR',
+        errors:         '[USERS]-USER ERROR',
         // success:        '[USERS]-USER SUCCESS',
 
     }

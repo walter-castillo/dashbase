@@ -9,28 +9,32 @@ import { Loading } from '../components/ui/Loading'
 import { RoleContext } from '../contexts/RoleContext'
 
 export const AppRoutes = () => {
+    useEffect( () => { 
+       
+            // checkAuthToken();
+            console.log('useefect')
+    
+    }, []);
 
     const {state:stateRole} = useContext(RoleContext)
     const { checkAuthToken, state }  = useContext(AuthContext);
-
-    useEffect( () => { checkAuthToken() }, []);
-
-    if(stateRole.isLoading){  return (<Loading />) }
-    if(state.isLoading){  return (<Loading />) }
+    console.log('first')
+    // if(stateRole.isLoading){  return (<Loading />) }
+    // if(state.isLoading){  return (<Loading />) }
 
     return (
         <>
             <Routes>
                 <Route path='/auth/*' element={
-                    <PublicRoutes isLogged={true}>
-                    {/* <PublicRoutes isLogged={state.isLogged}> */}
+                    // <PublicRoutes isLogged={true}>
+                    <PublicRoutes isLogged={state.isLogged}>
                         <AuthLayout />
                     </PublicRoutes>
                 } />
 
                 <Route path='/*' element={
-                    <PrivateRoutes  isLogged={true}>
-                    {/* <PrivateRoutes  isLogged={state.isLogged}> */}
+                    // <PrivateRoutes  isLogged={true}>
+                    <PrivateRoutes  isLogged={state.isLogged}>
                         <GeneralLayout />
                     </PrivateRoutes>
                 } />

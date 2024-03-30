@@ -13,7 +13,6 @@ import { ForgotPassword } from '../pages/auth/ForgotPassword';
 const defaultTheme = createTheme();
 
 export default function AuthLayout() {
-
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
