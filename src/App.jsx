@@ -3,9 +3,9 @@ import { AppRoutes } from "./Routes/AppRoutes"
 
 function App() {
   return (
-    <React.StrictMode>
+    // <React.StrictMode>
       <AppRoutes />
-     </React.StrictMode>
+    //  </React.StrictMode>
   )
 }
 

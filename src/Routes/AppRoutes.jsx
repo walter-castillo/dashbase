@@ -9,16 +9,10 @@ import { Loading } from '../components/ui/Loading'
 import { RoleContext } from '../contexts/RoleContext'
 
 export const AppRoutes = () => {
-    useEffect( () => { 
-       
-            // checkAuthToken();
-            console.log('useefect')
-    
-    }, []);
 
     const {state:stateRole} = useContext(RoleContext)
     const { checkAuthToken, state }  = useContext(AuthContext);
-    console.log('first')
+    // console.log('first')
     // if(stateRole.isLoading){  return (<Loading />) }
     // if(state.isLoading){  return (<Loading />) }
 

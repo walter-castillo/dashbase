@@ -19,6 +19,7 @@ import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
 import {CreateUser} from '../pages/user/CreateUser';
+import {ValidateRouter} from '../Routes/ValidateRouter';
 
 
 const defaultTheme = createTheme();
@@ -42,8 +43,20 @@ export function GeneralLayout() {
                 <Route  path='usuarios' element={<UserPage />} />
                 <Route  path='usuarios/editar/:id' element={<EditUser />} />
                 <Route  path='usuarios/crear' element={<CreateUser />} />
+               
 
-                <Route  path='roles' element={<RolesPage />} />
+              {/* <Route element={<ValidateRouter />} >
+                          <Route  path='roles' element={<RolesPage />} />
+              </Route> */}
+         
+              <Route path="roles" element={
+                  <ValidateRouter>
+                      <RolesPage />
+                    </ValidateRouter>}
+              />
+               
+               
+               
                 <Route  path='roles/editar/:id' element={<EditRole />} />
                 <Route  path='roles/crear' element={<CreateRole />} />
 
