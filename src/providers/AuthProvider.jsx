@@ -76,7 +76,7 @@ export const AuthProvider = ({ children }) =>  {
 
     const checkAuthToken = async () => {
         try {
-            const token = localStorage.getItem('tokenName');
+            const token = localStorage.getItem(tokenName);
             if(!token){ return dispatch({type: types.auth.onLogout})}
 
             const { data } = await dashAxios.get('auth/token/user');
