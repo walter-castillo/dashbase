@@ -10,8 +10,11 @@ if (!state.isLogged) {
   return <Navigate to={"/register"} />;
   
 }
-    console.log(state.user)
-    checkAuthToken()
+    // console.log(state.user)
+    // checkAuthToken()
+
+
+    
     // if (!rolesAllowed.includes(userAuth?.role))  return  <Navigate to={"/login"} />;
     // if (!rolesAllowed.includes(userAuth?.role))  return <Navigate to={-1} />;
     // if (!userAuth) return <Navigate to={"/login"}  />;
