@@ -4,14 +4,14 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { Alert } from '@mui/material';
-import { useContext } from 'react';
-import { AuthContext } from '../../contexts/AuthContext';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string, ref } from 'yup';
 import { HeaderAuth } from './HeaderAuth';
+
+import {useAuth} from '../../providers/AuthProvider';
 
 const registerSchema = object().shape({
     name: string()
@@ -42,10 +42,10 @@ const registerSchema = object().shape({
         .oneOf([ref('password'), null], 'Las contraseñas deben coincidir'),
 });
 
-export default function RegisterPage() {
+export  function RegisterPage() {
 
-    const {register:registerContext, state}= useContext(AuthContext)
-
+  const { register:registerContext, state } = useAuth();
+    
     const { register, handleSubmit, formState: { errors }, reset } = useForm({resolver: yupResolver(registerSchema)});
       
     const onSubmit = handleSubmit(async (data)=>{

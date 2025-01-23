@@ -5,7 +5,7 @@ import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import { Alert } from '@mui/material';
-import { AuthContext } from '../../contexts/AuthContext';
+import {useAuth} from '../../providers/AuthProvider';
 import { useForm} from 'react-hook-form'
 import Errors from '../../components/ui/Errors';
 
@@ -24,7 +24,7 @@ const loginSchema = object().shape({
 });
 
 export const LoginPage = () => {
-  const { login, state } = useContext(AuthContext);
+  const { login, state } = useAuth();
   const { register, handleSubmit, reset, formState: { errors }} = 
   useForm({resolver: yupResolver(loginSchema)});
 

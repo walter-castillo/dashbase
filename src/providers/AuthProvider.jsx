@@ -1,8 +1,9 @@
-import { useReducer } from "react";
-import { AuthContext } from "../contexts/AuthContext";
+import { useReducer, createContext, useContext } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
+
+const AuthContext = createContext();
 
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
@@ -16,7 +17,7 @@ const initialState = {
 }
  
 
-export const AuthProvider = ({ children }) =>  {
+export  const AuthProvider = ({ children }) =>  {
 
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
    
@@ -114,15 +115,31 @@ export const AuthProvider = ({ children }) =>  {
         }, 3000);
     };
 
-    return (
-        <AuthContext.Provider value={{
-            state,
-            login,
-            logout,
-            checkAuthToken,
-            register
-        }}>
+
+  const contextValue = {
+    state,
+        // user: state.user,
+        // isLogged: state.isLogged,
+        // token: state.token,
+        // success: state.success,
+        // error: state.error,
+        login,
+        logout,
+        checkAuthToken,
+        register
+    };
+ 
+    return ( 
+        <AuthContext.Provider value={contextValue}>
             { children }
         </ AuthContext.Provider>
     )
 }
+
+
+export const useAuth = () => {
+  return useContext(AuthContext);
+};
+
+
+// export default useAuth

@@ -1,38 +1,21 @@
-import React, { useContext, useEffect } from 'react'
-import { Route, Routes } from 'react-router-dom'
-import { PrivateRoutes } from './PrivateRoutes'
-import { GeneralLayout } from '../layouts/GeneralLayout'
-import AuthLayout from '../layouts/AuthLayout'
-import { PublicRoutes } from './PublicRoutes'
-import { AuthContext } from '../contexts/AuthContext'
-import { Loading } from '../components/ui/Loading'
-import { RoleContext } from '../contexts/RoleContext'
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
 
-export const AppRoutes = () => {
+import {LoginPage} from '../pages/auth/LoginPage';
+import {RegisterPage} from '../pages/auth/RegisterPage';
+import {UserPage} from '../pages/user/UserPage';
+// import Dashboard from '../pages/dashboard/DashPage';
 
-    const {state:stateRole} = useContext(RoleContext)
-    const { checkAuthToken, state }  = useContext(AuthContext);
-    // console.log('first')
-    // if(stateRole.isLoading){  return (<Loading />) }
-    // if(state.isLoading){  return (<Loading />) }
 
-    return (
-        <>
-            <Routes>
-                <Route path='/auth/*' element={
-                    // <PublicRoutes isLogged={true}>
-                    <PublicRoutes isLogged={state.isLogged}>
-                        <AuthLayout />
-                    </PublicRoutes>
-                } />
+const AppRoutes = () => {
+  return (
+    <Routes>
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/" element={<RegisterPage />} />
+      <Route path="/about" element={<UserPage />} />
+      {/* <Route path="/dashboard" element={<PrivateRoute component={Dashboard} />} /> */}
+    </Routes>
+  );
+};
 
-                <Route path='/*' element={
-                    // <PrivateRoutes  isLogged={true}>
-                    <PrivateRoutes  isLogged={state.isLogged}>
-                        <GeneralLayout />
-                    </PrivateRoutes>
-                } />
-            </Routes>
-        </>
-    )
-}
+export default AppRoutes;
