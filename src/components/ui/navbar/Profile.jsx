@@ -10,10 +10,10 @@ import Typography from '@mui/material/Typography';
 import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useAuth } from '../../../providers/AuthProvider';
 
 export default function Profile() {
-  const { logout } = useContext( AuthContext );
+  const { logout } = useAuth();
   // const onClickLogout = () => { logout() }
 
 

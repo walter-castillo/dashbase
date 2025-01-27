@@ -4,14 +4,14 @@ import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert,
 import { Loading } from '../../components/ui/Loading';
 import { Error404Page } from '../error/Error404Page';
 import Errors from '../../components/ui/Errors';
-import { UserContext } from '../../contexts/UserContext';
-import { AuthContext } from '../../contexts/AuthContext';
+import { useUser } from '../../providers/UserProvider';
+// import { useAuth } from '../../providers/AuthProvider';
 
 
 export const CreateUser = () => {
+  // const { state:userAuth} = userAuth();
   const navigate = useNavigate();
-  const { state, isLoading, setIsLoading, allRoles, userCreate } = useContext(UserContext);
-  const { state:userAuth} = useContext(AuthContext);
+  const { state, isLoading, setIsLoading, allRoles, userCreate } = useUser();
 
   const [idsRoles, setIdsRoles] = useState([]);
   const [errorCreate, setErrorCreate] = useState(null)
@@ -146,7 +146,7 @@ const handleRoleChange = (e) => {
             </div>
           ))}
           <Divider sx={{ my: 3 }} />
-        {userAuth.user &&(
+        {/* {userAuth.user &&( */}
           <Button
             type="submit"
             variant="contained"
@@ -156,7 +156,7 @@ const handleRoleChange = (e) => {
             {buttonLoading ? "Cargando..." : "Crear Rol"}
 
           </Button>
-        )}
+        {/* )} */}
         
           <Button
             component={Link}

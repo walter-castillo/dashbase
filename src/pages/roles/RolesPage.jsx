@@ -2,7 +2,6 @@ import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper
 import { useContext, useEffect } from 'react';
 
 
-import { RoleContext } from '../../contexts/RoleContext';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import { Link } from "react-router-dom";
@@ -10,10 +9,12 @@ import { Loading } from '../../components/ui/Loading';
 import  Errors  from '../../components/ui/Errors';
 import  {ConfirmationDeleteAlert} from '../../helpers/confirmationDeleteAlert';
 import  {showAlert} from '../../helpers/showAlert';
+import { useRole } from '../../providers/RoleProvider';
 
 export const RolesPage = () => {
 
-  const { state, getRoles, roleDelete } = useContext(RoleContext);
+  const { state, getRoles, roleDelete } = useRole();
+  console.log(state)
 
   useEffect(() => {
     if (state.success?.accion=='edit')    showAlert(state.success.msg, 'success',900) 

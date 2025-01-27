@@ -9,13 +9,13 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { AppBar } from "./AppBar";
 import { Button } from "@mui/material";
 import { useContext } from "react";
-import { AuthContext } from "../../../contexts/AuthContext";
+import { useAuth } from "../../../providers/AuthProvider";
 
 import  Profile  from "./Profile";
 
 
 export  const NavBar = ({ toggleDrawer, open }) => {
-  const { logout } = useContext( AuthContext );
+  const { logout } = useAuth();
   const onClickLogout = () => { logout()}
 
   return (

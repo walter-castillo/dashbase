@@ -5,14 +5,14 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { FooterLayout } from '../components/ui/FooterLayout';
 import { Route, Routes } from 'react-router-dom';
-import RegisterPage from '../pages/auth/RegisterPage';
-import { LoginPage } from '../pages/auth';
+import {RegisterPage} from '../pages/auth/RegisterPage';
+import { LoginPage } from '../pages/auth/LoginPage';
 import { ForgotPassword } from '../pages/auth/ForgotPassword';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function AuthLayout() {
+export  function AuthLayout() {
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">

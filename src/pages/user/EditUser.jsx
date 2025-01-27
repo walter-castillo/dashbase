@@ -1,16 +1,17 @@
  import React, { useState, useEffect, useContext } from 'react'
 import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid, Typography } from "@mui/material";
-import { UserContext } from '../../contexts/UserContext';
+
 import { Loading } from '../../components/ui/Loading';
 import { useParams, Link, useNavigate } from "react-router-dom";
 import Errors from '../../components/ui/Errors';
+import { useUser } from '../../providers/UserProvider';
 
  
 
 export const EditUser = () => {
     const { id } = useParams();
        const navigate = useNavigate();
-    const {  state, userById, userUpdate } = useContext(UserContext);
+    const {  state, userById, userUpdate } = useUser();
     const [roles, setRoles] = useState({roles:[]})
     const [user, setUser] = useState({
         uid:"" ,
@@ -29,6 +30,7 @@ useEffect(() => {
     const fetchData = async () => {
         try {
            const data = await userById(id);
+           console.log(data)
             setUser(data.user);
             setRoles(data.roles);
             setIdsRolesUser(data.user.roles.map(role => role._id)); 
@@ -74,7 +76,7 @@ navigate('/dashboard/usuarios')
   };
 
 
-if (!state.user && !state.roles) { return <Loading />  }
+if (!state?.user && !state?.roles) { return <Loading />  }
 
 
 return (

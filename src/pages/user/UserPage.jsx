@@ -1,18 +1,19 @@
 import React, { useContext, useEffect, useRef, useState } from 'react';
 import { DataGrid , useGridApiRef } from '@mui/x-data-grid';
-import { UserContext } from '../../contexts/UserContext';
+
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Typography, Box } from '@mui/material';
 import { columns, getDataRows,  dataGridConfig } from './dataGridUserConfig'; 
 import { Loading } from '../../components/ui/Loading';
 import Errors from '../../components/ui/Errors';
+import { useUser } from '../../providers/UserProvider';
 
 export const UserPage = () => {
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(0);
   const [filterModel, setFilterModel] = useState({});
   const [sortModel, setSortModel] = useState({});
-  const { state, getUsers } = useContext(UserContext);
+  const { state, getUsers } = useUser();
 
   useEffect(() => {
     const params = {

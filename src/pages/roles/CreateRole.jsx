@@ -1,17 +1,17 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid } from "@mui/material";
-import { RoleContext } from '../../contexts/RoleContext';
 import { Loading } from '../../components/ui/Loading';
 import { Error404Page } from '../error/Error404Page';
 import Errors from '../../components/ui/Errors';
   import  {showAlert} from '../../helpers/showAlert';
+import { useRole } from '../../providers/RoleProvider';
 
 
 export const CreateRole = () => {
 
      const navigate = useNavigate();
-  const { state, allPermissions, roleCreate } = useContext(RoleContext);
+  const { state, allPermissions, roleCreate } = useRole();
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
   const [errorCreateLoad, setErrorCreateLoad] = useState(null)
   const [errorCreate, setErrorCreate] = useState(null)

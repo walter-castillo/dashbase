@@ -1,21 +1,38 @@
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { useContext, useEffect } from 'react'
+import { Route, Routes } from 'react-router-dom'
+import { PrivateRoutes } from './PrivateRoutes'
+import { GeneralLayout } from '../layouts/GeneralLayout'
+import {AuthLayout} from '../layouts/AuthLayout'
+import { PublicRoutes } from './PublicRoutes'
+import { useAuth} from '../providers/AuthProvider'
+import { Loading } from '../components/ui/Loading'
+import { useRole } from '../providers/RoleProvider'
 
-import {LoginPage} from '../pages/auth/LoginPage';
-import {RegisterPage} from '../pages/auth/RegisterPage';
-import {UserPage} from '../pages/user/UserPage';
-// import Dashboard from '../pages/dashboard/DashPage';
+export const AppRoutes = () => {
 
+    const {state:stateRole} = useRole
+    const { checkAuthToken, state }  = useAuth();
+    // console.log('first')
+    // if(stateRole.isLoading){  return (<Loading />) }
+    // if(state.isLoading){  return (<Loading />) }
 
-const AppRoutes = () => {
-  return (
-    <Routes>
-      <Route path="/login" element={<LoginPage />} />
-      <Route path="/" element={<RegisterPage />} />
-      <Route path="/about" element={<UserPage />} />
-      {/* <Route path="/dashboard" element={<PrivateRoute component={Dashboard} />} /> */}
-    </Routes>
-  );
-};
+    return (
+        <>
+            <Routes>
+                <Route path='/auth/*' element={
+                    // <PublicRoutes isLogged={true}>
+                    <PublicRoutes isLogged={state.isLogged}>
+                        <AuthLayout />
+                    </PublicRoutes>
+                } />
 
-export default AppRoutes;
+                <Route path='/*' element={
+                    // <PrivateRoutes  isLogged={true}>
+                    <PrivateRoutes  isLogged={state.isLogged}>
+                        <GeneralLayout />
+                    </PrivateRoutes>
+                } />
+            </Routes>
+        </>
+    )
+}

@@ -1,15 +1,15 @@
 import { useState, useEffect, useContext } from 'react';
 import { useParams, Link, useNavigate } from "react-router-dom";
 import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid } from "@mui/material";
-import { RoleContext } from '../../contexts/RoleContext';
 import { Loading } from '../../components/ui/Loading';
 import Errors from '../../components/ui/Errors';
 import { Error404Page } from '../error/Error404Page';
+import { useRole } from '../../providers/RoleProvider';
 
 export const EditRole = () => {
   const { id } = useParams();
    const navigate = useNavigate();
-  const { state, allPermissions, getRoleById, roleUpdate, startLoading, stopLoading } = useContext(RoleContext);
+  const { state, allPermissions, getRoleById, roleUpdate, startLoading, stopLoading } = useRole();
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
   const [errorEdit, setErrorEdit] = useState(null)
   const [errorEditLoad, setErrorEditLoad] = useState(null)

@@ -1,9 +1,9 @@
-import { useReducer, useState } from "react"
-import { UserContext } from "../contexts/UserContext"
+import { useReducer, useState, createContext, useContext } from "react"
 import { UserReducer } from "../reducers/UserReducer"
 import { dashAxios } from "../config/DashRcAxios"
 import { types } from "../types/types"
 
+const UserContext = createContext();
 
 const initialState = {
     isLoading: true,
@@ -116,23 +116,30 @@ export const UserProvider = ({ children }) => {
     };
 
 
+    const contextValue = {
+        state,
+        isLoading,
+        setIsLoading,
+        getUsers,
+        errorsUser,
+        userById,
+        userUpdate,
+        allRoles,
+        userCreate
+    }
+
+
     return (
-        <UserContext.Provider value={{
-            state,
-            isLoading,
-            setIsLoading,
-            getUsers,
-            errorsUser,
-            userById,
-            userUpdate,
-            allRoles,
-            userCreate
-        }}>
+        <UserContext.Provider value={contextValue}>
             { children }
         </UserContext.Provider>
     )
 
 }
+
+export const useUser = () => {
+  return useContext(UserContext);
+};
 
 
 

@@ -1,8 +1,10 @@
-import { useReducer, useState } from "react"
-import { RoleContext } from '../contexts/RoleContext'
+import { useReducer, useState, createContext, useContext } from "react"
 import { RoleReducer } from "../reducers/RoleReducer"
 import { dashAxios } from "../config/DashRcAxios"
 import { types } from "../types/types"
+
+
+const RoleContext = createContext();
 
 const initialState = {
    roles: null,
@@ -113,18 +115,24 @@ export const RoleProvider = ({ children }) => {
          });
       }, 2000);
    };
-  
+
+   const contextValue = {
+      state,
+      getRoles,
+      allPermissions,
+      getRoleById,
+      roleUpdate,
+      roleCreate,
+      roleDelete
+    };
+ 
    return (
-      <RoleContext.Provider value={{
-         state,
-         getRoles,
-         allPermissions,
-         getRoleById,
-         roleUpdate,
-         roleCreate,
-         roleDelete
-      }}>
+      <RoleContext.Provider value={contextValue}>
          { children }
       </RoleContext.Provider>
    )
 }
+
+export const useRole = () => {
+   return useContext(RoleContext);
+};

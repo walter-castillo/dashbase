@@ -24,7 +24,7 @@ export  const AuthProvider = ({ children }) =>  {
     const register = async (dataUserRegister) =>  {
         try {
             dispatch({ type: types.auth.startLoading });
-            const {data} = await dashAxios.post('user/', dataUserRegister);
+            const {data} = await dashAxios.post('auth/register', dataUserRegister);
             dispatch({type: types.auth.onRegister});
 
             successClear();
@@ -80,7 +80,7 @@ export  const AuthProvider = ({ children }) =>  {
             const token = localStorage.getItem(tokenName);
             if(!token){ return dispatch({type: types.auth.onLogout})}
 
-            const { data } = await dashAxios.get('auth/token/user');
+            const { data } = await dashAxios.post('auth/token/user');
             localStorage.setItem(tokenName, data.res.token);
 
             dispatch({
@@ -140,6 +140,3 @@ export  const AuthProvider = ({ children }) =>  {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
-
-
-// export default useAuth

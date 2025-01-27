@@ -19,7 +19,7 @@ import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
 import {CreateUser} from '../pages/user/CreateUser';
-import {ValidateRouter} from '../Routes/ValidateRouter';
+// import {ValidateRouter} from '../Routes/ValidateRouter';
 
 
 const defaultTheme = createTheme();
@@ -50,9 +50,10 @@ export function GeneralLayout() {
               </Route> */}
          
               <Route path="roles" element={
-                  <ValidateRouter>
+                  // <ValidateRouter>
                       <RolesPage />
-                    </ValidateRouter>}
+                    // </ValidateRouter>
+                  }
               />
                
                
