@@ -9,14 +9,14 @@ import { RoleProvider } from './providers/RoleProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
+            <BrowserRouter>
       <AuthProvider>
         <UserProvider>  
           <RoleProvider>
-            <BrowserRouter>
               <App />
-            </BrowserRouter>
           </RoleProvider>
         </UserProvider>
       </AuthProvider>
+            </BrowserRouter>
     </>
 )

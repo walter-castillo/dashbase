@@ -2,6 +2,7 @@ import { useReducer, createContext, useContext } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -77,6 +78,7 @@ export  const AuthProvider = ({ children }) =>  {
     };
 
     const checkAuthToken = async () => {
+        const navigate = useNavigate(); 
         try {
             const token = localStorage.getItem(tokenName);
             if(!token){ return dispatch({type: types.auth.onLogout})}
@@ -95,6 +97,7 @@ export  const AuthProvider = ({ children }) =>  {
                 type: types.auth.onLogout,
                 payload: {  errorMessage: '' }
             });
+              navigate('/auth/login');
         }
     };
 
