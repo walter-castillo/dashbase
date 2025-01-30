@@ -1,4 +1,4 @@
-import * as React from 'react';
+import { useState } from 'react';
 import {createTheme, ThemeProvider } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 
@@ -19,14 +19,13 @@ import { RolesPage } from '../pages/roles/RolesPage';
 import { EditRole } from '../pages/roles/EditRole';
 import { CreateRole } from '../pages/roles/CreateRole';
 import {CreateUser} from '../pages/user/CreateUser';
-// import {ValidateRouter} from '../Routes/ValidateRouter';
 
 
 const defaultTheme = createTheme();
 
 export function GeneralLayout() {
-    
-    const [open, setOpen] = React.useState(false);
+
+    const [open, setOpen] = useState(false);
     const toggleDrawer = () => {setOpen(!open)};
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -43,12 +42,7 @@ export function GeneralLayout() {
                 <Route  path='usuarios' element={<UserPage />} />
                 <Route  path='usuarios/editar/:id' element={<EditUser />} />
                 <Route  path='usuarios/crear' element={<CreateUser />} />
-               
-
-              {/* <Route element={<ValidateRouter />} >
-                          <Route  path='roles' element={<RolesPage />} />
-              </Route> */}
-         
+                       
               <Route path="roles" element={
                   // <ValidateRouter>
                       <RolesPage />

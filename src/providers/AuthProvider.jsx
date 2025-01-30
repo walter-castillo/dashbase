@@ -3,22 +3,23 @@ import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
 
+
+
+
 const AuthContext = createContext();
 
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 const initialState = {
-  user: null, 
-  isLogged: false,
-  token: '',
-  success: null,
-  error: null,
-  isLoading: false,
+    user: null, 
+    isLogged: false,
+    token: '',
+    success: null,
+    error: null,
+    isLoading: false,
 }
- 
 
 export  const AuthProvider = ({ children }) =>  {
-
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
    
     const register = async (dataUserRegister) =>  {
@@ -84,7 +85,7 @@ export  const AuthProvider = ({ children }) =>  {
             localStorage.setItem(tokenName, data.res.token);
 
             dispatch({
-                type:  types.auth.onLogin,
+                type:  types.auth.onToken,
                 payload: { user: data.res }
             });
             

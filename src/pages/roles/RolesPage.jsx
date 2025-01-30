@@ -14,8 +14,6 @@ import { useRole } from '../../providers/RoleProvider';
 export const RolesPage = () => {
 
   const { state, getRoles, roleDelete } = useRole();
-  console.log(state)
-
   useEffect(() => {
     if (state.success?.accion=='edit')    showAlert(state.success.msg, 'success',900) 
     if (state.success?.accion=='create')  showAlert(state.success.msg, 'success',900) 

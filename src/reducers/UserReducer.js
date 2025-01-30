@@ -46,8 +46,7 @@ export const UserReducer = (state={}, action) => {
             ...state,
             success: {accion: 'create', msg:"El rol fue creado con exito"}
           }
-
-            
+             
         
 
 

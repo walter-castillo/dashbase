@@ -10,28 +10,31 @@ import { useRole } from '../providers/RoleProvider'
 
 export const AppRoutes = () => {
 
-    const {state:stateRole} = useRole
+    const {state:stateRole} = useRole();
     const { checkAuthToken, state }  = useAuth();
-    // console.log('first')
-    // if(stateRole.isLoading){  return (<Loading />) }
-    // if(state.isLoading){  return (<Loading />) }
+
+    // useEffect(() => { checkAuthToken()}, [checkAuthToken]);
+
+    if (stateRole.isLoading || state.isLoading) { return <Loading />    }
 
     return (
         <>
             <Routes>
-                <Route path='/auth/*' element={
-                    // <PublicRoutes isLogged={true}>
-                    <PublicRoutes isLogged={state.isLogged}>
-                        <AuthLayout />
-                    </PublicRoutes>
-                } />
 
-                <Route path='/*' element={
-                    // <PrivateRoutes  isLogged={true}>
-                    <PrivateRoutes  isLogged={state.isLogged}>
+                if (state.isLogged) {
+                    <Route path='/*' element={
+                    //  <PrivateRoutes  isLogged={state.isLogged}>
                         <GeneralLayout />
-                    </PrivateRoutes>
+                    // </PrivateRoutes>
                 } />
+                }else{
+                    <Route path='/auth/*' element={
+                        // <PublicRoutes isLogged={state.isLogged}>         
+                            <AuthLayout />
+                        // </PublicRoutes>
+                    } />
+                }
+               
             </Routes>
         </>
     )

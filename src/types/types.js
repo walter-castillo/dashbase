@@ -21,6 +21,7 @@ export const types =  {
         getRoleById:    '[ROLES]-ROLE BY ID',
         error:          '[ROLES]-ROLE ERROR',
         success:        '[ROLES]-ROLE SUCCESS',
+        resetContext:    '[USERS]-ROLE_RESET',
     },
 
     user: {
@@ -33,6 +34,7 @@ export const types =  {
         startLoading:   '[USERS]-USER START LOADING',
         stopLoading:    '[USERS]-USER STOP LOADING',
         errors:         '[USERS]-USER ERROR',
+        resetContext:         '[USERS]-USER_RESET',
         // success:        '[USERS]-USER SUCCESS',
 
     }

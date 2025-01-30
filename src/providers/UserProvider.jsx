@@ -108,12 +108,18 @@ export const UserProvider = ({ children }) => {
 
 
     const errorsUser = (errors) => {
-        console.log(errors)
         dispatch({ 
             type: types.user.errors, 
             payload: errors
         });
     };
+
+    const ResetUserContext = () => {
+        dispatch({ 
+            type: types.user.resetContext,
+            payload: initialState
+        });
+    }
 
 
     const contextValue = {

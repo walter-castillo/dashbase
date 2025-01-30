@@ -8,9 +8,11 @@ import { Route, Routes } from 'react-router-dom';
 import {RegisterPage} from '../pages/auth/RegisterPage';
 import { LoginPage } from '../pages/auth/LoginPage';
 import { ForgotPassword } from '../pages/auth/ForgotPassword';
+import { useAuth } from '../providers/AuthProvider';
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
+
 
 export  function AuthLayout() {
   return (
@@ -25,7 +27,8 @@ export  function AuthLayout() {
             alignItems: 'center',
              minHeight: '80vh'
           }}
-        >
+          >
+         
           <Routes>
             <Route path='/login' element={<LoginPage />} />
             <Route path='/register' element={<RegisterPage />} />

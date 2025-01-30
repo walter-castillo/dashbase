@@ -31,9 +31,10 @@ export const AuthReducer = (state={}, action ) => {
                 return {};
 
             case types.auth.onToken:
+               
                 return {
                     ...state,
-                    token: action.payload
+                    token: action.payload,
                 };
 
             case types.auth.startLoading:
