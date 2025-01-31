@@ -9,16 +9,7 @@ import { useRole } from '../providers/RoleProvider';
 import { Loading } from '../components/ui/Loading';
 
 export const AppRoutes = () => {
-  const { state: stateRole } = useRole();
-  const { checkAuthToken, state } = useAuth();
-
-  useEffect(() => {
-    checkAuthToken();
-  }, []);
-
-  if (stateRole.isLoading || state.isLoading) {
-    return <Loading />;
-  }
+  const { state } = useAuth();
 
   return (
     <Routes>
