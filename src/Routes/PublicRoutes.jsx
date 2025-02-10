@@ -1,6 +1,12 @@
 import { Navigate, useLocation } from 'react-router-dom';
+import { useAuth } from '../providers/AuthProvider';
+
+const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 export const PublicRoutes = ({ children, isLogged }) => {
+  const {state} = useAuth();
+  const token = !!localStorage.getItem(tokenName);
+
   const path = localStorage.getItem('lastRoute') || '/dashboard';
-  return !isLogged ? children : <Navigate to={path} />;
+  return (state.isLogged || token )? <Navigate to={path} />  : children;
 };

@@ -37,7 +37,6 @@ export const LoginPage = () => {
   return (
     <>
       <HeaderAuth  />
-
       <Box component="form"  onSubmit={handleSubmit(onSubmit)} noValidate sx={{ mt: 1 }}>
         <TextField
           margin="normal"
@@ -78,14 +77,14 @@ export const LoginPage = () => {
         </Button>
         <Grid container>
           <Grid item xs>
-            <Link to={'/auth/forgotPassword'} >
+            <Link to={'/forgotPassword'} >
               <Button variant='text'>
                 Olvide la contraseña
               </Button>
             </Link>
           </Grid>
           <Grid item>
-            <Link to={'/auth/register'}>
+            <Link to={'/register'}>
               <Button variant='text'>
                 Registrarse
               </Button>

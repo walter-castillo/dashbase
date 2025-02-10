@@ -154,7 +154,7 @@ return (
         </Button>
         <Grid container justifyContent="flex-end">
         <Grid item>
-            <Link to={'/auth/login'}>
+            <Link to={'/login'}>
             <Button variant='text'>
                 Ingresar
             </Button>
