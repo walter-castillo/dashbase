@@ -9,7 +9,7 @@ import { RoleProvider } from './providers/RoleProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
-            <BrowserRouter>
+    <BrowserRouter>
       <AuthProvider>
         <UserProvider>  
           <RoleProvider>
@@ -17,6 +17,6 @@ ReactDOM.createRoot(document.getElementById('root')).render(
           </RoleProvider>
         </UserProvider>
       </AuthProvider>
-            </BrowserRouter>
+    </BrowserRouter>
     </>
 )

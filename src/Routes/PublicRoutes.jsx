@@ -7,6 +7,7 @@ export const PublicRoutes = ({ children, isLogged }) => {
   const {state} = useAuth();
   const token = !!localStorage.getItem(tokenName);
 
-  const path = localStorage.getItem('lastRoute') || '/dashboard';
+  const path = '/dashboard';
+  // const path = localStorage.getItem('lastRoute') || '/dashboard';
   return (state.isLogged || token )? <Navigate to={path} />  : children;
 };

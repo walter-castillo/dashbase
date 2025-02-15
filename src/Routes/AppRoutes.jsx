@@ -51,13 +51,27 @@ export const AppRoutes = () => {
 
 
 
+{/* <PrivateRoutes
+  component={Dashboard}
+  requiredRoles={["admin", "editor"]}
+  requiredPermissions={["view_dashboard", "edit_posts"]}
+  redirectTo="/login"
+/> */}
+
+
 
 
 
 
 <Route path="/dashboard/*" element={<GeneralLayout />}>
 
-                <Route path="usuarios"  index element={<UserPage />} />
+                {/* <Route path="usuarios"  index element={<UserPage />} /> */}
+                <Route path="usuarios"  index element={<PrivateRoutes
+                    component={UserPage}
+                    requiredRoles={["Medico"]}
+                    // requiredPermissions={["view_dashboard", "edit_posts"]}
+                    redirectTo="/login"
+                  /> } />
 
                 <Route path="usuarios/editar/:id" element={<EditUser />} />
                 <Route path="usuarios/crear" element={<CreateUser />} />

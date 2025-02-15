@@ -33,3 +33,17 @@ export const PERMISSIONS = {
   PERMISOS_VER_TODOS: 'permisos.ver.todos',
 };
 
+/* {
+  "uid": "6777e5b07d82198fc44f1784",
+  "name": "Usuario3",
+  "email": "email3@email.com",
+  "phone": "1234567893",
+  "roles": [
+    "Medico",
+    "Paciente",
+    "Super-Administrador"
+  ],
+  "permissions": [
+    "estudios.ver.todos"
+  ]
+} */

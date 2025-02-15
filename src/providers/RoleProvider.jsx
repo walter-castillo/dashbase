@@ -116,6 +116,12 @@ export const RoleProvider = ({ children }) => {
       }, 2000);
    };
 
+   const resetRoleContext = () => {
+        dispatch({ 
+            type: types.role.resetRoleContext
+        });
+    }
+
 
    const contextValue = {
       state,
@@ -124,7 +130,8 @@ export const RoleProvider = ({ children }) => {
       getRoleById,
       roleUpdate,
       roleCreate,
-      roleDelete
+      roleDelete,
+      resetRoleContext
     };
  
    return (

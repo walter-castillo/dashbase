@@ -1,6 +1,5 @@
 import { types } from "../types/types";
 
-
 export const UserReducer = (state={}, action) => {
   
     switch (action.type) {
@@ -46,6 +45,16 @@ export const UserReducer = (state={}, action) => {
             ...state,
             success: {accion: 'create', msg:"El rol fue creado con exito"}
           }
+
+        case types.user.resetUserContext:
+            return {
+                isLoading: true,
+                users: null,
+                user: null,
+                roles: null,
+                total: 0,
+            }
+
              
         
 

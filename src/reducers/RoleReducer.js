@@ -54,6 +54,13 @@ export const RoleReducer = (state={}, action) => {
                 ...state,
                   success: action.payload.success
             };
+            
+        case types.role.resetRoleContext:
+            return {
+              roles: null,
+              success: null,
+
+            }
     
         default: state;
     }

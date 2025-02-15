@@ -2,14 +2,11 @@ import { useReducer, createContext, useContext } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
-import { useNavigate } from "react-router-dom";
-
-
-
 
 const AuthContext = createContext();
 
-const  tokenName =  import.meta.env.VITE_TOKEN_NAME
+
+const  tokenName =  import.meta.env.VITE_TOKEN_NAME 
 
 const initialState = {
     user: null, 
@@ -19,6 +16,7 @@ const initialState = {
     error: null,
     isLoading: false,
 }
+
 
 export  const AuthProvider = ({ children }) =>  {
     const [ state, dispatch ] = useReducer(AuthReducer, initialState);
@@ -75,10 +73,11 @@ export  const AuthProvider = ({ children }) =>  {
         dispatch({ type: types.auth.onLogout });
         dispatch({ type: types.auth.stopLoading }); 
         successClear()
+     setTimeout(() => { window.location.href = "/login"}, 100);
     };
 
     const checkAuthToken = async () => {
-        const navigate = useNavigate(); 
+        
         try {
             const token = localStorage.getItem(tokenName);
             if(!token){ return dispatch({type: types.auth.onLogout})}
@@ -97,7 +96,7 @@ export  const AuthProvider = ({ children }) =>  {
                 type: types.auth.onLogout,
                 payload: {  errorMessage: '' }
             });
-              navigate('/auth/login');
+
         }
     };
 
@@ -119,6 +118,11 @@ export  const AuthProvider = ({ children }) =>  {
         }, 3000);
     };
 
+    const resetAuthContext = () => {
+        dispatch({ 
+            type: types.auth.resetAuthContext,
+        });
+    }
 
   const contextValue = {
     state,
@@ -130,7 +134,8 @@ export  const AuthProvider = ({ children }) =>  {
         login,
         logout,
         checkAuthToken,
-        register
+        register,
+        resetAuthContext
     };
  
     return ( 

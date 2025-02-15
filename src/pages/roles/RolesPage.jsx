@@ -10,10 +10,13 @@ import  Errors  from '../../components/ui/Errors';
 import  {ConfirmationDeleteAlert} from '../../helpers/confirmationDeleteAlert';
 import  {showAlert} from '../../helpers/showAlert';
 import { useRole } from '../../providers/RoleProvider';
+import  {useResetContext}  from '../../hooks/useResetContext';
 
 export const RolesPage = () => {
+ const resetAllContexts = useResetContext();
 
   const { state, getRoles, roleDelete } = useRole();
+
   useEffect(() => {
     if (state.success?.accion=='edit')    showAlert(state.success.msg, 'success',900) 
     if (state.success?.accion=='create')  showAlert(state.success.msg, 'success',900) 
@@ -35,6 +38,8 @@ const handleDelete = (roleId) => {
 
   return (
        <>
+       <button onClick={resetAllContexts}>Recargar</button>
+       
       <Button component={Link} to="crear" variant="contained" color="primary" style={{ marginBottom: '1rem' }}>Crear Nuevo Rol</Button>
       <TableContainer component={Paper}>
         <Table style={{ borderCollapse: 'collapse' }}>

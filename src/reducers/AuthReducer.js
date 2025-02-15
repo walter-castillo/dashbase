@@ -34,7 +34,8 @@ export const AuthReducer = (state={}, action ) => {
                
                 return {
                     ...state,
-                    token: action.payload,
+                    user: action.payload.user,
+                    token: action.payload.token,
                 };
 
             case types.auth.startLoading:
@@ -54,11 +55,15 @@ export const AuthReducer = (state={}, action ) => {
                     error: action.payload.error
                 };
         
-            case types.auth.success:
+            case types.auth.resetAuthContext:
                 return {
-                    ...state,
-                     success: action.payload.success
-                };
+                    user: null, 
+                    isLogged: false,
+                    token: '',
+                    success: null,
+                    error: null,
+                    isLoading: false,
+                }
 
             default:
             return state;

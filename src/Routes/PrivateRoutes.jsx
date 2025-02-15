@@ -1,31 +1,80 @@
-import { Navigate, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 
+const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 export const PrivateRoutes = ({
   component: Component,
-  requiredRole,
+  requiredRoles = [],
   requiredPermissions = [],
-  redirectTo = '/',
+  redirectTo = "/",
 }) => {
-
   const { state } = useAuth();
+  const token = localStorage.getItem(tokenName);
+  const [isValidToken, setIsValidToken] = useState(null); // null indica que aún no se ha validado
 
-  if (!state.isLogged)  <Navigate to={redirectTo} replace /> 
+if (! state.user) { return <Navigate to="/login" />; }
 
-  
+  /* 
+  useEffect(() => {
+    const validateToken = async () => {
+      if (!token) {
+        setIsValidToken(false);
+        return;
+      }
 
-  if (requiredRole && state.user.role !== requiredRole) { return <Navigate to={redirectTo} replace />  }
+      try {
+        const response = await fetch("https://tu-api.com/auth/validate-token", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-  if (requiredPermissions.length > 0) {
-    const hasPermission = requiredPermissions.every(permission =>
-      state.user.permissions?.includes(permission)
-    );
+        if (response.ok) {
+          setIsValidToken(true);
+        } else {
+          localStorage.removeItem("token");
+          setIsValidToken(false);
+        }
+      } catch (error) {
+        console.error("Error validando el token:", error);
+        setIsValidToken(false);
+      }
+    };
 
-  if (!hasPermission) { return <Navigate to={redirectTo} replace />   }
+    validateToken();
+  }, [token]); */
 
+  // // Mientras se valida el token, se puede mostrar un loader
+  // if (isValidToken === null) {
+  //   return <div>Cargando...</div>;
+  // }
+
+  // Si el token no es válido o el usuario no está logueado, redirige
+  // if (!isValidToken || !state.isLogged) {
+  //   return <Navigate to={redirectTo} replace />;
+  // }
+
+  // Validación de roles (si se proporcionan)
+  if (
+    requiredRoles.length > 0 &&
+    !requiredRoles.some(role => state.user.roles?.includes(role))
+  ) {
+    return <Navigate to={redirectTo} replace />;
   }
 
+  // Validación de permisos (si se proporcionan)
+  if (
+    requiredPermissions.length > 0 &&
+    !requiredPermissions.every(permission => state.user.permissions?.includes(permission))
+  ) {
+    return <Navigate to={redirectTo} replace />;
+  }
+
+  // Si todo está bien, renderiza el componente
   return <Component />;
 };
 

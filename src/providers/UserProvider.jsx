@@ -6,13 +6,13 @@ import { types } from "../types/types"
 const UserContext = createContext();
 
 const initialState = {
-    isLoading: true,
     users: null,
     user: null,
     roles: null,
     total: 0,
+    isLoading: true,
 
-}
+} 
 
 
 export const UserProvider = ({ children }) => {
@@ -114,10 +114,9 @@ export const UserProvider = ({ children }) => {
         });
     };
 
-    const ResetUserContext = () => {
+    const resetUserContext = () => {
         dispatch({ 
-            type: types.user.resetContext,
-            payload: initialState
+            type: types.user.resetUserContext
         });
     }
 
@@ -131,8 +130,9 @@ export const UserProvider = ({ children }) => {
         userById,
         userUpdate,
         allRoles,
-        userCreate
-    }
+        userCreate,
+        resetUserContext
+    };
 
 
     return (
