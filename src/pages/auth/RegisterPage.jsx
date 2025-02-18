@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -29,7 +29,7 @@ const registerSchema = object().shape({
         .required('El correo electrónico es requerido'),
 
     phone: string()
-        .matches(/^\d{5}$/, 'Ingrese un número de teléfono válido de 10 dígitos')
+        .matches(/^\d{4}$/, 'Ingrese un número de teléfono válido de 10 dígitos')
         .required('El teléfono es requerido'),
 
     password: string()
@@ -43,6 +43,7 @@ const registerSchema = object().shape({
 });
 
 export  function RegisterPage() {
+    const navigate = useNavigate();
 
   const { register:registerContext, state } = useAuth();
     
@@ -57,6 +58,7 @@ export  function RegisterPage() {
         passwordConfirmation: data.passwordConfirmation,
       });
       reset();
+      navigate('/login');
     })
  
 return (

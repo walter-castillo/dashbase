@@ -13,7 +13,7 @@ import { useRole } from '../../providers/RoleProvider';
 import  {useResetContext}  from '../../hooks/useResetContext';
 
 export const RolesPage = () => {
- const resetAllContexts = useResetContext();
+ const {resetAllContexts} = useResetContext();
 
   const { state, getRoles, roleDelete } = useRole();
 

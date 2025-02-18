@@ -10,7 +10,7 @@ const initialState = {
     user: null,
     roles: null,
     total: 0,
-    isLoading: true,
+    isLoading: false,
 
 } 
 
@@ -18,15 +18,13 @@ const initialState = {
 export const UserProvider = ({ children }) => {
 
     const [ state, dispatch ] = useReducer(UserReducer,  initialState);
-      const [isLoading, setIsLoading] = useState(true);
+      const [isLoading, setIsLoading] = useState(false);
 
 
     const getUsers = async (params) =>  {
         const{page, limit, field, operator, value, sort, fieldSort} = params;
-
-        dispatch({type: types.user.startLoading})
         try {        
-            await new Promise(resolve => setTimeout(resolve, 500));
+            // await new Promise(resolve => setTimeout(resolve, 500));
             
             let url = `user?limit=${limit}&page=${page}`;
             
@@ -43,7 +41,6 @@ export const UserProvider = ({ children }) => {
                     total: data.total
                 }
             });
-            
         } catch (error) {errorsUser(error.response.data.errors)
         }finally{ dispatch({type: types.user.stopLoading}) }
     }

@@ -1,4 +1,4 @@
-import {useState, useContext}from 'react';
+import {useState}from 'react';
 import Box from '@mui/material/Box';
 import Avatar from '@mui/material/Avatar';
 import Menu from '@mui/material/Menu';
@@ -11,10 +11,21 @@ import PersonAdd from '@mui/icons-material/PersonAdd';
 import Settings from '@mui/icons-material/Settings';
 import Logout from '@mui/icons-material/Logout';
 import { useAuth } from '../../../providers/AuthProvider';
+import { useResetContext } from '../../../hooks/useResetContext';
+import { useNavigate } from 'react-router-dom';
 
+// const navigate = useNavigate()
 export default function Profile() {
-  const { logout } = useAuth();
-  // const onClickLogout = () => { logout() }
+  const navigate = useNavigate()
+  const { logout:logoutProfile } = useAuth();
+  const {resetAllContexts}= useResetContext()
+
+  const onClickLogout = () => {
+     logoutProfile(); 
+     resetAllContexts()
+     navigate('/login')
+    }
+
 
 
   const [anchorEl, setAnchorEl] = useState(null);
@@ -24,6 +35,7 @@ export default function Profile() {
   
   return (
     <>
+    <button onClick={onClickLogout}>Recargar</button>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
         <Typography sx={{ minWidth: 50, fontSize: 12 }}>Contact</Typography>
         <Typography sx={{ minWidth: 80, fontSize: 12}}>Profile</Typography>
@@ -96,7 +108,7 @@ export default function Profile() {
 
 
 
-        <MenuItem onClick={logout}>
+        <MenuItem onClick={onClickLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>

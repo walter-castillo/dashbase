@@ -5,7 +5,6 @@ import { dashAxios } from "../config/DashRcAxios";
 
 const AuthContext = createContext();
 
-
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME 
 
 const initialState = {
@@ -68,12 +67,12 @@ export  const AuthProvider = ({ children }) =>  {
     };
     
     const logout = () => {
+        console.log('logout auth provider');
         dispatch({ type: types.auth.startLoading });
         localStorage.removeItem(tokenName);
         dispatch({ type: types.auth.onLogout });
         dispatch({ type: types.auth.stopLoading }); 
         successClear()
-     setTimeout(() => { window.location.href = "/login"}, 100);
     };
 
     const checkAuthToken = async () => {

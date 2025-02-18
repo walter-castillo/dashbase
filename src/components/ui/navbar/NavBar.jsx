@@ -15,8 +15,6 @@ import  Profile  from "./Profile";
 
 
 export  const NavBar = ({ toggleDrawer, open }) => {
-  const { logout } = useAuth();
-  const onClickLogout = () => { logout()}
 
   return (
     <AppBar position="absolute" open={open}>

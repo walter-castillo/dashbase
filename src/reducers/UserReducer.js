@@ -48,7 +48,7 @@ export const UserReducer = (state={}, action) => {
 
         case types.user.resetUserContext:
             return {
-                isLoading: true,
+                isLoading: false,
                 users: null,
                 user: null,
                 roles: null,

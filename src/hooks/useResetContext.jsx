@@ -15,6 +15,6 @@ export const useResetContext = () => {
     console.log("Contexto reseteado");
   };
 
-  return resetAllContexts;
+  return {resetAllContexts};
 };
  
