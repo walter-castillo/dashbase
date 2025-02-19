@@ -7,6 +7,7 @@ export const Error404Page = () => {
 
     <>
         <Grid mt={'10%'}>
+          {console.log('Error404Page')}
           <Box noValidate sx={{ mt: 1, textAlign:'center' }}>
             <AnnouncementIcon sx={{ fontSize: 100 }} />
               <Typography variant='h2' fontFamily={'fantasy'} color={'primary.main'}>ERROR 404</Typography>

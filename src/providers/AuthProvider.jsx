@@ -66,8 +66,7 @@ export  const AuthProvider = ({ children }) =>  {
         }finally { dispatch({ type: types.auth.stopLoading }) }         
     };
     
-    const logout = () => {
-        console.log('logout auth provider');
+    const logout =async () => {
         dispatch({ type: types.auth.startLoading });
         localStorage.removeItem(tokenName);
         dispatch({ type: types.auth.onLogout });

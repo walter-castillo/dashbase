@@ -1,112 +1,68 @@
-import React, { useContext, useEffect } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { PrivateRoutes} from './PrivateRoutes';
-import { PublicRoutes } from './PublicRoutes';
-import { GeneralLayout } from '../layouts/GeneralLayout';
-import { AuthLayout } from '../layouts/AuthLayout';
-import { useAuth } from '../providers/AuthProvider';
-import { useRole } from '../providers/RoleProvider';
-import { Loading } from '../components/ui/Loading';
+import React from "react";
+import { Route, Routes } from "react-router-dom";
+import { PrivateRoutes } from "./PrivateRoutes";
+import { GeneralLayout } from "../layouts/GeneralLayout";
+import { UserPage } from "../pages/user/UserPage";
+import { EditUser } from "../pages/user/EditUser";
+import { CreateUser } from "../pages/user/CreateUser";
+import { RolesPage } from "../pages/roles/RolesPage";
+import { EditRole } from "../pages/roles/EditRole";
+import { CreateRole } from "../pages/roles/CreateRole";
+import { ProductsPage } from "../pages/products/ProductsPage";
 
-import { Error404Page } from '../pages/error/Error404Page';
-import { UserPage } from '../pages/user/UserPage';
-import { ProductsPage } from '../pages/products/ProductsPage';
-import { EditUser } from '../pages/user/EditUser';
-import { RolesPage } from '../pages/roles/RolesPage';
-import { EditRole } from '../pages/roles/EditRole';
-import { CreateRole } from '../pages/roles/CreateRole';
-import { CreateUser} from '../pages/user/CreateUser';
+import { Error404Page } from "../pages/error/Error404Page";
+import { Unauthorized } from "../pages/error/Unauthorized";
+import { useAuth } from "../providers/AuthProvider";
 
-
-import { RegisterPage} from '../pages/auth/RegisterPage';
-import { LoginPage } from '../pages/auth/LoginPage';
-import { ForgotPassword } from '../pages/auth/ForgotPassword';
-import { HomePage } from '../pages/home/HomePage';
-import { Unauthorized } from '../pages/error/Unauthorized';
+import { PublicRoutes } from "./PublicRoutes";
+import { AuthLayout } from "../layouts/AuthLayout";
+import { HomePage } from "../pages/home/HomePage";
+import { LoginPage } from "../pages/auth/LoginPage";
+import { RegisterPage } from "../pages/auth/RegisterPage";
+import { ForgotPassword } from "../pages/auth/ForgotPassword";
+import { Public } from "./Public";
+import { Private } from "./Private";
 
 
 export const AppRoutes = () => {
-
   const { state } = useAuth();
-
   return (
     <Routes>
-        <Route path="/*" element={<AuthLayout />}>
-            <Route index element={<HomePage />} />  
-            <Route path="login" element={<PublicRoutes>
-				<LoginPage />
-			</PublicRoutes>} />
-            <Route path="register" element={<RegisterPage />} />
-            <Route path="forgotPassword" element={<ForgotPassword />} />
-        </Route>
-     
-    <Route path="/" element={<GeneralLayout />}>
-      <Route
-        path="usuarios"
-        element={<PrivateRoutes component={UserPage} requiredRoles={['admin']} />}
-      />  
+
+if (state.isLogged) {
+  
+      Public()
+}
+      {Private()}
+  
+     {/*  <Route path="/" element={<AuthLayout />}>
+        <Route index element={<HomePage />} />
+        <Route
+          path="login"
+          element={
+            <PublicRoutes>
+              <LoginPage />
+            </PublicRoutes>
+          }
+        />
+        <Route path="register" element={<RegisterPage />} />
+        <Route path="forgotPassword" element={<ForgotPassword />} />
+      </Route> */}
+
+
+    {/*  <Route path="/dashboard/*" element={<GeneralLayout />}>
+        <Route path="usuarios" element={<PrivateRoutes component={UserPage} requiredRoles={["Medico"]} redirectTo="/login" /> }/>
+        <Route path="usuarios/editar/:id" element={<EditUser />} />
+        <Route path="usuarios/crear" element={<CreateUser />} />
+        <Route path="roles" element={<RolesPage />} />
+        <Route path="roles/editar/:id" element={<EditRole />} />
+        <Route path="roles/crear" element={<CreateRole />} />
+        <Route path="productos" element={<ProductsPage />} />
+      </Route> */}
+      
+      <Route path="/unauthorized" element={<Unauthorized />} />
+
       <Route path="*" element={<Error404Page />} />
-    </Route>
-
-
-
-
-{/* <PrivateRoutes
-  component={Dashboard}
-  requiredRoles={["admin", "editor"]}
-  requiredPermissions={["view_dashboard", "edit_posts"]}
-  redirectTo="/login"
-/> */}
-
-
-
-
-
-
-<Route path="/dashboard/*" element={<GeneralLayout />}>
-
-                {/* <Route path="usuarios"  index element={<UserPage />} /> */}
-                <Route path="usuarios"  index element={<PrivateRoutes
-                    component={UserPage}
-                    requiredRoles={["Medico"]}
-                    // requiredPermissions={["view_dashboard", "edit_posts"]}
-                    redirectTo="/login"
-                  /> } />
-
-                <Route path="usuarios/editar/:id" element={<EditUser />} />
-                <Route path="usuarios/crear" element={<CreateUser />} />
-                <Route path="roles" element={<RolesPage />} />
-                <Route path="roles/editar/:id" element={<EditRole />} />
-                <Route path="roles/crear" element={<CreateRole />} />
-                <Route path="productos" element={<ProductsPage />} />
-            
-        </Route> 
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/*" element={<Error404Page />} />
-
-
-
-</Routes>
-
-
-
-       
-       
-  )
+    </ Routes>
+  );
 };
-
-{/* <Route path="/dashboard/*" element={<GeneralLayout />}>
-
-                <Route path="usuarios"  index element={<UserPage />} />
-
-                <Route path="usuarios/editar/:id" element={<EditUser />} />
-                <Route path="usuarios/crear" element={<CreateUser />} />
-                <Route path="roles" element={<RolesPage />} />
-                <Route path="roles/editar/:id" element={<EditRole />} />
-                <Route path="roles/crear" element={<CreateRole />} />
-                <Route path="productos" element={<ProductsPage />} />
-            
-        </Route> 
-        <Route path="/unauthorized" element={<Unauthorized />} />
-        <Route path="/*" element={<Error404Page />} />
-    </Routes> */}
