@@ -3,7 +3,7 @@ import { useAuth } from '../providers/AuthProvider';
 
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
-export const PublicRoutes = ({ children, isLogged }) => {
+export const ValidatePublic = ({ children, isLogged }) => {
   const {state} = useAuth();
   const token = !!localStorage.getItem(tokenName);
 

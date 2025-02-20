@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { PublicRoutes } from "./PublicRoutes";
+import { PublicRoutes } from "./ValidatePublic";
 import { AuthLayout } from "../layouts/AuthLayout";
 import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";

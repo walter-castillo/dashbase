@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "./PrivateRoutes";
+import { PrivateRoutes } from "./ValidatePrivate";
 import { GeneralLayout } from "../layouts/GeneralLayout";
 import { UserPage } from "../pages/user/UserPage";
 import { EditUser } from "../pages/user/EditUser";
@@ -14,7 +14,7 @@ import { Error404Page } from "../pages/error/Error404Page";
 import { Unauthorized } from "../pages/error/Unauthorized";
 import { useAuth } from "../providers/AuthProvider";
 
-import { PublicRoutes } from "./PublicRoutes";
+import { PublicRoutes } from "./ValidatePublic";
 import { AuthLayout } from "../layouts/AuthLayout";
 import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";

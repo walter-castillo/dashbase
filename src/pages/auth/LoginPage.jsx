@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Grid from '@mui/material/Grid';
@@ -25,6 +25,8 @@ const loginSchema = object().shape({
 
 export const LoginPage = () => {
   const { login, state } = useAuth();
+
+  const  navigate  = useNavigate();
   const { register, handleSubmit, reset, formState: { errors }} = 
   useForm({resolver: yupResolver(loginSchema)});
 
@@ -32,6 +34,7 @@ export const LoginPage = () => {
     // await login({email:data.email, password:data.password});
     await login({email:'email3@email.com', password: '123123Abc' });
     reset();
+    navigate('/dashboard/usuarios');
   };
 
   return (

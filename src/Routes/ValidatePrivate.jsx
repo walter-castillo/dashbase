@@ -4,7 +4,7 @@ import { useAuth } from "../providers/AuthProvider";
 
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
-export const PrivateRoutes = ({
+export const ValidatePrivate = ({
   component: Component,
   requiredRoles = [],
   requiredPermissions = [],

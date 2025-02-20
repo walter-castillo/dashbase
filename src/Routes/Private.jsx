@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { PrivateRoutes } from "./PrivateRoutes";
+import {  ValidatePrivate } from "./ValidatePrivate";
 import { GeneralLayout } from "../layouts/GeneralLayout";
 import { UserPage } from "../pages/user/UserPage";
 import { EditUser } from "../pages/user/EditUser";
@@ -16,13 +16,14 @@ export const Private = () => {
   return (
     <>
       <Route path="/dashboard/*" element={<GeneralLayout />}>
-        <Route path="usuarios" element={<PrivateRoutes component={UserPage} requiredRoles={["Medico"]} redirectTo="/login" /> }/>
+        <Route path="usuarios" element={<ValidatePrivate component={UserPage} requiredRoles={["Medico"]} redirectTo="/login" /> }/>
         <Route path="usuarios/editar/:id" element={<EditUser />} />
         <Route path="usuarios/crear" element={<CreateUser />} />
         <Route path="roles" element={<RolesPage />} />
         <Route path="roles/editar/:id" element={<EditRole />} />
         <Route path="roles/crear" element={<CreateRole />} />
         <Route path="productos" element={<ProductsPage />} />
+        <Route path="*" element={<Error404Page />} />
       </Route>
     </>
   );
