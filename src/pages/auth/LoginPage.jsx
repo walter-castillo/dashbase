@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
@@ -12,6 +12,7 @@ import Errors from '../../components/ui/Errors';
 import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from 'yup';
 import { HeaderAuth } from './HeaderAuth';
+import { useResetContext } from '../../hooks/useResetContext';
 
 const loginSchema = object().shape({
     email: string(),
@@ -25,6 +26,7 @@ const loginSchema = object().shape({
 
 export const LoginPage = () => {
   const { login, state } = useAuth();
+  const { resetAllContexts } = useResetContext()
 
   const  navigate  = useNavigate();
   const { register, handleSubmit, reset, formState: { errors }} = 
@@ -36,6 +38,12 @@ export const LoginPage = () => {
     reset();
     navigate('/dashboard/usuarios');
   };
+
+ useEffect(() => {
+   resetAllContexts()
+ }, [])
+ 
+
 
   return (
     <>

@@ -21,13 +21,13 @@ export default function Profile() {
   const {resetAllContexts}= useResetContext()
 
   const onClickLogout = () => {
-     logoutProfile(); 
-     resetAllContexts()
-     navigate('/login')
+    //  resetAllContexts()
+    //  navigate('/login')
+    resetAllContexts("/login");
     }
 
 
-
+ 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {  setAnchorEl(event.currentTarget)};
@@ -35,7 +35,7 @@ export default function Profile() {
   
   return (
     <>
-    <button onClick={onClickLogout}>Recargar</button>
+    <button onClick={onClickLogout}>Recargar1</button>
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
         <Typography sx={{ minWidth: 50, fontSize: 12 }}>Contact</Typography>
         <Typography sx={{ minWidth: 80, fontSize: 12}}>Profile</Typography>
