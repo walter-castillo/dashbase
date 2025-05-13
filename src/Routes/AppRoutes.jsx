@@ -18,7 +18,8 @@ export const AppRoutes = () => {
       
       {Public()}
       {Private()}
-      {/* if(token)  {Private()} */}
+      {/* if(token)  {Private()}
+      if(!!token)  {Public()} */}
 
       <Route path="/unauthorized" element={<Unauthorized />} />
       <Route path="*" element={<Error404Page />} />

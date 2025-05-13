@@ -11,12 +11,15 @@ import { CreateRole } from "../pages/roles/CreateRole";
 import { ProductsPage } from "../pages/products/ProductsPage";
 import { Unauthorized } from "../pages/error/Unauthorized";
 import { Error404Page } from "../pages/error/Error404Page";
+
+import { PERMISOS, ROLES } from '../data/constants';
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 
 
 const ProtectedLayout = () => {
   const token = localStorage.getItem(tokenName);
+  // return <Outlet />;
   return (!!token) ? <Outlet />   : <Navigate to={'/login'} />;
 }
 
@@ -24,18 +27,25 @@ export const Private = () => {
 
    return (
     // <Route path="/dashboard/*" element={token ? < Outlet /> : <Navigate to='/login' /> }>
-    <Route element={<ProtectedLayout />}>
+    // <Route element={<ProtectedLayout />}>
       <Route element={<GeneralLayout />}> 
-        <Route path="/dashboard/usuarios" element={<ValidatePrivate component={UserPage} requiredRoles={["Medico"]} redirectTo="/login" />} />
-        <Route path="/dashboard/usuarios/editar/:id" element={<EditUser />} />
-        <Route path="/dashboard/usuarios/crear" element={<CreateUser />} />
-        <Route path="/dashboard/roles" element={<RolesPage />} />
-        <Route path="/dashboard/roles/editar/:id" element={<EditRole />} />
-        <Route path="/dashboard/roles/crear" element={<CreateRole />} />
-        <Route path="/dashboard/productos" element={<ProductsPage />} />
-        <Route path="*" element={<Error404Page />} />
+         <Route path="/dashboard/usuarios" element={
+            <ValidatePrivate component={UserPage} requiredPermissions={[PERMISOS.USUARIOS_VER_TODOS]} redirectTo="/login" />
+         } />
+
+         <Route path="/dashboard/usuarios/editar/:id" element={<EditUser />} />
+         <Route path="/dashboard/usuarios/crear" element={<CreateUser />} />
+         <Route path="/dashboard/roles" element={<RolesPage />} />
+         <Route path="/dashboard/roles/editar/:id" element={<EditRole />} />
+
+
+         <Route path="/dashboard/roles/crear" element={
+            <ValidatePrivate component={CreateRole} requiredRoles={[ROLES.MEDICO]} redirectTo="/login" />
+         } />
+         <Route path="/dashboard/productos" element={<ProductsPage />} />
+         <Route path="*" element={<Error404Page />} />
       </Route>
-    </Route>
+    // </Route>
 
   );
 };

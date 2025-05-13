@@ -34,9 +34,9 @@ export const LoginPage = () => {
 
   const onSubmit = async(data) => {
     // await login({email:data.email, password:data.password});
-    await login({email:'email3@email.com', password: '123123Abc' });
+    await login({email:'email5@email.com', password: '123123Abc' });
     reset();
-    navigate('/dashboard/usuarios');
+    navigate('/dashboard/productos');
   };
 
  useEffect(() => {

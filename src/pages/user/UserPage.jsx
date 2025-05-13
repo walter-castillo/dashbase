@@ -7,6 +7,9 @@ import { columns, getDataRows,  dataGridConfig } from './dataGridUserConfig';
 import { Loading } from '../../components/ui/Loading';
 import Errors from '../../components/ui/Errors';
 import { useUser } from '../../providers/UserProvider';
+import { useAuth } from '../../providers/AuthProvider';
+import { PERMISOS } from '../../data/constants';
+import { useHasAccess } from '../../hooks/useHasAccess';
 
 export const UserPage = () => {
   const [pageSize, setPageSize] = useState(10);
@@ -14,6 +17,10 @@ export const UserPage = () => {
   const [filterModel, setFilterModel] = useState({});
   const [sortModel, setSortModel] = useState({});
   const { state, getUsers } = useUser();
+  const { state:stateAuth } = useAuth();
+  const hasAccess = useHasAccess();
+
+  const permUserCreate = hasAccess({ permiso: PERMISOS.USUARIO_CREAR })
 
   useEffect(() => {
     const params = {
@@ -55,12 +62,19 @@ export const UserPage = () => {
 
   // if (state.errors) { return (<Errors errorsBack={state.errors} />)  }
   if (state.users== null) { return <Loading />  }
-
+if (!stateAuth?.user) return <Loading />
   return (
     <div>
       <Box display="flex" justifyContent="space-between" alignItems="center">
         <Typography variant="h4" gutterBottom>Lista de Usuarios</Typography>
-        <Button component={Link} to="crear" variant="contained">Crear Usuario</Button>
+
+        {/* {console.log(stateAuth.user.permissions.includes('PERMISOS.USUARIO_CREAR'),stateAuth)} */}
+        {console.log(permUserCreate)}
+        {/* <Button component={Link} to="crear" variant="contained">Crear Usuario</Button> */}
+
+        {/* {stateAuth.user.permissions.includes(PERMISOS.USUARIO_CREAR) && (<Button component={Link} to="crear" variant="contained">Crear Usuario</Button>)} */}
+        
+        {permUserCreate && (<Button component={Link} to="crear" variant="contained">Crear Usuario</Button>)}
       </Box>
       <div style={{ overflow: 'hidden' }}>
         <DataGrid

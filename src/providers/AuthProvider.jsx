@@ -67,6 +67,7 @@ export  const AuthProvider = ({ children }) =>  {
     };
     
     const logout =async () => {
+        console.log('logout');
         dispatch({ type: types.auth.startLoading });
         localStorage.removeItem(tokenName);
         dispatch({ type: types.auth.onLogout });
@@ -75,29 +76,34 @@ export  const AuthProvider = ({ children }) =>  {
     };
 
     const checkAuthToken = async () => {
-        
-        try {
-            const token = localStorage.getItem(tokenName);
-            if(!token){ return dispatch({type: types.auth.onLogout})}
+        await new Promise(resolve => setTimeout(resolve, 2000));
+        const token = localStorage.getItem(tokenName);
 
+        if(!token){ return dispatch({type: types.auth.onLogout})}
+
+        try {
             const { data } = await dashAxios.post('auth/token/user');
-            localStorage.setItem(tokenName, data.res.token);
+
+            localStorage.setItem(tokenName, data.token);
 
             dispatch({
                 type:  types.auth.onToken,
-                payload: { user: data.res }
+                payload: { 
+                    user: data.user,
+                    token: data.token
+                 }
             });
             
-        } catch (error) {
-            localStorage.clear();
+        } catch (error) {  
+            localStorage.removeItem(tokenName);
             dispatch({
-                type: types.auth.onLogout,
-                payload: {  errorMessage: '' }
-            });
-
+                type: types.auth.error,
+                payload: { error: error.response.data.errors},
+            })
+            errorsClear()
         }
     };
-
+    
     const errorsClear = () => {
         return setTimeout(() => {
             dispatch({ 

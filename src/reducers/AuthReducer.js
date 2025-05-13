@@ -31,7 +31,6 @@ export const AuthReducer = (state={}, action ) => {
                 return {};
 
             case types.auth.onToken:
-               
                 return {
                     ...state,
                     user: action.payload.user,

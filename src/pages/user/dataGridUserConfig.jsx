@@ -13,7 +13,7 @@ export const columns = [
   filterOperators: getGridStringOperators().filter(operator => operator.value === 'contains')
   }, 
 
-  { field: 'email', headerName: 'Correo electrónico', width: 20, sortable: false, filterOperators: getGridStringOperators().filter(operator => operator.value === 'contains')}, 
+  { field: 'email', headerName: 'Correo electrónico', minWidth: 150, flex: 3 , sortable: false, filterOperators: getGridStringOperators().filter(operator => operator.value === 'contains')}, 
   { field: 'phone', headerName: 'Teléfono', width: 150, filterable: false, sortable: false },
   { field: 'roles', headerName: 'Roles', width: 250, filterable: false, sortable: false },
   { field: 'status', headerName: 'Activo', width: 60, type: "boolean", renderCell: (value) => <BooleanRender value={value} />},

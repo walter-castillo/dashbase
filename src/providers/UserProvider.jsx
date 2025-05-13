@@ -24,7 +24,7 @@ export const UserProvider = ({ children }) => {
     const getUsers = async (params) =>  {
         const{page, limit, field, operator, value, sort, fieldSort} = params;
         try {        
-            // await new Promise(resolve => setTimeout(resolve, 500));
+            // await new Promise(resolve => setTimeout(resolve, 5000));
             
             let url = `user?limit=${limit}&page=${page}`;
             
@@ -33,7 +33,7 @@ export const UserProvider = ({ children }) => {
             if (fieldSort && sort) url += `&fieldSort=${fieldSort}&sort=${sort}`
     
             const {data} = await dashAxios.get(url);  
-    
+   
             dispatch({
                 type: types.user.getUsers,
                 payload:  {

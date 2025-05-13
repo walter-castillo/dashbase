@@ -22,8 +22,9 @@ export default function Profile() {
 
   const onClickLogout = () => {
     //  resetAllContexts()
-    //  navigate('/login')
-    resetAllContexts("/login");
+    resetAllContexts();
+    logoutProfile();
+     navigate('/login')
     }
 
 
