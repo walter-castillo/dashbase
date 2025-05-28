@@ -6,11 +6,19 @@ import { types } from "../types/types"
 
 const RoleContext = createContext();
 
-const initialState = {
+/* const initialState = {
    roles: null,
    success: null,
 
+} */
+const initialState = {
+   roles: [],
+   role: null,
+   permissions: [],
+   success: null,
+   errors: null,
 }
+
 
 export const RoleProvider = ({ children }) => {
 

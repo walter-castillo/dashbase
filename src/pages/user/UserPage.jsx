@@ -18,11 +18,12 @@ export const UserPage = () => {
   const [sortModel, setSortModel] = useState({});
   const { state, getUsers } = useUser();
   const { state:stateAuth } = useAuth();
-  const hasAccess = useHasAccess();
+  const permUserCreate = useHasAccess({ permiso: PERMISOS.USUARIO_CREAR });
 
-  const permUserCreate = hasAccess({ permiso: PERMISOS.USUARIO_CREAR })
+  // const permUserCreate = hasAccess({ permiso: PERMISOS.USUARIO_CREAR })
 
   useEffect(() => {
+
     const params = {
         page: page + 1,
         limit: pageSize,
@@ -31,6 +32,8 @@ export const UserPage = () => {
     };
   getUsers(params);
   }, [page, pageSize, filterModel, sortModel]);
+
+
 
   const rows = getDataRows(state.users, page, pageSize);
 
@@ -52,7 +55,7 @@ export const UserPage = () => {
     setPage(newModel.page);
     setPageSize(newModel.pageSize);
   };
-  
+   
   const navigate = useNavigate(); 
   
   const handleRowDoubleClick = (newModel) => {
