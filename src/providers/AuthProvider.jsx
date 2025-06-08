@@ -76,7 +76,7 @@ export  const AuthProvider = ({ children }) =>  {
     };
 
     const checkAuthToken = async () => {
-        await new Promise(resolve => setTimeout(resolve, 2000));
+        // await new Promise(resolve => setTimeout(resolve, 2000));
         const token = localStorage.getItem(tokenName);
 
         if(!token){ return dispatch({type: types.auth.onLogout})}

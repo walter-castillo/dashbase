@@ -34,13 +34,16 @@ export const Private = () => {
          } />
 
          <Route path="/dashboard/usuarios/editar/:id" element={<EditUser />} />
-         <Route path="/dashboard/usuarios/crear" element={<CreateUser />} />
+         <Route path="/dashboard/usuarios/crear" element={
+            <ValidatePrivate component={CreateUser} requiredPermissions={[PERMISOS.USUARIO_CREAR]} redirectTo="/login" />
+         } />
          <Route path="/dashboard/roles" element={<RolesPage />} />
          <Route path="/dashboard/roles/editar/:id" element={<EditRole />} />
 
 
+         {/* <Route path="/dashboard/roles/crear" element={<CreateRole />}/> */}
          <Route path="/dashboard/roles/crear" element={
-            <ValidatePrivate component={CreateRole} requiredRoles={[ROLES.MEDICO]} redirectTo="/login" />
+            <ValidatePrivate component={CreateRole} requiredPermissions={[PERMISOS.ROL_CREAR]} redirectTo="/login" />
          } />
          <Route path="/dashboard/productos" element={<ProductsPage />} />
          <Route path="*" element={<Error404Page />} />

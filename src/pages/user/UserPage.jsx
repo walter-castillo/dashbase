@@ -18,9 +18,12 @@ export const UserPage = () => {
   const [sortModel, setSortModel] = useState({});
   const { state, getUsers } = useUser();
   const { state:stateAuth } = useAuth();
+
+
+
   const permUserCreate = useHasAccess({ permiso: PERMISOS.USUARIO_CREAR });
 
-  // const permUserCreate = hasAccess({ permiso: PERMISOS.USUARIO_CREAR })
+
 
   useEffect(() => {
 
@@ -72,7 +75,6 @@ if (!stateAuth?.user) return <Loading />
         <Typography variant="h4" gutterBottom>Lista de Usuarios</Typography>
 
         {/* {console.log(stateAuth.user.permissions.includes('PERMISOS.USUARIO_CREAR'),stateAuth)} */}
-        {console.log(permUserCreate)}
         {/* <Button component={Link} to="crear" variant="contained">Crear Usuario</Button> */}
 
         {/* {stateAuth.user.permissions.includes(PERMISOS.USUARIO_CREAR) && (<Button component={Link} to="crear" variant="contained">Crear Usuario</Button>)} */}

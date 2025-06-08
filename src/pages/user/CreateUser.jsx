@@ -78,7 +78,7 @@ const handleRoleChange = (e) => {
       <Grid container spacing={2} justifyContent="center">
       <Grid item xs={12} md={6}>
         <form noValidate onSubmit={handleSubmit}>
-          <h3>Editar Usuario:</h3>
+          <h3>Crear Usuario:</h3>
           {errorCreate && <Errors errorsBack={errorCreate} />}
           <Grid container spacing={2}>
             <Grid item xs={12} md={6}>

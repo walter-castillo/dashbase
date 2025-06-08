@@ -1,4 +1,4 @@
-import { esES, getGridStringOperators, getGridBooleanOperators  } from '@mui/x-data-grid';
+import {  getGridStringOperators, getGridBooleanOperators  } from '@mui/x-data-grid';
 
 
 function BooleanRender( {value} ) {
@@ -33,7 +33,7 @@ export const getDataRows = (users, page, pageSize) => {
 };
 
 export const dataGridConfig = {
-  localeText: esES.components.MuiDataGrid.defaultProps.localeText,
+  // localeText: esES.components.MuiDataGrid.defaultProps.localeText,
   // sx: {'.MuiDataGrid-virtualScroller': { height: 'auto', minHeight: '100px' }},
   rowHeight:35,
   autoHeight:true,

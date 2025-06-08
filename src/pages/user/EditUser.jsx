@@ -30,7 +30,6 @@ useEffect(() => {
     const fetchData = async () => {
         try {
            const data = await userById(id);
-           console.log(data)
             setUser(data.user);
             setRoles(data.roles);
             setIdsRolesUser(data.user.roles.map(role => role._id)); 

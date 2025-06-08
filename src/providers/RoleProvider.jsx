@@ -48,6 +48,7 @@ export const RoleProvider = ({ children }) => {
    const allPermissions = async () =>  {
       // await new Promise(resolve => setTimeout(resolve, 1000));
       const { data } = await dashAxios.get('permission');
+    
       dispatch({
          type: types.role.allPermissions,
          payload: {
@@ -58,7 +59,7 @@ export const RoleProvider = ({ children }) => {
    }
 
    const getRoleById = async (id) => {
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // await new Promise(resolve => setTimeout(resolve, 1000));
       const { data } = await dashAxios.get(`role/${id}`);
       dispatch({
          type: types.role.getRoleById,
@@ -109,7 +110,7 @@ export const RoleProvider = ({ children }) => {
                }
             });
             successClear()     
-            console.log("Rol eliminado:", data);
+            // console.log("Rol eliminado:", data);
       } catch (error) {
          console.error("Error al eliminar el rol:", error);
       }

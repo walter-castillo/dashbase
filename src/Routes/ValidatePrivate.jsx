@@ -23,9 +23,7 @@ export const ValidatePrivate = ({
 
     const validateToken = async () => {
       if (token ) 
-      { 
-        await checkAuthToken()
-      }
+      {   await checkAuthToken()  }
       setLoading(false);
     };
 
@@ -33,10 +31,11 @@ export const ValidatePrivate = ({
   }, []);
 
   if (loading) { return <Loading /> }
- 
+
   if (!state.isLogged && !token) {
     return <Navigate to="/login" replace />;
   }
+ 
 
 const hasRole = requiredRoles.length === 0 ||             requiredRoles.some((role) => state.user.roles?.includes(role));
 const hasPermission = requiredPermissions.length === 0 || requiredPermissions.some((perm) => state.user.permissions?.includes(perm));
