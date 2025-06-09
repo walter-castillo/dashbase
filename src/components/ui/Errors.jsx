@@ -2,6 +2,7 @@ import Box from '@mui/material/Box';
 
 
 const Errors = ({errorsBack}) => {
+	console.log({errorsBack});
   return (
 	<Box
 	border={1}
@@ -12,7 +13,7 @@ const Errors = ({errorsBack}) => {
 	backgroundColor="#f9b3b3"
 	>
 		<ul>
-			{errorsBack.map((error, index) => (
+			{errorsBack?.map((error, index) => (
 			<li key={index} style={{ color: 'red', fontWeight: 'bold' }}>
 				{error.msg}
 			</li>

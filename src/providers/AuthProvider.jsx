@@ -1,4 +1,4 @@
-import { useReducer, createContext, useContext } from "react";
+import { useEffect, useReducer, createContext, useContext } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
 import { dashAxios } from "../config/DashRcAxios";
@@ -58,7 +58,7 @@ export  const AuthProvider = ({ children }) =>  {
         } catch (error) {  
             dispatch({
                 type: types.auth.error,
-                payload: { error: error.response.data.errors},
+                payload: { error: error.response.data.errors|| 'Login failed'},
             })
 
             errorsClear()
@@ -128,6 +128,12 @@ export  const AuthProvider = ({ children }) =>  {
         });
     }
 
+    useEffect(() => {
+    checkAuthToken().finally(() => {
+      dispatch({ type: types.auth.stopLoading });
+    });
+  }, []);
+
   const contextValue = {
     state,
         // user: state.user,
@@ -153,3 +159,4 @@ export  const AuthProvider = ({ children }) =>  {
 export const useAuth = () => {
   return useContext(AuthContext);
 };
+

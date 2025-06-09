@@ -33,8 +33,10 @@ export const AuthReducer = (state={}, action ) => {
             case types.auth.onToken:
                 return {
                     ...state,
+                    isLogged: true,
                     user: action.payload.user,
                     token: action.payload.token,
+                    loading: false,
                 };
 
             case types.auth.startLoading:

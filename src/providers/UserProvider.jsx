@@ -33,6 +33,7 @@ export const UserProvider = ({ children }) => {
             if (fieldSort && sort) url += `&fieldSort=${fieldSort}&sort=${sort}`
     
             const {data} = await dashAxios.get(url);  
+            console.log(data)
    
             dispatch({
                 type: types.user.getUsers,
