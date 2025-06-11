@@ -24,7 +24,7 @@ export const ProtectedRoutes = () => {
 if (!token) return <Navigate to="/login" replace />
   if (state.isLoading) return <Loading />;
 
-  if (!state.user) return <Navigate to="/login" replace />;
+//   if (!state.user) return <Navigate to="/login" replace />;
 
   return <Outlet />;
 };

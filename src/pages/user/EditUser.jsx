@@ -82,12 +82,12 @@ return (
 <>
     {/* {JSON.stringify(user.roles, null,10)} */}
     <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} md={12} >
+      <Grid size={{ xs: 12, md: 12}} >
         <form noValidate onSubmit={handleSubmit}>
           <h3>Editar Usuario:</h3>
           {errorEdit && <Errors errorsBack={errorEdit} />}
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{xs:12, md:6}} >
               <TextField
                 label="Nombre"
                 name="name"
@@ -98,7 +98,7 @@ return (
                 onChange={onchangeInput}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{xs:6}}>
               <TextField
                 label="Email"
                 name="email"
@@ -109,7 +109,7 @@ return (
                 onChange={onchangeInput}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{xs:6}}>
               <TextField
                 label="telefono"
                 name="phone"

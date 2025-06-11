@@ -2,22 +2,16 @@ import { useState, useEffect, useContext } from 'react';
 import { Link, useNavigate } from "react-router-dom";
 import { Button, TextField, RadioGroup, Radio, FormControlLabel, Divider, Alert, Grid } from "@mui/material";
 import { Loading } from '../../components/ui/Loading';
-import { Error404Page } from '../error/Error404Page';
 import Errors from '../../components/ui/Errors';
 import { useUser } from '../../providers/UserProvider';
-// import { useAuth } from '../../providers/AuthProvider';
-
 
 export const CreateUser = () => {
-  // const { state:userAuth} = userAuth();
   const navigate = useNavigate();
   const { state, isLoading, setIsLoading, allRoles, userCreate } = useUser();
 
   const [idsRoles, setIdsRoles] = useState([]);
   const [errorCreate, setErrorCreate] = useState(null)
   const [buttonLoading, setButtonLoading] = useState(false)
-
-
 
   const createUserInicial = {
     name: '',
@@ -28,6 +22,7 @@ export const CreateUser = () => {
     password: '123123Abc',
     passwordConfirmation: '123123Abc'
   }
+  
   const [createUser, setCreateUser] = useState(createUserInicial);
  
  useEffect(() => {
@@ -76,12 +71,12 @@ const handleRoleChange = (e) => {
  return (
     <>
       <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} md={6}>
+      <Grid  size={{ xs: 12, md: 8, lg: 6 }}>
         <form noValidate onSubmit={handleSubmit}>
           <h3>Crear Usuario:</h3>
           {errorCreate && <Errors errorsBack={errorCreate} />}
           <Grid container spacing={2}>
-            <Grid item xs={12} md={6}>
+            <Grid size={{ xs: 12 }}>
               <TextField
                 label="Nombre"
                 name="name"
@@ -92,7 +87,7 @@ const handleRoleChange = (e) => {
                 onChange={onchangeInput}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 label="Email"
                 name="email"
@@ -103,7 +98,7 @@ const handleRoleChange = (e) => {
                 onChange={onchangeInput}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid size={{ xs: 6 }}>
               <TextField
                 label="telefono"
                 name="phone"
@@ -146,7 +141,6 @@ const handleRoleChange = (e) => {
             </div>
           ))}
           <Divider sx={{ my: 3 }} />
-        {/* {userAuth.user &&( */}
           <Button
             type="submit"
             variant="contained"
@@ -154,9 +148,7 @@ const handleRoleChange = (e) => {
             sx={{ mt: 3, ml: 2 }}
           >
             {buttonLoading ? "Cargando..." : "Crear usuario"} 
-
           </Button>
-        {/* )} */}
         
           <Button
             component={Link}
@@ -165,7 +157,6 @@ const handleRoleChange = (e) => {
             size='large'
             sx={{ mt: 3, ml: 2 }}
           >
-      
             Volver
           </Button>
         </form>
