@@ -14,9 +14,8 @@ const PublicRoute = ({ children }) => {
 
   if (token) {
     // Redirige a la ruta anterior si existe, o al dashboard por defecto
-    const from = location.state?.from?.pathname || "/dashboard";
-    console.log(from);
-    return <Navigate to={from} replace />;
+    const from = location.state?.from?.pathname || "/dashboard/usuarios";
+     return <Navigate to={from} replace />;
   }
 
   return children;
@@ -26,7 +25,6 @@ export const Public = () => {
   return (
     <Route path="/" element={<AuthLayout />}>
       <Route index element={<HomePage />} />
-
       <Route
         path="login"
         element={

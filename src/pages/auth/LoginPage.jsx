@@ -37,16 +37,13 @@ export const LoginPage = () => {
     // await login({email:data.email, password:data.password});
    const ok= await login({email:'email5@email.com', password: '123123Abc' });
     // reset();
-    navigate('/dashboard/productos');
+    navigate('/dashboard/usuarios');
   // }
   };
 
- useEffect(() => {
-  //  resetAllContexts()
- }, [])
 
   if (!!state.isLoading) return <Loading />;
-  if (!!state.isLogged) return <Loading />;
+  // if (!!state.isLogged) return <Loading />;
  
   return (
     <>

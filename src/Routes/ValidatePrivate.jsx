@@ -2,17 +2,22 @@ import { Navigate, Outlet } from "react-router-dom";
 import { useAuth } from "../providers/AuthProvider";
 import { Loading } from "../components/ui/Loading";
 import PropTypes from "prop-types";
+const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 export const ValidatePrivate = ({
   component: Component = null,
   requiredRoles = [],
   requiredPermissions = [],
-  redirectTo = "/login",
+  redirectTo = "/Unauthorized",
 }) => {
   const { state } = useAuth();
 
  if (state.isLoading || !state.user) return <Loading />;
-
+const token = localStorage.getItem(tokenName);
+if (!token) {
+  
+  return <Navigate to="/login" replace />
+}
 
   const hasRole =
     requiredRoles.length === 0 ||

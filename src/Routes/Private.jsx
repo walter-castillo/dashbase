@@ -8,41 +8,65 @@ import { CreateUser } from "../pages/user/CreateUser";
 import { RolesPage } from "../pages/roles/RolesPage";
 import { EditRole } from "../pages/roles/EditRole";
 import { CreateRole } from "../pages/roles/CreateRole";
-import { ProductsPage } from "../pages/products/ProductsPage";
+import { StudiesPage } from "../pages/studies/StudiesPage";
 import { Unauthorized } from "../pages/error/Unauthorized";
 import { Error404Page } from "../pages/error/Error404Page";
 
 import { PERMISOS, ROLES } from '../data/constants';
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
+import { useAuth } from "../providers/AuthProvider";
+import { Loading } from "../components/ui/Loading";
+
+export const ProtectedRoutes = () => {
+   const token = localStorage.getItem(tokenName);
+  const { state } = useAuth();
+if (!token) return <Navigate to="/login" replace />
+  if (state.isLoading) return <Loading />;
+
+  if (!state.user) return <Navigate to="/login" replace />;
+
+  return <Outlet />;
+};
+
+
 export const Private = () => {
    return (
-      <Route element={<GeneralLayout />}> 
-         <Route path="/dashboard/usuarios" element={
-            <ValidatePrivate component={UserPage} requiredPermissions={[PERMISOS.USUARIOS_VER_TODOS]} redirectTo="/login" />
-         } />
+      <Route element={<ProtectedRoutes />}>
+         <Route element={<GeneralLayout />}> 
+            <Route path="/dashboard/usuarios" element={
+               <ValidatePrivate component={UserPage} requiredPermissions={[PERMISOS.USUARIOS_VER_TODOS]} />
+            }/>
 
-         <Route path="/dashboard/usuarios/editar/:id" element={<EditUser />} />
+            <Route path="/dashboard/usuarios/editar/:id" element={
+               <ValidatePrivate component={EditUser} requiredPermissions={[PERMISOS.USUARIO_ACTUALIZAR]} />
+            } />
 
-         <Route path="/dashboard/usuarios/crear" element={
-            <ValidatePrivate component={CreateUser} requiredPermissions={[PERMISOS.USUARIO_CREAR]} redirectTo="/login" />
-         } />
+            <Route path="/dashboard/usuarios/crear" element={
+               <ValidatePrivate component={CreateUser} requiredPermissions={[PERMISOS.USUARIO_CREAR]}  />
+            }/>
 
-         <Route path="/dashboard/roles" element={<RolesPage />} />
-         <Route path="/dashboard/roles/editar/:id" element={<EditRole />} />
+            <Route path="/dashboard/roles" element={
+               <ValidatePrivate component={RolesPage} requiredPermissions={[PERMISOS.ROLES_VER_TODOS]} />
+            }/>
 
+            <Route path="/dashboard/roles/editar/:id" element={
+               <ValidatePrivate component={EditRole} requiredPermissions={[PERMISOS.ROL_ACTUALIZAR]} />
+            }/>
 
-         {/* <Route path="/dashboard/roles/crear" element={<CreateRole />}/> */}
-         <Route path="/dashboard/roles/crear" element={
-            <ValidatePrivate component={CreateRole} requiredPermissions={[PERMISOS.ROL_CREAR]} redirectTo="/login" />
-         } />
+            <Route path="/dashboard/roles/crear" element={
+               <ValidatePrivate component={CreateRole} requiredPermissions={[PERMISOS.ROL_CREAR]} />
+            } />
 
-         <Route path="/dashboard/productos" element={<ProductsPage />} />
-         <Route path="/dashboard/*" element={<Error404Page />} />
+            <Route path="/dashboard/productos" element={
+               <ValidatePrivate component={StudiesPage} requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]} />   
+            } />
+
+            <Route path="/dashboard/*" element={<Error404Page />} />
+         </Route>
       </Route>
   );
 };
-
 
 
 

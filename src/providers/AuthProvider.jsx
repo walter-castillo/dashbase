@@ -81,10 +81,14 @@ export  const AuthProvider = ({ children }) =>  {
 
     const checkAuthToken = async () => {
         // await new Promise(resolve => setTimeout(resolve, 2000));
-        const token = localStorage.getItem(tokenName);
+        const tokenlogin= localStorage.getItem(tokenName);
+
         console.log('desde checkAuthToken');
 
-        if(!token){ return dispatch({type: types.auth.onLogout})}        
+        if(!tokenlogin){
+            dispatch({ type: types.auth.onLogout });
+            return;
+        }
 
         try {
             const { data } = await dashAxios.post('auth/token/user');
