@@ -9,7 +9,7 @@ import { RoleProvider } from './providers/RoleProvider.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
     <>
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true }}>
       <AuthProvider>
         <UserProvider>  
           <RoleProvider>

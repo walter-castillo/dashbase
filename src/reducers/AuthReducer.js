@@ -12,6 +12,8 @@ export const AuthReducer = (state={}, action ) => {
 
             case types.auth.onLogin:
                 return {
+                    ...state,
+                    isLoading: true,
                     user: action.payload.user,
                     isLogged: true,
                     token: action.payload.token,
@@ -27,8 +29,6 @@ export const AuthReducer = (state={}, action ) => {
                     error: null
                 };
 
-            case types.auth.userAuth:
-                return {};
 
             case types.auth.onToken:
                 return {
@@ -36,7 +36,6 @@ export const AuthReducer = (state={}, action ) => {
                     isLogged: true,
                     user: action.payload.user,
                     token: action.payload.token,
-                    loading: false,
                 };
 
             case types.auth.startLoading:
@@ -53,6 +52,7 @@ export const AuthReducer = (state={}, action ) => {
             
             case types.auth.error:
                  return {
+                     ...state,
                     error: action.payload.error
                 };
         

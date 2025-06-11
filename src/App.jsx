@@ -7,7 +7,7 @@ function App() {
 
   const { state } = useAuth();
  
- if (!!state.isLoading)  { return <Loading /> }
+ if (state.isLoading)  { return <Loading /> }
 
   return <AppRoutes />;
 }

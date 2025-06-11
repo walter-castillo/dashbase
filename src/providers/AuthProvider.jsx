@@ -8,12 +8,13 @@ const AuthContext = createContext();
 const  tokenName =  import.meta.env.VITE_TOKEN_NAME 
 
 const initialState = {
-    user: null, 
-    isLogged: false,
-    token: '',
-    success: null,
-    error: null,
-    isLoading: false,
+   
+  user: null,
+  isLogged: false,
+  token: '',
+  isLoading: false,
+  success: null,
+  error: null
 }
 
 
@@ -40,11 +41,13 @@ export  const AuthProvider = ({ children }) =>  {
     };
     
     const login = async (dataUserLogin) =>  {
-
+        console.log('desde login');
         dispatch({ type: types.auth.startLoading })        
         try {
+            // await new Promise(resolve => setTimeout(resolve, 2000));
             const { data } = await dashAxios.post('auth/login', dataUserLogin);
             localStorage.setItem(tokenName, data.token);
+            console.log(data);
             dispatch({
                 type:  types.auth.onLogin,
                 payload:  {
@@ -54,20 +57,21 @@ export  const AuthProvider = ({ children }) =>  {
             });
 
             successClear();
-
+            dispatch({ type: types.auth.stopLoading }) 
         } catch (error) {  
             dispatch({
                 type: types.auth.error,
-                payload: { error: error.response.data.errors|| 'Login failed'},
+                payload: { error: error.response.data.errors},
             })
+            dispatch({ type: types.auth.stopLoading }) 
 
             errorsClear()
-            
-        }finally { dispatch({ type: types.auth.stopLoading }) }         
-    };
+           
+        }
+    }
     
     const logout =async () => {
-        console.log('logout');
+        console.log('desde logout');
         dispatch({ type: types.auth.startLoading });
         localStorage.removeItem(tokenName);
         dispatch({ type: types.auth.onLogout });
@@ -78,14 +82,14 @@ export  const AuthProvider = ({ children }) =>  {
     const checkAuthToken = async () => {
         // await new Promise(resolve => setTimeout(resolve, 2000));
         const token = localStorage.getItem(tokenName);
+        console.log('desde checkAuthToken');
 
-        if(!token){ return dispatch({type: types.auth.onLogout})}
+        if(!token){ return dispatch({type: types.auth.onLogout})}        
 
         try {
             const { data } = await dashAxios.post('auth/token/user');
 
             localStorage.setItem(tokenName, data.token);
-
             dispatch({
                 type:  types.auth.onToken,
                 payload: { 
@@ -129,9 +133,7 @@ export  const AuthProvider = ({ children }) =>  {
     }
 
     useEffect(() => {
-    checkAuthToken().finally(() => {
-      dispatch({ type: types.auth.stopLoading });
-    });
+    checkAuthToken()
   }, []);
 
   const contextValue = {

@@ -33,8 +33,9 @@ const handleDelete = (roleId) => {
   });
 };
 
-  if (state.errors) { return (<Errors errorsBack={state.errors} />)  }
-  if (state.roles== null) { return <Loading />  }
+if (state.errors) { return (<Errors errorsBack={state.errors} />)  }
+if (!state.roles || state.roles.length === 0) { return <Loading />}
+
 
   return (
        <>

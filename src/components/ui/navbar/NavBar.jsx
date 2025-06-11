@@ -14,7 +14,14 @@ import { useAuth } from "../../../providers/AuthProvider";
 import  Profile  from "./Profile";
 
 
+
+
+
+
 export  const NavBar = ({ toggleDrawer, open }) => {
+
+
+  const { state } = useAuth();
 
   return (
     <AppBar position="absolute" open={open}>
@@ -38,7 +45,7 @@ export  const NavBar = ({ toggleDrawer, open }) => {
           noWrap
           sx={{ flexGrow: 1 }}
         >
-          Dashboard
+          Dashboard - {state.user?.email || 'no name'}
         </Typography>
         {/* <Button 
           variant="contained" 

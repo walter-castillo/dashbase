@@ -10,12 +10,12 @@ import { useRole } from '../../providers/RoleProvider';
 
 export const CreateRole = () => {
 
-     const navigate = useNavigate();
+  const navigate = useNavigate();
   const { state, allPermissions, roleCreate } = useRole();
   const [idsPermissionsRole, setIdsPermissionsRole] = useState([]);
   const [errorCreateLoad, setErrorCreateLoad] = useState(null)
   const [errorCreate, setErrorCreate] = useState(null)
-const [buttonLoading, setButtonLoading] = useState(false)
+  const [buttonLoading, setButtonLoading] = useState(false)
 
   const createRoleInicial = {
     role: '',
@@ -81,8 +81,9 @@ const handlePermissionChange = (e) => {
 
   if (errorCreateLoad) { return <Error404Page /> }
   
-  if (state.isLoading  ) { return <Loading />}   
-  if (!state.permissions  ) { return <Loading />}   
+  // if (state.isLoading  ) { return <Loading />}   
+  // if (!state.permissions  ) { return <Loading />}   
+  if (!state.permissions || state.permissions.length === 0) { return <Loading />}
 
  return (
     <>

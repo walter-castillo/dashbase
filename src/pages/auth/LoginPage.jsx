@@ -13,6 +13,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { object, string } from 'yup';
 import { HeaderAuth } from './HeaderAuth';
 import { useResetContext } from '../../hooks/useResetContext';
+import { Loading } from '../../components/ui/Loading';
 
 const loginSchema = object().shape({
     email: string(),
@@ -34,17 +35,19 @@ export const LoginPage = () => {
 
   const onSubmit = async(data) => {
     // await login({email:data.email, password:data.password});
-    await login({email:'email5@email.com', password: '123123Abc' });
-    reset();
+   const ok= await login({email:'email5@email.com', password: '123123Abc' });
+    // reset();
     navigate('/dashboard/productos');
+  // }
   };
 
  useEffect(() => {
-   resetAllContexts()
+  //  resetAllContexts()
  }, [])
+
+  if (!!state.isLoading) return <Loading />;
+  if (!!state.isLogged) return <Loading />;
  
-
-
   return (
     <>
       <HeaderAuth  />
@@ -61,7 +64,7 @@ export const LoginPage = () => {
           {...register("email")}
         />
         {errors.email && <Alert severity="error">{errors.email.message}</Alert> }  
-        
+        {console.log(state.isLoading)}
         <TextField
           margin="normal"
           required

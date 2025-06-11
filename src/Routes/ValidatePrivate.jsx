@@ -11,9 +11,8 @@ export const ValidatePrivate = ({
 }) => {
   const { state } = useAuth();
 
-  if (state.loading) return <Loading />;
+ if (state.isLoading || !state.user) return <Loading />;
 
-  if (!state.isLogged) return <Navigate to={redirectTo} replace />;
 
   const hasRole =
     requiredRoles.length === 0 ||
@@ -26,7 +25,7 @@ export const ValidatePrivate = ({
   if (!hasRole || !hasPermission) {
     return <Navigate to="/Unauthorized" replace />;
   }
-
+ if (!!state.loading) return <Loading />;
   return Component ? <Component /> : <Outlet />;
 };
 

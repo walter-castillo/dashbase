@@ -22,6 +22,7 @@ export const UserPage = () => {
 
 
   const permUserCreate = useHasAccess({ permiso: PERMISOS.USUARIO_CREAR });
+  const permUserEdit = useHasAccess({ permiso: PERMISOS.USUARIO_ACTUALIZAR });
 
 
 
@@ -91,7 +92,8 @@ if (!stateAuth?.user) return <Loading />
          
           initialState={{ pagination: { paginationModel: { pageSize, page  } },}}
           
-          onRowClick={handleRowDoubleClick}
+          onRowClick={permUserEdit ? handleRowDoubleClick : undefined}
+          // onRowDoubleClick={hasPermission ? handleRowDoubleClick : undefined}
           // onRowDoubleClick={handleRowDoubleClick}
           
           onFilterModelChange={handleFilterModelChange}

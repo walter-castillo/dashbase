@@ -87,7 +87,7 @@ export default function Profile() {
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
         <MenuItem onClick={handleClose}>
-          <Avatar /> Profile
+          <Avatar /> 
         </MenuItem>
         <MenuItem onClick={handleClose}>
           <Avatar /> My account
