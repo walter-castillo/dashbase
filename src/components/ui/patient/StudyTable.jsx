@@ -1,9 +1,56 @@
-
 import {
-  Table, TableBody, TableCell, TableHead, TableRow, Paper, IconButton
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableRow,
+  Paper,
+  IconButton,
+  Typography,
+  Tooltip,
+  Box,
 } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/visibility';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import DownloadIcon from '@mui/icons-material/Download';
+import DescriptionIcon from '@mui/icons-material/Description';
+
+const styles = {
+  paper: {
+    mt: 4,
+    borderRadius: 3,
+    boxShadow: 6,
+    p: 1,
+    backgroundColor: '#fdfdfd',
+  },
+  title: {
+    fontWeight: 'bold',
+    color: '#1976d2',
+  },
+  tableContainer: {
+    width: '100%',
+    overflowX: 'auto',
+  },
+  headerRow: {
+    backgroundColor: '#1976d2',
+  },
+  headerCell: {
+    color: 'white',
+    fontWeight: 'bold',
+  },
+  evenRow: {
+    backgroundColor: '#ffffff',
+    '&:hover': { backgroundColor: '#e3f2fd' },
+  },
+  oddRow: {
+    backgroundColor: '#f5f5f5',
+    '&:hover': { backgroundColor: '#e3f2fd' },
+  },
+  icons: {
+    view: (enabled) => ({ color: enabled ? '#1976d2' : '#ccc' }),
+    download: (enabled) => ({ color: enabled ? '#555' : '#ccc' }),
+    report: (enabled) => ({ color: enabled ? '#9c27b0' : '#ccc' }),
+  },
+};
 
 const formatDate = (dicomDate) => {
   if (!dicomDate || dicomDate.length !== 8) return '-';
@@ -13,58 +60,86 @@ const formatDate = (dicomDate) => {
   return `${day}/${month}/${year}`;
 };
 
-const formatTime = (dicomTime) => {
-  if (!dicomTime || dicomTime.length < 4) return '-';
-  const hours = dicomTime.substring(0, 2);
-  const minutes = dicomTime.substring(2, 4);
-  return `${hours}:${minutes}`;
-};
-
 const StudyTable = ({ studies }) => (
-  <Paper sx={{ overflowX: 'auto', mt: 2 }}>
-    <Table>
-      <TableHead>
-        <TableRow>
-          <TableCell><strong>Fecha</strong></TableCell>
-          <TableCell><strong>Hora</strong></TableCell>
-          <TableCell><strong>Accession</strong></TableCell>
-          <TableCell><strong>Descripción</strong></TableCell>
-          <TableCell align="center"><strong>Ver</strong></TableCell>
-          <TableCell align="center"><strong>Descargar</strong></TableCell>
-        </TableRow>
-      </TableHead>
-      <TableBody>
-        {studies.map((study, index) => (
-          <TableRow key={index}>
-            <TableCell>{formatDate(study.studyDate)}</TableCell>
-            <TableCell>{formatTime(study.studyTime)}</TableCell>
-            <TableCell>{study.accessionNumber}</TableCell>
-            <TableCell>{study.studyDescription || '-'}</TableCell>
-            <TableCell align="center">
-              <IconButton
-                component="a"
-                href={study.retrieveURL}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Ver"
-              >
-                <VisibilityIcon color="primary" />
-              </IconButton>
-            </TableCell>
-            <TableCell align="center">
-              <IconButton
-                component="a"
-                href={study.downloadURL}
-                download
-                aria-label="Descargar"
-              >
-                <DownloadIcon color="action" />
-              </IconButton>
-            </TableCell>
+  <Paper sx={styles.paper}>
+    <Typography variant="h5" align="center" gutterBottom sx={styles.title}>
+      Estudios del Paciente
+    </Typography>
+
+    <Box sx={styles.tableContainer}>
+      <Table>
+        <TableHead>
+          <TableRow sx={styles.headerRow}>
+            {['N°', 'Fecha', 'Tipo', ' ', ' ', ' '].map((text, i) => (
+              <TableCell key={i} align="center" sx={styles.headerCell}>
+                {text}
+              </TableCell>
+            ))}
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHead>
+        <TableBody>
+          {studies.map((study, index) => {
+            const isEven = index % 2 === 0;
+            return (
+              <TableRow key={index} sx={isEven ? styles.evenRow : styles.oddRow}>
+                <TableCell align="center">{study.accessionNumber}</TableCell>
+                <TableCell align="center">{formatDate(study.studyDate)}</TableCell>
+                <TableCell align="center">{study.modality || '-'}</TableCell>
+
+                <TableCell align="center">
+                  <Tooltip title={study.reportURL ? 'Ver informe' : 'Sin informe'}>
+                    <span>
+                      <IconButton
+                        component="a"
+                        href={study.reportURL || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        disabled={!study.reportURL}
+                      >
+                        <DescriptionIcon sx={styles.icons.report(!!study.reportURL)} />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </TableCell>
+
+                <TableCell align="center">
+                  <Tooltip title={study.retrieveURL ? 'Ver estudio' : 'No disponible'}>
+                    <span>
+                      <IconButton
+                        component="a"
+                        href={study.retrieveURL || '#'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        disabled={!study.retrieveURL}
+                      >
+                        <VisibilityIcon sx={styles.icons.view(!!study.retrieveURL)} />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </TableCell>
+
+                <TableCell align="center">
+                  <Tooltip title={study.downloadURL ? 'Descargar estudio' : 'No disponible'}>
+                    <span>
+                      <IconButton
+                        component="a"
+                        href={study.downloadURL || '#'}
+                        download
+                        disabled={!study.downloadURL}
+                      >
+                        <DownloadIcon sx={styles.icons.download(!!study.downloadURL)} />
+                      </IconButton>
+                    </span>
+                  </Tooltip>
+                </TableCell>
+
+                
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </Box>
   </Paper>
 );
 

@@ -5,7 +5,6 @@ import { types } from "../types/types"
 
 
 const RoleContext = createContext();
-
 const initialState = {
    roles: [],
    role: null,

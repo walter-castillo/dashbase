@@ -1,15 +1,18 @@
-import { AppBar, Box, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
+import React from 'react';
+import { Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 
-const PatientLayout = ({ children, patient }) => {
+const PatientLayout = () => {
   const [anchorEl, setAnchorEl] = useState(null);
+  const navigate = useNavigate();
+
+  // Recuperar paciente desde localStorage
+  const patient = JSON.parse(localStorage.getItem('patientSession'));
 
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
-
-  const navigate = useNavigate();
 
   const handleLogout = () => {
     localStorage.removeItem('patientSession');
@@ -23,18 +26,24 @@ const PatientLayout = ({ children, patient }) => {
           <Typography variant="h6" sx={{ flexGrow: 1 }}>
             Portal del Paciente
           </Typography>
+
           <div>
             <IconButton onClick={handleMenu} color="inherit">
               <AccountCircle />
             </IconButton>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-              <MenuItem disabled>DNI: {patient?.dni}</MenuItem>
+              {/* Mostrar datos del paciente aquí */}
+              <MenuItem disabled>Nombre: {patient?.name || 'Desconocido'}</MenuItem>
+              <MenuItem disabled>DNI: {patient?.dni || 'Desconocido'}</MenuItem>
               <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
             </Menu>
           </div>
         </Toolbar>
       </AppBar>
-      <Box sx={{ p: 2 }}><Outlet /></Box>
+
+      <Box sx={{ p: 0 }}>
+        <Outlet />
+      </Box>
     </Box>
   );
 };
