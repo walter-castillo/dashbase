@@ -30,26 +30,17 @@ const PatientDashboard = () => {
 
   return (
     <Box sx={styles.container}>
-      <Typography variant="h4" gutterBottom sx={styles.title}>
+      
+      {/* <Typography variant="h4" gutterBottom sx={styles.title}>
         ¡Hola, {patient?.name || 'Paciente'}!
       </Typography>
+      {console.log('Patient data:', patient)}
       <Typography variant="subtitle1" gutterBottom>
-        DNI: {patient?.dni || 'No disponible'}
-      </Typography>
+        DNI: {patient?.id || 'No disponible'}
+      </Typography> */}
 
-      <StudyTable studies={studies.slice(0, 1)} />
+      <StudyTable studies={studies} />
 
-      <Box mt={3}>
-        <Button
-          variant="contained"
-          color="primary"
-          component={Link}
-          to="/patient/studies"
-          sx={styles.button}
-        >
-          Ver historial...
-        </Button>
-      </Box>
     </Box>
   );
 };

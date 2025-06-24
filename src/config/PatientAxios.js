@@ -3,7 +3,7 @@ const baseURL =  import.meta.env.VITE_URL
 const  token =  import.meta.env.VITE_TOKEN_NAME
 
 export const PatientAxios = axios.create({
-    baseURL: `${baseURL}orthanc/patient`,
+    baseURL: `${baseURL}patient`,
     timeout: 3000,
 });
 

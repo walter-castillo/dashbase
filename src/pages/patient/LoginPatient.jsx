@@ -4,7 +4,7 @@ import { PatientAxios } from '../../config/PatientAxios';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPatient = () => {
-  const [code, setCode] = useState('9IPA8S');
+  const [code, setCode] = useState('QTZQ8A');
   const [dni, setDni] = useState('5394119');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
@@ -13,12 +13,14 @@ const LoginPatient = () => {
     setLoading(true);
     try {
       const res = await PatientAxios.post('/validateCode', { code, dni });
-      console.log(res.data);
-      localStorage.setItem('patientSession', JSON.stringify({ dni, patientId: res.data.patientId }));
+      console.log(res.data.patient);
+      localStorage.setItem('patientSession', JSON.stringify(res.data.patient));
       localStorage.setItem('studies', JSON.stringify(res.data.studies));
+      
       navigate('/patient');
     } catch (err) {
-      alert(err.response?.data?.error || 'Error'); 
+      console.log(err);
+      alert('FALLÓ: ' + JSON.stringify(err.response?.data || err.message));
     } finally {
       setLoading(false);
     }
@@ -41,7 +43,7 @@ const LoginPatient = () => {
           value={dni}
           onChange={(e) => setDni(e.target.value)}
           margin="normal"
-        />
+          />
         <TextField
           fullWidth
           label="Código de Acceso"

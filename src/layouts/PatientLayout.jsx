@@ -1,4 +1,3 @@
-import React from 'react';
 import { Box, AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useState } from 'react';
@@ -32,9 +31,8 @@ const PatientLayout = () => {
               <AccountCircle />
             </IconButton>
             <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-              {/* Mostrar datos del paciente aquí */}
-              <MenuItem disabled>Nombre: {patient?.name || 'Desconocido'}</MenuItem>
-              <MenuItem disabled>DNI: {patient?.dni || 'Desconocido'}</MenuItem>
+              <MenuItem disabled>Nombre: {patient?.name.replaceAll("^", " ").replace(/\s+/g, ' ').trim() || 'Desconocido'}</MenuItem>
+              <MenuItem disabled>DNI: {Number(patient?.id).toLocaleString("es-AR")}</MenuItem>
               <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
             </Menu>
           </div>
