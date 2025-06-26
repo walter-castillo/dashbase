@@ -9,14 +9,12 @@ const LoginPatient = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  
   const handleSubmit = async () => {
     setLoading(true);
     try {
-      const res = await PatientAxios.post('/validateCode', { code, dni });
-      console.log(res.data.patient);
-      localStorage.setItem('patientSession', JSON.stringify(res.data.patient));
-      localStorage.setItem('studies', JSON.stringify(res.data.studies));
-      
+      const res = await PatientAxios.post('/validateCode', { code, dni });   
+      console.log(res); 
       navigate('/patient');
     } catch (err) {
       console.log(err);
