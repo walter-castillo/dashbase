@@ -50,7 +50,7 @@ const styles = {
   },
   icons: {
     view: (enabled) => ({ color: enabled ? '#1976d2' : '#ccc' }),
-    download: (enabled) => ({ color: enabled ? '#555' : '#ccc' }),
+    download: (enabled) => ({ color: enabled ? '#1976d2' : '#ccc' }),
     report: (enabled) => ({ color: enabled ? '#9c27b0' : '#ccc' }),
   },
   textSmall:{
@@ -70,7 +70,7 @@ const StudyTable = ({ studies }) => {
     shareURL: 'https://www.google.com', 
   };
 
-  const studiesWithTest = [testStudy, ...studies];
+  // const studiesWithTest = [testStudy, ...studies];
  if (!studies || studies.length === 0) {
     return (
       <Paper sx={styles.paper}>
@@ -99,8 +99,9 @@ const StudyTable = ({ studies }) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {/* {studies.map((study, index) => { */}
-           {studiesWithTest.map((study, index) => {
+            {studies.map((study, index) => {
+            {console.log('study', study)}
+           {/* {studiesWithTest.map((study, index) => { */}
               const isEven = index % 2 === 0;
               return (
                 <TableRow key={index} sx={isEven ? styles.evenRow : styles.oddRow}>
@@ -141,15 +142,16 @@ const StudyTable = ({ studies }) => {
                   </TableCell>
 
                   <TableCell align="center">
-                    <Tooltip title={study.downloadURL ? 'Descargar estudio' : 'No disponible'}>
+                    <Tooltip title={study.studyUID ? 'Descargar estudio' : 'No disponible'}>
                       <span>
                         <IconButton
                           component="a"
-                          href={study.downloadURL || '#'}
+                          href={ `/study/download/${study.studyUID}` || '#'}
                           download
-                          disabled={!study.downloadURL}
+                          // disabled={!study.studyUID}
                         >
-                          <DownloadIcon sx={styles.icons.download(!!study.downloadURL)} />
+                          <DownloadIcon sx={styles.icons.download(!!study.studyUID)} />
+                          
                         </IconButton>
                       </span>
                     </Tooltip>
