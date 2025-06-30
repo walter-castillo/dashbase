@@ -14,7 +14,6 @@ const LoginPatient = () => {
     setLoading(true);
     try {
       const res = await PatientAxios.post('/validateCode', { code, dni });   
-      console.log(res); 
       navigate('/patient');
     } catch (err) {
       console.log(err);
