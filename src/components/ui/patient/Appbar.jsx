@@ -1,11 +1,14 @@
 import { AppBar, Toolbar, Typography, IconButton, Menu, MenuItem } from '@mui/material';
 import { AccountCircle } from '@mui/icons-material';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import {PatientAxios} from '../../../config/PatientAxios';
 
 const Appbar = ({patient}) => {
 const [anchorEl, setAnchorEl] = useState(null);
   const handleMenu = (event) => setAnchorEl(event.currentTarget);
   const handleClose = () => setAnchorEl(null);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {await PatientAxios.post('/logout') } 

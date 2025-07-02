@@ -16,16 +16,13 @@ const DownloadStudyButton = ({ studyUID, enabled }) => {
   const isEnabled = !!(studyUID && enabled);
 
   const handleDownload = async (e) => {
-      console.log(studyUID);
     if (!isEnabled) { e.preventDefault(); return }
-//      const response = await PatientAxios.post('/studies');
 try {
       const response = await PatientAxios.get(`/study/download/${studyUID}`, {
         responseType: 'blob'
       });
 
       const contentDisposition = response.headers['content-disposition'];
-      console.log(response);
       const filenameMatch = contentDisposition?.match(/filename="?(.+?)"?$/);
       const filename = filenameMatch?.[1] || 'estudio.zip';
   
