@@ -8,6 +8,7 @@ import ShareIcon from '@mui/icons-material/Share';
 import { formatDate } from '../../../utils/formatdate';
 import { formatModality } from '../../../utils/formatModality';
 import DownloadStudyButton from './DownloadStudyButton';
+import ViewStudyButton from './viewStudyButton';
 
 const styles = {
   paper: { mt: 4, borderRadius: 3, boxShadow: 6, p: 1, backgroundColor: '#fdfdfd' },
@@ -74,19 +75,7 @@ const StudyTable = ({ studies }) => {
 
                   {/* Ver */}
                   <TableCell align="center">
-                    <Tooltip title={study.retrieveURL ? 'Ver estudio' : 'No disponible'}>
-                      <span>
-                        <IconButton
-                          component="a"
-                          href={study.retrieveURL || '#'}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          disabled={!study.retrieveURL}
-                        >
-                          <VisibilityIcon sx={{ color: study.retrieveURL ? '#1976d2' : '#ccc' }} />
-                        </IconButton>
-                      </span>
-                    </Tooltip>
+                    <ViewStudyButton studyUID={study.studyUID} enabled={!!study.studyUID} />
                   </TableCell>
 
                   {/* Descargar */}
