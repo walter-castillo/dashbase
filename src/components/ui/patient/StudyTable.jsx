@@ -9,6 +9,8 @@ import { formatDate } from '../../../utils/formatdate';
 import { formatModality } from '../../../utils/formatModality';
 import DownloadStudyButton from './DownloadStudyButton';
 import ViewStudyButton from './viewStudyButton';
+import ViewStudyButton2 from './viewStudyButton2';
+import ViewStudyButton3 from './ViewStudyButton3';
 
 const styles = {
   paper: { mt: 4, borderRadius: 3, boxShadow: 6, p: 1, backgroundColor: '#fdfdfd' },
@@ -42,7 +44,7 @@ const StudyTable = ({ studies }) => {
         <Table>
           <TableHead>
             <TableRow sx={styles.headerRow}>
-              {['N°', 'Fecha', 'Tipo', 'Informe', 'Visualizar', 'Descargar', 'Compartir'].map((text, i) => (
+              {['N°', 'Fecha', 'Tipo', 'Informe', 'Visualizar', 'Ver2', 'Descargar', 'Compartir'].map((text, i) => (
                 <TableCell key={i} align="center" sx={styles.headerCell}>{text}</TableCell>
               ))}
             </TableRow>
@@ -76,6 +78,14 @@ const StudyTable = ({ studies }) => {
                   {/* Ver */}
                   <TableCell align="center">
                     <ViewStudyButton studyUID={study.studyUID} enabled={!!study.studyUID} />
+                  </TableCell>
+                  {/* Ver  2*/}
+                  <TableCell align="center">
+                    <ViewStudyButton2 studyUID={study.studyUID} enabled={!!study.studyUID} />
+                  </TableCell>
+                  {/* Ver  3*/}
+                  <TableCell align="center">
+                    <ViewStudyButton3 studyUID={study.studyUID} enabled={!!study.studyUID} />
                   </TableCell>
 
                   {/* Descargar */}

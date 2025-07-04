@@ -33,12 +33,30 @@ if (!studies || !patient ) { return <Loading />}
     <Box>
       <Appbar patient={patient} />
       <Box sx={{ p: 0 }}>
-        <Box sx={{ maxWidth: '900px', mx: 'auto', mt: 4, px: 2, textAlign: 'center' }}>
-          <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', fontSize: '1.20rem', color: '#1976d2' }}>
-            ¡Hola, {patient?.name?.replaceAll("^", " ").trim() || 'Paciente'}!
+        <Box
+          sx={{
+            maxWidth: "900px",
+            mx: "auto",
+            mt: 4,
+            px: 2,
+            textAlign: "center",
+          }}
+        >
+          <Typography
+            variant="h4"
+            gutterBottom
+            sx={{ fontWeight: "bold", fontSize: "1.20rem", color: "#1976d2" }}
+          >
+            ¡Hola, {patient?.name?.replaceAll("^", " ").trim() || "Paciente"}!
           </Typography>
-          <Typography variant="subtitle1" gutterBottom>
-            DNI: {patient?.id || 'No disponible'}
+          <Typography
+            variant="subtitle1"
+            gutterBottom
+            sx={{ fontSize: "0.95rem", color: "#1976d2" }}
+          >
+            DNI:{" "}
+            {patient?.id.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") ||
+              "No disponible"}
           </Typography>
           <StudyTable studies={studies} />
         </Box>

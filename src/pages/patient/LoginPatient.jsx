@@ -4,10 +4,10 @@ import { PatientAxios } from '../../config/PatientAxios';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPatient = () => {
-  const [code, setCode] = useState('G9WYCA');
-  // const [code, setCode] = useState('QTZQ8A');
-  // const [dni, setDni] = useState('5394119');
-  const [dni, setDni] = useState('39814413');
+  // const [code, setCode] = useState('G9WYCA');
+  const [code, setCode] = useState('QTZQ8A');
+  const [dni, setDni] = useState('5394119');
+  // const [dni, setDni] = useState('39814413');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
