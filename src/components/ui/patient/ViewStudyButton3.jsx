@@ -1,61 +1,85 @@
-
-import { IconButton, Tooltip } from '@mui/material';
-import VisibilityIcon from '@mui/icons-material/Visibility';
-import ViewerPopup from './ViewerPopup';
-import { createRoot } from 'react-dom/client';
+import React from "react";
+import {
+  IconButton,
+  Tooltip,
+  CircularProgress,
+  Snackbar,
+  Alert,
+} from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import ViewerPopup from "./ViewerPopup";
 
 const ViewStudyButton3 = ({ studyUID, enabled }) => {
-  const abrirVisor = () => {
+  const [open, setOpen] = React.useState(false);
+  const [popupBlocked, setPopupBlocked] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  const handleOpenViewer = () => {
     if (!enabled || !studyUID) return;
 
-    const popup = window.open(
-      '',
-      '_blank',
-      `width=${window.innerWidth},height=${window.innerHeight}`
-    );
+    setLoading(true);
+    setPopupBlocked(false);
 
-    if (popup) {
-      popup.document.title = 'Visor de Estudio';
-
-      // Inyectar estilos existentes (por ejemplo, MUI y fuentes)
-      const styleLinks = document.querySelectorAll('link[rel="stylesheet"]');
-      styleLinks.forEach((link) => {
-        const newLink = popup.document.createElement('link');
-        newLink.rel = 'stylesheet';
-        newLink.href = link.href;
-        popup.document.head.appendChild(newLink);
-      });
-
-      // Inyectar CSS básico para que no se vea crudo
-      const style = popup.document.createElement('style');
-      style.textContent = `
-        body {
-          margin: 0;
-          font-family: Roboto, sans-serif;
-          padding: 20px;
-        }
-      `;
-      popup.document.head.appendChild(style);
-
-      // Crear contenedor y renderizar el componente React
-      const div = popup.document.createElement('div');
-      popup.document.body.appendChild(div);
-
-      const root = createRoot(div);
-      root.render(<ViewerPopup studyUID={studyUID} />);
-    } else {
-      alert('No se pudo abrir el visor. ¿Está bloqueado el popup?');
+    try {
+      setOpen(true);
+    } catch (error) {
+      console.error("Error al abrir el visor:", error);
+      setPopupBlocked(true);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const handleCloseViewer = () => {
+    setOpen(false);
+  };
+
+  const handleCloseSnackbar = () => {
+    setPopupBlocked(false);
+  };
+
   return (
-    <Tooltip title={enabled ? 'Ver estudio' : 'No disponible'}>
-      <span>
-        <IconButton onClick={abrirVisor} disabled={!enabled}>
-          <VisibilityIcon sx={{ color: enabled ? '#1976d2' : '#ccc' }} />
-        </IconButton>
-      </span>
-    </Tooltip>
+    <>
+      <Tooltip
+        title={
+          enabled
+            ? studyUID
+              ? "Ver estudio DICOM"
+              : "ID de estudio no disponible"
+            : "Visualización no disponible"
+        }
+      >
+        <span>
+          <IconButton
+            onClick={handleOpenViewer}
+            disabled={!enabled || !studyUID || loading}
+            size="large"
+          >
+            {loading ? (
+              <CircularProgress size={24} />
+            ) : (
+              <VisibilityIcon
+                color={enabled && studyUID ? "primary" : "disabled"}
+              />
+            )}
+          </IconButton>
+        </span>
+      </Tooltip>
+
+      {open && <ViewerPopup studyUID={studyUID} onClose={handleCloseViewer} />}
+
+      <Snackbar
+        open={popupBlocked}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "top", horizontal: "center" }}
+      >
+        <Alert severity="error" onClose={handleCloseSnackbar}>
+          ¡El navegador bloqueó la ventana emergente! Por favor, permite popups
+          para este sitio.
+        </Alert>
+      </Snackbar>
+    </>
   );
 };
 
