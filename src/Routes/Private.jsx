@@ -58,7 +58,7 @@ export const Private = () => {
                <ValidatePrivate component={CreateRole} requiredPermissions={[PERMISOS.ROL_CREAR]} />
             } />
 
-            <Route path="/dashboard/productos" element={
+            <Route path="/dashboard/estudios" element={
                <ValidatePrivate component={StudiesPage} requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]} />   
             } />
 

@@ -46,12 +46,12 @@ export default function MenuItem() {
 
 
 
-      <ListItemButton   component={Link} to="/dashboard/Productos">
+      <ListItemButton   component={Link} to="/dashboard/estudios">
       {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
-        <ListItemText primary="Productos" />
+        <ListItemText primary="Estudios" />
         {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
       </ListItemButton>
       
