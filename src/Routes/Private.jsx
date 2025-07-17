@@ -59,7 +59,8 @@ export const Private = () => {
             } />
 
             <Route path="/dashboard/estudios" element={
-               <ValidatePrivate component={StudiesPage} requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]} />   
+               // <ValidatePrivate component={StudiesPage} requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]} />   
+               <StudiesPage />
             } />
 
             <Route path="/dashboard/*" element={<Error404Page />} />

@@ -1,3 +1,18 @@
+import React from 'react'
+
+const DicomViewer = () => {
+  return (
+    <div>DicomViewer</div>
+  )
+}
+
+export default DicomViewer
+
+
+
+
+
+/* 
 
 
 import { useEffect, useRef } from "react";
@@ -72,3 +87,4 @@ const DicomViewer = () => {
 
 export default DicomViewer;
  
+ */

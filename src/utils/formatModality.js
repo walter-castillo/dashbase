@@ -1,3 +1,16 @@
+export const modalityMap = {
+  CR: 'RX',                      // Radiografía Computada
+  CT: 'Tomografía',            // Computed Tomography
+  MR: 'Resonancia',            // Magnetic Resonance
+  US: 'Ecografía',             // Ultrasound
+  NM: 'Medicina Nuclear',      // Nuclear Medicine
+  XA: 'Angiografía',           // X-Ray Angiography
+  MG: 'Mamografía',
+  DX: 'Radiografía Digital',
+  PT: 'Tomografía EP',
+  OT: 'Otros',
+};
+
 /**
  * Traduce códigos de modalidad DICOM a nombres más legibles o conocidos por usuarios.
  *
@@ -5,21 +18,12 @@
  * @returns {string} Modalidad traducida (ej. 'RX', 'Tomografía', 'Resonancia'). Devuelve '-' si no hay valor.
  */
 export const formatModality = (modality) => {
-      if (!modality) return '-';
-    
-      const modalityMap = {
-        CR: 'RX',                  // Radiografía Computada
-        CT: 'Tomografía',          // Computed Tomography
-        MR: 'Resonancia',          // Magnetic Resonance
-        US: 'Ecografía',           // Ultrasound
-        NM: 'Medicina Nuclear',    // Nuclear Medicine
-        XA: 'Angiografía',         // X-Ray Angiography
-        MG: 'Mamografía',
-        DX: 'Radiografía Digital',
-        PT: 'Tomografía por Emisión de Positrones',
-        OT: 'Otros',
-      };
-    
-      return modalityMap[modality] || modality;
-    };
-    
+  if (!modality) return '-';
+
+  return modalityMap[modality] || modality;
+};
+
+export const modalityOptions = Object.entries(modalityMap).map(([code, name]) => ({
+  value: code, // El valor que se guardará en el estado del filtro (CR, CT, etc.)
+  label: name, // El texto que se mostrará al usuario (RX, Tomografía, etc.)
+}));
