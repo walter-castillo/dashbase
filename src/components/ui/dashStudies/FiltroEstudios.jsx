@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Grid,
   TextField,
@@ -12,13 +11,12 @@ import { modalityOptions } from "../../../utils/formatModality";
 import dayjs from "dayjs";
 
 const FiltroEstudios = ({ filtros, setFiltros }) => {
-
   return (
     <Grid container spacing={2} alignItems="center" mb={3}>
+      {/* Nombre */}
       <Grid sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
         <TextField
           label="Nombre"
-          fullWidth
           variant="outlined"
           value={filtros.nombre}
           onChange={(e) => setFiltros({ ...filtros, nombre: e.target.value })}
@@ -26,6 +24,25 @@ const FiltroEstudios = ({ filtros, setFiltros }) => {
         />
       </Grid>
 
+      {/* Número de Estudio */}
+      <Grid
+        sx={{
+          gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" },
+        }}
+      >
+        <TextField
+          label="Número de Estudio"
+          fullWidth
+          variant="outlined"
+          value={filtros.numeroEstudio}
+          onChange={(e) =>
+            setFiltros({ ...filtros, numeroEstudio: e.target.value })
+          }
+          color={filtros.numeroEstudio ? "secondary" : "default"}
+        />
+      </Grid>
+
+      {/* Modalidad */}
       <Grid sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
         <FormControl fullWidth variant="outlined">
           <InputLabel id="modality-select-label">Modalidad</InputLabel>
@@ -38,9 +55,8 @@ const FiltroEstudios = ({ filtros, setFiltros }) => {
             }
             color={filtros.modality ? "secondary" : "default"}
             sx={{
-              minWidth: "13em",
+              minWidth: "14em",
               boxSizing: "border-box",
-              paddingRight: "32px",
             }}
           >
             <MenuItem value="">Todas</MenuItem>
@@ -53,7 +69,13 @@ const FiltroEstudios = ({ filtros, setFiltros }) => {
         </FormControl>
       </Grid>
 
-      <Grid sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
+      {/* Desde */}
+      <Grid
+        sx={{
+          gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" },
+          maxWidth: "14rem",
+        }}
+      >
         <DatePicker
           label="Desde"
           value={filtros.desde}
@@ -62,14 +84,21 @@ const FiltroEstudios = ({ filtros, setFiltros }) => {
           maxDate={dayjs()}
           slotProps={{
             textField: {
-              fullWidth: true,
               variant: "outlined",
+              color: filtros.desde ? "secondary" : "default",
+              inputProps: { placeholder: "DD/MM/AAAA" },
             },
           }}
         />
       </Grid>
 
-      <Grid sx={{ gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" } }}>
+      {/* Hasta */}
+      <Grid
+        sx={{
+          gridColumn: { xs: "span 12", sm: "span 6", md: "span 3" },
+          maxWidth: "14rem",
+        }}
+      >
         <DatePicker
           label="Hasta"
           value={filtros.hasta}
@@ -78,8 +107,8 @@ const FiltroEstudios = ({ filtros, setFiltros }) => {
           maxDate={dayjs()}
           slotProps={{
             textField: {
-              fullWidth: true,
               variant: "outlined",
+              color: filtros.hasta ? "secondary" : "default",
               inputProps: { placeholder: "DD/MM/AAAA" },
             },
           }}

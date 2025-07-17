@@ -17,6 +17,7 @@ const columnMap = {
   DNI: "PatientID",
   Fecha: "StudyDate",
   Modalidad: "ModalitiesInStudy",
+  "Número Estudio": "AccessionNumber",
 };
 
 const DashStudies = () => {
@@ -25,7 +26,9 @@ const DashStudies = () => {
     modality: "",
     desde: null,
     hasta: null,
+    numeroEstudio: "",
   });
+
   const [estudios, setEstudios] = useState([]);
   const [orden, setOrden] = useState({ orden: "asc", ordenPor: "StudyDate" });
   const [pagina, setPagina] = useState(0);
@@ -34,11 +37,23 @@ const DashStudies = () => {
   const [loading, setLoading] = useState(false);
 
   const hayFiltrosActivos = useMemo(
-    () => Object.values(filtros).some((v) => v !== "" && v !== null),
+    () =>
+      Object.values(filtros).some(
+        (v) => v !== "" && v !== null && v !== undefined
+      ),
     [filtros]
   );
 
   const handleBuscar = async () => {
+    if (
+      filtros.desde &&
+      filtros.hasta &&
+      dayjs(filtros.hasta).isBefore(dayjs(filtros.desde))
+    ) {
+      alert("La fecha 'Hasta' no puede ser anterior a 'Desde'");
+      return;
+    }
+
     const query = new URLSearchParams();
     if (filtros.nombre) query.append("nombre", filtros.nombre);
     if (filtros.modality) query.append("modality", filtros.modality);
@@ -46,6 +61,8 @@ const DashStudies = () => {
       query.append("desde", dayjs(filtros.desde).format("YYYYMMDD"));
     if (filtros.hasta)
       query.append("hasta", dayjs(filtros.hasta).format("YYYYMMDD"));
+    if (filtros.numeroEstudio)
+      query.append("numeroEstudio", filtros.numeroEstudio);
 
     try {
       setLoading(true);
@@ -57,6 +74,16 @@ const DashStudies = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleLimpiar = () => {
+    setFiltros({
+      nombre: "",
+      modality: "",
+      desde: null,
+      hasta: null,
+      numeroEstudio: "",
+    });
   };
 
   const obtenerValorOrden = (estudio, campo) => {
@@ -81,13 +108,15 @@ const DashStudies = () => {
     return estudiosOrdenados.slice(inicio, inicio + porPagina);
   }, [estudiosOrdenados, pagina, porPagina]);
 
-  const handleLimpiar = () => {
-    setFiltros({ nombre: "", modality: "", desde: null, hasta: null });
-  };
-
   useEffect(() => {
     if (mostrarRecientes) {
-      setFiltros({ nombre: "", modality: "", desde: null, hasta: null });
+      setFiltros({
+        nombre: "",
+        modality: "",
+        desde: null,
+        hasta: null,
+        numeroEstudio: "",
+      });
       const fetchRecentStudies = async () => {
         await handleBuscar();
         setMostrarRecientes(false);
@@ -98,11 +127,14 @@ const DashStudies = () => {
     }
   }, [filtros, mostrarRecientes]);
 
-  useEffect(() => {handleBuscar()}, []);
+  useEffect(() => {
+    handleBuscar();
+  }, []);
 
   return (
     <Paper sx={{ p: 2 }}>
       <FiltroEstudios filtros={filtros} setFiltros={setFiltros} />
+
       <AccionesEstudios
         onExportPDF={() => exportToPDF(estudios)}
         onExportExcel={() => exportToExcel(estudios)}
@@ -110,13 +142,14 @@ const DashStudies = () => {
         onLimpiarFiltros={handleLimpiar}
         hayFiltrosActivos={hayFiltrosActivos}
       />
+
       {loading ? (
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
           minHeight="300px"
-          mt={-30} 
+          mt={-50}
         >
           <Loading />
         </Box>

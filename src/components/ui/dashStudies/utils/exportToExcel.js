@@ -6,6 +6,7 @@ const exportToExcel = (estudios) => {
     DNI: Patient.PatientID,
     Fecha: Study.StudyDate,
     Modalidad: Study.ModalitiesInStudy,
+    "N de estudio": Study.AccessionNumber,
     Institución: Study.InstitutionName,
   }));
 

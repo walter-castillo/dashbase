@@ -17,7 +17,7 @@ const AccionesEstudios = ({
       flexDirection={{ xs: "column", sm: "row" }}
       justifyContent="space-between"
       alignItems={{ xs: "stretch", sm: "center" }}
-      gap={1}
+      gap={.5}
       mb={2}
     >
       {/* Botones izquierda: Ver Recientes + Limpiar Filtros */}
