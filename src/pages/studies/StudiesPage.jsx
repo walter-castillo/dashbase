@@ -1,11 +1,11 @@
 import { Box } from '@mui/material';
-import TableStudies from '../../components/ui/dashStudies/TableStudies';
+import DashStudies from "../../components/ui/dashStudies/DashStudies";
 
 export const StudiesPage = () => {
   return (
     <Box display="flex" justifyContent="space-between" alignItems="center">
       <Box sx={{ width: "100%", overflowX: "auto" }}>
-        <TableStudies />
+        <DashStudies />
       </Box>
     </Box>
   );
