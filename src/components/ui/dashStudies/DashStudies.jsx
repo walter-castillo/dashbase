@@ -37,7 +37,10 @@ const DashStudies = () => {
   const [loading, setLoading] = useState(false);
 
   const hayFiltrosActivos = useMemo(
-    () =>Object.values(filtros).some((v) => v !== "" && v !== null && v !== undefined  ),
+    () =>
+      Object.values(filtros).some(
+        (v) => v !== "" && v !== null && v !== undefined
+      ),
     [filtros]
   );
 
@@ -46,7 +49,8 @@ const DashStudies = () => {
       filtros.desde &&
       filtros.hasta &&
       dayjs(filtros.hasta).isBefore(dayjs(filtros.desde))
-    ) {alert("La fecha 'Hasta' no puede ser anterior a 'Desde'");
+    ) {
+      alert("La fecha 'Hasta' no puede ser anterior a 'Desde'");
       return;
     }
 
@@ -80,6 +84,7 @@ const DashStudies = () => {
       hasta: null,
       numeroEstudio: "",
     });
+    setEstudios([]);
   };
 
   const obtenerValorOrden = (estudio, campo) => {
@@ -118,10 +123,8 @@ const DashStudies = () => {
         setMostrarRecientes(false);
       };
       fetchRecentStudies();
-    } else {
-      handleBuscar();
     }
-  }, [filtros, mostrarRecientes]);
+  }, [mostrarRecientes]);
 
   useEffect(() => {
     handleBuscar();
@@ -134,6 +137,7 @@ const DashStudies = () => {
         setFiltros={setFiltros}
         handleLimpiar={handleLimpiar}
         hayFiltrosActivos={hayFiltrosActivos}
+        onBuscar={handleBuscar}
       />
       <Divider />
       <AccionesEstudios

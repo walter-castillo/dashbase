@@ -15,8 +15,13 @@ import dayjs from "dayjs";
 import { Grid4x4Sharp } from "@mui/icons-material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 
-const FiltroEstudios = ({ filtros, setFiltros ,handleLimpiar, hayFiltrosActivos}) => {
-
+const FiltroEstudios = ({
+  filtros,
+  setFiltros,
+  handleLimpiar,
+  hayFiltrosActivos,
+  onBuscar,
+}) => {
   return (
     <Grid container spacing={2} alignItems="center" mb={3}>
       {/* Nombre */}
@@ -39,7 +44,9 @@ const FiltroEstudios = ({ filtros, setFiltros ,handleLimpiar, hayFiltrosActivos}
           type="number"
           variant="outlined"
           value={filtros.numeroEstudio}
-          onChange={(e) => setFiltros({ ...filtros, numeroEstudio: e.target.value })}
+          onChange={(e) =>
+            setFiltros({ ...filtros, numeroEstudio: e.target.value })
+          }
           color={filtros.numeroEstudio ? "secondary" : "default"}
         />
       </Grid>
@@ -142,9 +149,11 @@ const FiltroEstudios = ({ filtros, setFiltros ,handleLimpiar, hayFiltrosActivos}
                 textOverflow: "ellipsis",
                 flexShrink: 0,
               }}
-              color={hayFiltrosActivos ? "secondary" : "primary"}
+              color="secondary"
+            //   color={hayFiltrosActivos ? "secondary" : "primary"}
               fullWidth
-              onClick={() => console.log("Buscar con filtros:", filtros)}
+              disabled={!hayFiltrosActivos}
+              onClick={onBuscar}
             >
               Buscar
             </Button>
