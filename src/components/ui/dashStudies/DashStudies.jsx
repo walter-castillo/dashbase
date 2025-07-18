@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo } from "react";
-import { Paper, Box } from "@mui/material";
+import { Paper, Box, Divider } from "@mui/material";
 import dayjs from "dayjs";
 
 import FiltroEstudios from "./FiltroEstudios";
@@ -37,10 +37,7 @@ const DashStudies = () => {
   const [loading, setLoading] = useState(false);
 
   const hayFiltrosActivos = useMemo(
-    () =>
-      Object.values(filtros).some(
-        (v) => v !== "" && v !== null && v !== undefined
-      ),
+    () =>Object.values(filtros).some((v) => v !== "" && v !== null && v !== undefined  ),
     [filtros]
   );
 
@@ -49,8 +46,7 @@ const DashStudies = () => {
       filtros.desde &&
       filtros.hasta &&
       dayjs(filtros.hasta).isBefore(dayjs(filtros.desde))
-    ) {
-      alert("La fecha 'Hasta' no puede ser anterior a 'Desde'");
+    ) {alert("La fecha 'Hasta' no puede ser anterior a 'Desde'");
       return;
     }
 
@@ -133,8 +129,13 @@ const DashStudies = () => {
 
   return (
     <Paper sx={{ p: 2 }}>
-      <FiltroEstudios filtros={filtros} setFiltros={setFiltros} />
-
+      <FiltroEstudios
+        filtros={filtros}
+        setFiltros={setFiltros}
+        handleLimpiar={handleLimpiar}
+        hayFiltrosActivos={hayFiltrosActivos}
+      />
+      <Divider />
       <AccionesEstudios
         onExportPDF={() => exportToPDF(estudios)}
         onExportExcel={() => exportToExcel(estudios)}
