@@ -23,6 +23,7 @@ const columnMap = {
 const DashStudies = () => {
   const [filtros, setFiltros] = useState({
     nombre: "",
+    dni: "",
     modality: "",
     desde: null,
     hasta: null,
@@ -56,6 +57,7 @@ const DashStudies = () => {
 
     const query = new URLSearchParams();
     if (filtros.nombre) query.append("nombre", filtros.nombre);
+    if (filtros.dni) query.append("dni", filtros.dni);
     if (filtros.modality) query.append("modality", filtros.modality);
     if (filtros.desde)
       query.append("desde", dayjs(filtros.desde).format("YYYYMMDD"));
@@ -79,6 +81,7 @@ const DashStudies = () => {
   const handleLimpiar = () => {
     setFiltros({
       nombre: "",
+      dni: "",
       modality: "",
       desde: null,
       hasta: null,
@@ -113,6 +116,7 @@ const DashStudies = () => {
     if (mostrarRecientes) {
       setFiltros({
         nombre: "",
+        dni: "",
         modality: "",
         desde: null,
         hasta: null,

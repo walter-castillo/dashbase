@@ -12,7 +12,6 @@ import { DatePicker } from "@mui/x-date-pickers";
 import { modalityOptions } from "../../../utils/formatModality";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import dayjs from "dayjs";
-import { Grid4x4Sharp } from "@mui/icons-material";
 import { GridSearchIcon } from "@mui/x-data-grid";
 
 const FiltroEstudios = ({
@@ -33,6 +32,17 @@ const FiltroEstudios = ({
           value={filtros.nombre}
           onChange={(e) => setFiltros({ ...filtros, nombre: e.target.value })}
           color={filtros.nombre ? "secondary" : "default"}
+        />
+      </Grid>
+      {/* dni */}
+      <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+        <TextField
+          fullWidth
+          label="DNI"
+          variant="outlined"
+          value={filtros.dni}
+          onChange={(e) => setFiltros({ ...filtros, dni: e.target.value })}
+          color={filtros.dni ? "secondary" : "default"}
         />
       </Grid>
 
