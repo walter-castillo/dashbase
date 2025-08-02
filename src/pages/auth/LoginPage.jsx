@@ -34,7 +34,10 @@ export const LoginPage = () => {
   } = useForm({ resolver: yupResolver(loginSchema) });
 
   const onSubmit = async (data) => {
-    const ok = await login({ email: 'email5@email.com', password: '123123Abc' });
+    const ok = await login({
+      email: "email3@email.com",
+      password: "123123Abc",
+    });
     navigate('/dashboard/usuarios');
   };
 

@@ -1,11 +1,10 @@
-import React, { useContext, useEffect, useRef, useState } from 'react';
-import { DataGrid , useGridApiRef } from '@mui/x-data-grid';
+import {  useEffect, useState } from 'react';
+import { DataGrid  } from '@mui/x-data-grid';
 
 import { Link, useNavigate } from 'react-router-dom';
 import { Button, Typography, Box } from '@mui/material';
 import { columns, getDataRows,  dataGridConfig } from './dataGridUserConfig'; 
 import { Loading } from '../../components/ui/Loading';
-import Errors from '../../components/ui/Errors';
 import { useUser } from '../../providers/UserProvider';
 import { useAuth } from '../../providers/AuthProvider';
 import { PERMISOS } from '../../data/constants';

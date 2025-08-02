@@ -20,6 +20,8 @@ export const PERMISOS  = {
 
   PERMISO_VER: 'permiso.ver',
   PERMISOS_VER_TODOS: 'permisos.ver.todos',
+
+  GENERAR_CODIGO: 'generar.codigo',
 };
 
 

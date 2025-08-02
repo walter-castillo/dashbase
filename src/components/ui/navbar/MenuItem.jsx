@@ -9,9 +9,27 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 import StarBorder from "@mui/icons-material/StarBorder";
 import { Link } from "react-router-dom";
 import { useState } from "react";
+import { useHasAccess } from "../../../hooks/useHasAccess";
+import { PERMISOS } from "../../../data/constants";
 
 export default function MenuItem() {
   const [open, setOpen] = useState([false, false]); // Inicializa ambos elementos en false
+
+
+  const permVerUsuarios= useHasAccess({permiso:PERMISOS.USUARIOS_VER_TODOS})
+  const permGenerarCodigo = useHasAccess({permiso:PERMISOS.GENERAR_CODIGO})
+  const permVerRoles = useHasAccess({permiso:PERMISOS.ROLES_VER_TODOS})
+  const permVerEstudios= useHasAccess({permiso:PERMISOS.ESTUDIOS_VER_TODOS})
+  
+
+  // const permUserCreate = useHasAccess({ permiso: PERMISOS.USUARIO_CREAR });
+  /* {
+    permUserCreate && (
+      <Button component={Link} to="crear" variant="contained">
+        Crear Usuario
+      </Button>
+    );
+  } */
 
   const handleClick = (index) => {
     const newOpenState = open.map((_, i) =>
@@ -26,37 +44,43 @@ export default function MenuItem() {
       component="nav"
       aria-labelledby="nested-list-subheader"
     >
-      <ListItemButton   component={Link} to="/dashboard/roles">
-      {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Roles/Permisos" />
-        {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
-      </ListItemButton>
+      {permVerRoles && (
+        <ListItemButton component={Link} to="/dashboard/roles">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Roles/Permisos" />
+        </ListItemButton>
+      )}
       
-      <ListItemButton   component={Link} to="/dashboard/usuarios">
-      {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Usuarios" />
-        {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
-      </ListItemButton>
+      {permVerUsuarios && (
+        <ListItemButton component={Link} to="/dashboard/usuarios">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Usuarios" />
+        </ListItemButton>
+      )}
 
+      {permGenerarCodigo && (
+        <ListItemButton component={Link} to="/dashboard/generarcodigo">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Generar codigo" />
+        </ListItemButton>
+      )}
 
+      {permVerEstudios && (
+        <ListItemButton component={Link} to="/dashboard/estudios">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Estudios" />
+        </ListItemButton>
+      )}
 
-      <ListItemButton   component={Link} to="/dashboard/estudios">
-      {/* <ListItemButton onClick={() => handleClick(0)}  component={Link} to="/dashboard"> */}
-        <ListItemIcon>
-          <InboxIcon />
-        </ListItemIcon>
-        <ListItemText primary="Estudios" />
-        {/* {open[0] ? <ExpandLess /> : <ExpandMore />} */}
-      </ListItemButton>
-      
-
-      <ListItemButton onClick={() => handleClick(1)}>
+      {/* <ListItemButton onClick={() => handleClick(1)}>
         <ListItemIcon>
           <InboxIcon />
         </ListItemIcon>
@@ -72,78 +96,7 @@ export default function MenuItem() {
             <ListItemText primary="texto2" />
           </ListItemButton>
         </List>
-      </Collapse>
+      </Collapse> */}
     </List>
   );
 }
-
-
-
-
-/* import * as React from 'react';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PeopleIcon from '@mui/icons-material/People';
-import BarChartIcon from '@mui/icons-material/BarChart';
-import LayersIcon from '@mui/icons-material/Layers';
-import AssignmentIcon from '@mui/icons-material/Assignment';
-import { Link } from 'react-router-dom';
-
-export const mainListItems = (
-  <React.Fragment>
-    <ListItemButton LinkComponent={Link} to='/dashboard'>
-      <ListItemIcon>
-        <DashboardIcon />
-      </ListItemIcon>
-      <ListItemText primary="Dashboard"  />
-    </ListItemButton>
-    <ListItemButton LinkComponent={Link} to={'/productos'}>
-      <ListItemIcon>
-        <ShoppingCartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Productos" />
-    </ListItemButton>
-    <ListItemButton LinkComponent={Link} to={'/usuarios'}>
-      <ListItemIcon>
-        <PeopleIcon />
-      </ListItemIcon>
-      <ListItemText primary="Usuarios" />
-    </ListItemButton>
-    <ListItemButton LinkComponent={Link} to={'/estadisticas'}>
-      <ListItemIcon>
-        <BarChartIcon />
-      </ListItemIcon>
-      <ListItemText primary="Estadicticas" />
-    </ListItemButton>
-  </React.Fragment>
-);
-
-export const secondaryListItems = (
-  <React.Fragment>
-     <ListSubheader component="div" inset>
-      Saved reports
-    </ListSubheader>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Current month" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Last quarter" />
-    </ListItemButton>
-    <ListItemButton>
-      <ListItemIcon>
-        <AssignmentIcon />
-      </ListItemIcon>
-      <ListItemText primary="Year-end sale" />
-    </ListItemButton> 
-  </React.Fragment>
-); */

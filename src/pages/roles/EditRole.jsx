@@ -78,85 +78,102 @@ export const EditRole = () => {
  if (!state.role ) { return <Loading />}
   
  return (
-    <>
-      <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} md={6}>
-        <form noValidate onSubmit={handleSubmit}>
-          <h3>Editar rol</h3>
-          {errorEdit && <Errors errorsBack={errorEdit} />}
-          <TextField
-            label="Nombre del Rol"
-            name="role"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            value={roleEdit.role}
-            onChange={onchangeInput}
-          />
+   <>
+     <Grid container spacing={2} justifyContent="center">
+       <Grid size={{ xs: 12, sm: 6}}>
+         <form noValidate onSubmit={handleSubmit}>
+           <h3>Editar rol</h3>
+           {errorEdit && <Errors errorsBack={errorEdit} />}
+           <TextField
+             label="Nombre del Rol"
+             name="role"
+             variant="outlined"
+             fullWidth
+             margin="normal"
+             value={roleEdit.role}
+             onChange={onchangeInput}
+           />
 
-          <TextField
-            label="Descripción del Rol"
-            variant="outlined"
-            multiline
-            rows={4}
-            fullWidth
-            margin="normal"
-            name="description"
-            value={roleEdit.description}
-            onChange={onchangeInput}
-          />
+           <TextField
+             label="Descripción del Rol"
+             variant="outlined"
+             multiline
+             rows={4}
+             fullWidth
+             margin="normal"
+             name="description"
+             value={roleEdit.description}
+             onChange={onchangeInput}
+           />
 
-          <Divider sx={{ my: 1 }} />
-          <RadioGroup
-            aria-label="Estado del Rol"
-            name="status"
-            value={roleEdit.status}
-            onChange={onchangeInput}
-          >
-            <FormControlLabel value="true" control={<Radio />} label="Activo" />
-            <FormControlLabel value="false" control={<Radio />} label="Inactivo" />
-          </RadioGroup>
+           <Divider sx={{ my: 1 }} />
+           <RadioGroup
+             aria-label="Estado del Rol"
+             name="status"
+             value={roleEdit.status}
+             onChange={onchangeInput}
+           >
+             <FormControlLabel
+               value="true"
+               control={<Radio />}
+               label="Activo"
+             />
+             <FormControlLabel
+               value="false"
+               control={<Radio />}
+               label="Inactivo"
+             />
+           </RadioGroup>
 
-          <Divider sx={{ my: 1 }} />
-          {state.permissions?.map(permission => (
-            <div key={permission._id}>
-              <label>
-                <input
-                  type="checkbox"
-                  value={permission._id}
-                  name={permission.permission}
-                  checked={idsPermissionsRole.includes(permission._id)}
-                  onChange={handlePermissionChange}
-                />
-                <span style={{ fontWeight: 'bold', fontSize: '1.1em', margin: '5px 0' }}>{permission.permission}</span> - ({permission.description})
-              </label> <br />
-            </div>
-          ))}
-          <Divider sx={{ my: 3 }} />
+           <Divider sx={{ my: 1 }} />
+           {state.permissions?.map((permission) => (
+             <div key={permission._id}>
+               <label>
+                 <input
+                   type="checkbox"
+                   value={permission._id}
+                   name={permission.permission}
+                   checked={idsPermissionsRole.includes(permission._id)}
+                   onChange={handlePermissionChange}
+                 />
+                 <span
+                   style={{
+                     fontWeight: "bold",
+                     fontSize: "1.1em",
+                     margin: "5px 0",
+                   }}
+                 >
+                   {permission.permission}
+                 </span>{" "}
+                 - ({permission.description})
+               </label>{" "}
+               <br />
+             </div>
+           ))}
+           <Divider sx={{ my: 3 }} />
 
-          <Button
-            type="submit"
-            variant="contained"
-            size='large'
-            sx={{ mt: 3, ml: 2 }}
-          >
-            Guardar Cambios
-          </Button>
+           <Button
+             type="submit"
+             variant="contained"
+             size="large"
+             sx={{ mt: 3, ml: 2 }}
+           >
+             Guardar Cambios
+           </Button>
 
-
-          <Button
-            component={Link}
-            to="/dashboard/roles"
-            variant="contained"
-            size='large'
-            sx={{ mt: 3, ml: 2 }}
-          >
-            Volver
-          </Button>
-        </form>
-      </Grid>
-    </Grid>
-     </>
-  );
+           <Button
+             component={Link}
+             to="/dashboard/roles"
+             variant="contained"
+             size="large"
+             sx={{ mt: 3, ml: 2 }}
+           >
+             Volver
+           </Button>
+         </form>
+       </Grid>
+     </Grid>
+   </>
+ );
 
 }

@@ -44,8 +44,20 @@ const StudyTable = ({ studies }) => {
         <Table>
           <TableHead>
             <TableRow sx={styles.headerRow}>
-              {['N°', 'Fecha', 'Tipo', 'Informe', 'Visualizar', 'Ver2', 'Descargar', 'Compartir'].map((text, i) => (
-                <TableCell key={i} align="center" sx={styles.headerCell}>{text}</TableCell>
+              {[
+                "N°",
+                "Fecha",
+                "Tipo",
+                "Informe",
+                "Visualizar",
+               /*  "Ver2",
+                "Ver3", */
+                "Descargar",
+                "Compartir",
+              ].map((text, i) => (
+                <TableCell key={i} align="center" sx={styles.headerCell}>
+                  {text}
+                </TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -53,40 +65,64 @@ const StudyTable = ({ studies }) => {
             {studies.map((study, index) => {
               const isEven = index % 2 === 0;
               return (
-                <TableRow key={index} sx={isEven ? styles.evenRow : styles.oddRow}>
-                  <TableCell align="center" sx={styles.textSmall}>{study.accessionNumber}</TableCell>
-                  <TableCell align="center" sx={styles.textSmall}>{formatDate(study.studyDate)}</TableCell>
-                  <TableCell align="center" sx={styles.textSmall}>{formatModality(study.modality)}</TableCell>
+                <TableRow
+                  key={index}
+                  sx={isEven ? styles.evenRow : styles.oddRow}
+                >
+                  <TableCell align="center" sx={styles.textSmall}>
+                    {study.accessionNumber}
+                  </TableCell>
+                  <TableCell align="center" sx={styles.textSmall}>
+                    {formatDate(study.studyDate)}
+                  </TableCell>
+                  <TableCell align="center" sx={styles.textSmall}>
+                    {formatModality(study.modality)}
+                  </TableCell>
 
                   {/* Informe */}
                   <TableCell align="center">
-                    <Tooltip title={study.reportURL ? 'Ver informe' : 'Sin informe'}>
+                    <Tooltip
+                      title={study.reportURL ? "Ver informe" : "Sin informe"}
+                    >
                       <span>
                         <IconButton
                           component="a"
-                          href={study.reportURL || '#'}
+                          href={study.reportURL || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           disabled={!study.reportURL}
                         >
-                          <DescriptionIcon sx={{ color: study.reportURL ? '#9c27b0' : '#ccc' }} />
+                          <DescriptionIcon
+                            sx={{ color: study.reportURL ? "#9c27b0" : "#ccc" }}
+                          />
                         </IconButton>
                       </span>
                     </Tooltip>
                   </TableCell>
 
-                  {/* Ver */}
+                  {/* Ver 
                   <TableCell align="center">
-                    <ViewStudyButton studyUID={study.studyUID} enabled={!!study.studyUID} />
-                  </TableCell>
+                    <ViewStudyButton
+                      studyUID={study.studyUID}
+                      enabled={!!study.studyUID}
+                    />
+                  </TableCell>*/}
+
+                  
                   {/* Ver  2*/}
                   <TableCell align="center">
-                    <ViewStudyButton2 studyUID={study.studyUID} enabled={!!study.studyUID} />
+                    <ViewStudyButton2
+                      studyUID={study.studyUID}
+                      enabled={!!study.studyUID}
+                    />
                   </TableCell>
-                  {/* Ver  3*/}
+                  {/* Ver  3
                   <TableCell align="center">
-                    <ViewStudyButton3 studyUID={study.studyUID} enabled={!!study.studyUID} />
-                  </TableCell>
+                    <ViewStudyButton3
+                      studyUID={study.studyUID}
+                      enabled={!!study.studyUID}
+                    />
+                  </TableCell>*/}
 
                   {/* Descargar */}
                   <TableCell align="center">
@@ -101,28 +137,46 @@ const StudyTable = ({ studies }) => {
                     <Tooltip
                       title={
                         study.shareURL || study.retrieveURL
-                          ? 'Compartir estudio'
-                          : 'Compartir no disponible'
+                          ? "Compartir estudio"
+                          : "Compartir no disponible"
                       }
                     >
                       <span>
                         <IconButton
                           onClick={() => {
-                            const url = study.shareURL || study.retrieveURL || window.location.href;
+                            const url =
+                              study.shareURL ||
+                              study.retrieveURL ||
+                              window.location.href;
                             if (!url) return;
 
                             if (navigator.share) {
-                              navigator.share({ title: 'Estudio Médico', text: 'Mirá este estudio', url });
+                              navigator.share({
+                                title: "Estudio Médico",
+                                text: "Mirá este estudio",
+                                url,
+                              });
                             } else {
                               navigator.clipboard
                                 .writeText(url)
-                                .then(() => alert('Enlace copiado al portapapeles 📋'))
-                                .catch(() => alert('No se pudo copiar el enlace 😞'));
+                                .then(() =>
+                                  alert("Enlace copiado al portapapeles 📋")
+                                )
+                                .catch(() =>
+                                  alert("No se pudo copiar el enlace 😞")
+                                );
                             }
                           }}
                           disabled={!study.shareURL && !study.retrieveURL}
                         >
-                          <ShareIcon sx={{ color: (study.shareURL || study.retrieveURL) ? '#4caf50' : '#ccc' }} />
+                          <ShareIcon
+                            sx={{
+                              color:
+                                study.shareURL || study.retrieveURL
+                                  ? "#4caf50"
+                                  : "#ccc",
+                            }}
+                          />
                         </IconButton>
                       </span>
                     </Tooltip>

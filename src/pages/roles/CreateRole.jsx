@@ -88,7 +88,7 @@ const handlePermissionChange = (e) => {
  return (
     <>
       <Grid container spacing={2} justifyContent="center">
-      <Grid item xs={12} md={6}>
+      <Grid size={{ xs: 12, sm: 6}}>
         <form noValidate onSubmit={handleSubmit}>
           <h3>Crear rol</h3>
           {errorCreate && <Errors errorsBack={errorCreate} />}

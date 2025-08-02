@@ -85,8 +85,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
               </TableCell>
             </TableRow>
           ) : (
-            (console.log(estudios),
-            estudios.map((est, i) => (
+            (estudios.map((est, i) => (
               <TableRow key={i}>
                 <TableCell>{est.Patient?.PatientName}</TableCell>
                 <TableCell>{est.Patient?.PatientID}</TableCell>
