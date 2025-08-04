@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 // const navigate = useNavigate()
 export default function Profile() {
   const navigate = useNavigate()
-  const { logout:logoutProfile } = useAuth();
+  const { logout:logoutProfile, state } = useAuth();
   const {resetAllContexts}= useResetContext()
 
   const onClickLogout = () => {
@@ -36,10 +36,10 @@ export default function Profile() {
   
   return (
     <>
-    <button onClick={onClickLogout}>Recargar1</button>
+    {/* <button onClick={onClickLogout}>Recargar1</button> */}
       <Box sx={{ display: 'flex', alignItems: 'center', textAlign: 'center'}}>
-        <Typography sx={{ minWidth: 50, fontSize: 12 }}>Contact</Typography>
-        <Typography sx={{ minWidth: 80, fontSize: 12}}>Profile</Typography>
+        {/* <Typography sx={{ minWidth: 50, fontSize: 12 }}>Contact</Typography> */}
+        {/* <Typography sx={{ minWidth: 80, fontSize: 12}}>Profile</Typography> */}
           <IconButton
             onClick={handleClick}
             size="small"
@@ -86,14 +86,12 @@ export default function Profile() {
         transformOrigin={{ horizontal: 'right', vertical: 'top' }}
         anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
       >
+        
         <MenuItem onClick={handleClose}>
-          <Avatar /> 
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <Avatar /> My account
+          <Avatar /> {state.user?.name || 'no name'}
         </MenuItem>
         <Divider />
-        <MenuItem onClick={handleClose}>
+        {/* <MenuItem onClick={handleClose}>
           <ListItemIcon>
             <PersonAdd fontSize="small" />
           </ListItemIcon>
@@ -104,11 +102,8 @@ export default function Profile() {
             <Settings fontSize="small" />
           </ListItemIcon>
           Settings
-        </MenuItem>
-
-
-
-
+        </MenuItem> */}
+        
         <MenuItem onClick={onClickLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />

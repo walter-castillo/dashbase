@@ -11,11 +11,17 @@ import  {ConfirmationDeleteAlert} from '../../helpers/confirmationDeleteAlert';
 import  {showAlert} from '../../helpers/showAlert';
 import { useRole } from '../../providers/RoleProvider';
 import  {useResetContext}  from '../../hooks/useResetContext';
+import { useHasAccess } from '../../hooks/useHasAccess';
+import { PERMISOS } from '../../data/constants';
 
 export const RolesPage = () => {
  const {resetAllContexts} = useResetContext();
 
   const { state, getRoles, roleDelete } = useRole();
+
+const permCrearRol = useHasAccess({permiso:PERMISOS.ROL_CREAR})
+const permEditarRol = useHasAccess({permiso:PERMISOS.ROL_ACTUALIZAR})
+const permEliminarRol = useHasAccess({permiso:PERMISOS.ROL_ELIMINAR})
 
   useEffect(() => {
     if (state.success?.accion=='edit')    showAlert(state.success.msg, 'success',900) 
@@ -39,9 +45,11 @@ if (!state.roles || state.roles.length === 0) { return <Loading />}
 
   return (
        <>
-       <button onClick={resetAllContexts}>Recargar</button>
+       {/* <button onClick={resetAllContexts}>Recargar</button> */}
        
-      <Button component={Link} to="crear" variant="contained" color="primary" style={{ marginBottom: '1rem' }}>Crear Nuevo Rol</Button>
+      {permCrearRol && (
+        <Button component={Link} to="crear" variant="contained" color="primary" style={{ marginBottom: '1rem' }}>Crear Nuevo Rol</Button>
+      )}
       <TableContainer component={Paper}>
         <Table style={{ borderCollapse: 'collapse' }}>
           <TableHead>
@@ -67,8 +75,8 @@ if (!state.roles || state.roles.length === 0) { return <Loading />}
                   </ul>
                 </TableCell>
                 <TableCell style={{ border: '1px solid black' }}>
-                  <Button onClick={() => handleDelete(role._id)}><DeleteIcon /></Button>
-                  <Button component={Link} to={`editar/${role._id}`}><EditIcon /></Button>
+                  {permEliminarRol && <Button onClick={() => handleDelete(role._id)}><DeleteIcon /></Button>}
+                  {permEditarRol && <Button component={Link} to={`editar/${role._id}`}><EditIcon /></Button>}
                 </TableCell>
               </TableRow>
             ))}

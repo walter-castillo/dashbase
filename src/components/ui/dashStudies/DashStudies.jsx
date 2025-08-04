@@ -9,7 +9,7 @@ import PaginacionEstudios from "./PaginacionEstudios";
 
 import exportToExcel from "./utils/exportToExcel";
 import exportToPDF from "./utils/exportToPDF";
-import { dashAxios } from "../../../config/DashRcAxios";
+import { dashAxios } from "../../../config/DashAxios";
 import { Loading } from "../Loading";
 
 const columnMap = {

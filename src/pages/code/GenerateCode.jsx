@@ -10,6 +10,7 @@ import {
   FormControl
 } from '@mui/material';
 import { PatientAxios } from '../../config/PatientAxios';
+import  {dashAxios}  from '../../config/DashAxios';
 
 const GenerateCode = () => {
   const [dni, setDni] = useState(5394119);
@@ -18,12 +19,11 @@ const GenerateCode = () => {
 
   const handleGenerate = async () => {
     try {
-      const res = await PatientAxios.post('/generateCode', { dni, expiresInMinutes });
-      
-
-      // console.log("Fecha legible:", new Date(res.data.expiresAt).toLocaleString());
-
-      setCode(res.data.code);
+      const res = await dashAxios.post('dashboard/generateCode', { dni, expiresInMinutes });
+      console.log("Fecha legible:", new Date(res.data.expiresAt).toLocaleString());
+      setCode(res.data);
+      // setDni("");
+      setExpiresInMinutes("");
     } catch (err) { alert(err.response?.data?.error || 'Error');}
   };
 
@@ -64,7 +64,9 @@ const GenerateCode = () => {
 
       {code && (
         <Typography variant="h6" sx={{ mt: 2 }}>
-          Código generado: {code}
+          Código generado: {code.code}
+          <br />
+          Fecha de expiración: {new Date(code.expiresAt).toLocaleString()}
         </Typography>
       )}
     </Container>

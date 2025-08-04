@@ -1,7 +1,7 @@
 import { useEffect, useReducer, createContext, useContext } from "react";
 import { AuthReducer } from "../reducers/AuthReducer";
 import { types } from "../types/types";
-import { dashAxios } from "../config/DashRcAxios";
+import { dashAxios } from "../config/DashAxios";
 
 const AuthContext = createContext();
 

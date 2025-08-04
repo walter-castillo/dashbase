@@ -8,6 +8,7 @@ export const dashAxios = axios.create({
 });
 
 dashAxios.interceptors.request.use( config  => {
+    //  console.log('Solicitando a:', `${config.baseURL}${config.url}`);
 
     config.headers = {
         ...config.headers,

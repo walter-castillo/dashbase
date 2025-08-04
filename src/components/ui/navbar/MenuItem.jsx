@@ -22,15 +22,6 @@ export default function MenuItem() {
   const permVerEstudios= useHasAccess({permiso:PERMISOS.ESTUDIOS_VER_TODOS})
   
 
-  // const permUserCreate = useHasAccess({ permiso: PERMISOS.USUARIO_CREAR });
-  /* {
-    permUserCreate && (
-      <Button component={Link} to="crear" variant="contained">
-        Crear Usuario
-      </Button>
-    );
-  } */
-
   const handleClick = (index) => {
     const newOpenState = open.map((_, i) =>
       i === index ? !open[index] : false

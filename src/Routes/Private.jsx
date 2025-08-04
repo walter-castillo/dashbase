@@ -17,7 +17,7 @@ const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 
 import { useAuth } from "../providers/AuthProvider";
 import { Loading } from "../components/ui/Loading";
-import GenerateCode from "../pages/patient/GenerateCode";
+import GenerateCode from "../pages/code/GenerateCode";
 
 export const ProtectedRoutes = () => {
    const token = localStorage.getItem(tokenName);
