@@ -39,18 +39,18 @@ const GenerateCode = () => {
       const doc = new jsPDF();
 
       // Título
-      doc.setFontSize(18);
-      doc.text("🔐 Código de Acceso al Estudio Médico", 20, 20);
+      doc.setFontSize(14);
+      doc.text("Código de Acceso ", 20, 20);
 
       // Información básica
       doc.setFontSize(12);
-      doc.text(`🧾 DNI del paciente: ${dni}`, 20, 40);
-      doc.text(`🔑 Código: ${generatedCode}`, 20, 50);
-      doc.textWithLink(`🌐 URL de acceso: ${accessUrl}`, 20, 60, { url: accessUrl });
-      doc.text(`⏰ Expira el: ${formattedDate}`, 20, 70);
+      doc.text(`DNI del paciente: ${dni}`, 20, 40);
+      doc.text(`Código: ${generatedCode}`, 20, 50);
+      doc.text(`Expira el: ${formattedDate}`, 20, 60);
+      doc.textWithLink(`${accessUrl}`, 50, 75, { url: accessUrl });
 
       // QR code
-      doc.addImage(qrDataUrl, 'PNG', 20, 85, 60, 60);
+      doc.addImage(qrDataUrl, 'PNG', 60, 85, 60, 60);
 
       // Guardar PDF
       doc.save(`codigo_acceso_${dni}.pdf`);
