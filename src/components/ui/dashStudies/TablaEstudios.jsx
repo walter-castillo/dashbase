@@ -19,7 +19,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DownloadIcon from "@mui/icons-material/Download";
 import dayjs from "dayjs";
 
-// 📄 Funciones de exportación
+
 import exportToExcel from "./utils/exportToExcel";
 import exportToPDF from "./utils/exportToPDF";
 
@@ -31,12 +31,10 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   };
 
   const handleVer = (estudio) => {
-    // 🚀 Lógica para ver el estudio (ej: abrir visor DICOM o modal)
     console.log("Ver estudio", estudio);
   };
 
   const handleExportar = (estudio) => {
-    // 🧾 Exportar solo ese estudio
     exportToPDF([estudio]); // Podés adaptar para exportToExcel también
   };
 

@@ -25,7 +25,10 @@ const AccionesEstudios = ({
         <Button
           variant="outlined"
           startIcon={<VisibilityIcon />}
-          onClick={onVerRecientes}
+          onClick={() => {
+            onLimpiarFiltros();
+            onVerRecientes();
+          }}
           fullWidth={false}
           sx={{
             maxWidth: { sm: 180 },

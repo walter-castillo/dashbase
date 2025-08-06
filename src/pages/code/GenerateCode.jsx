@@ -7,7 +7,8 @@ import {
   MenuItem,
   Select,
   InputLabel,
-  FormControl
+  FormControl,
+  CircularProgress
 } from '@mui/material';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
@@ -17,8 +18,10 @@ const GenerateCode = () => {
   const [dni, setDni] = useState(5394119);
   const [expiresInMinutes, setExpiresInMinutes] = useState('');
   const [code, setCode] = useState('');
+  const [loading, setLoading] = useState(false);
 
   const handleGenerate = async () => {
+    setLoading(true);
     try {
       const res = await dashAxios.post('dashboard/generateCode', {
         dni,
@@ -30,7 +33,7 @@ const GenerateCode = () => {
       setExpiresInMinutes('');
 
       const formattedDate = new Date(expiresAt).toLocaleString();
-      const accessUrl = `https://tusistema.com/acceso/${generatedCode}`; // 🔁 Cambiá por tu URL real
+      const accessUrl = `https://tusistema.com/acceso/${generatedCode}`; 
 
       // Generar el QR Code como data URL
       const qrDataUrl = await QRCode.toDataURL(accessUrl);
@@ -57,6 +60,8 @@ const GenerateCode = () => {
 
     } catch (err) {
       alert(err.response?.data?.error || 'Error al generar el código');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -91,9 +96,10 @@ const GenerateCode = () => {
         fullWidth
         variant="contained"
         onClick={handleGenerate}
-        disabled={!expiresInMinutes}
+        disabled={!expiresInMinutes || loading}
       >
-        Generar
+        {loading ? <CircularProgress size={24} color="inherit" /> : 'Generar'}
+        
       </Button>
 
       {code && (
