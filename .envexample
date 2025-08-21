@@ -1,0 +1,4 @@
+VITE_URL=http://localhost:3000/api/
+VITE_TOKEN_NAME='token1'
+VITE_TOKEN_PATIENT='token2'
+VITE_COMPANY=Front-Base
