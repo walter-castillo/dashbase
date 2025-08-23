@@ -6,9 +6,6 @@ import FiltroEstudios from "./FiltroEstudios";
 import AccionesEstudios from "./AccionesEstudios";
 import TablaEstudios from "./TablaEstudios";
 import PaginacionEstudios from "./PaginacionEstudios";
-
-import exportToExcel from "./utils/exportToExcel";
-import exportToPDF from "./utils/exportToPDF";
 import { dashAxios } from "../../../config/DashAxios";
 import { Loading } from "../Loading";
 
@@ -145,8 +142,7 @@ const DashStudies = () => {
       />
       <Divider />
       <AccionesEstudios
-        onExportPDF={() => exportToPDF(estudios)}
-        onExportExcel={() => exportToExcel(estudios)}
+        estudios={estudios}
         onVerRecientes={() => setMostrarRecientes(true)}
         onLimpiarFiltros={handleLimpiar}
         hayFiltrosActivos={hayFiltrosActivos}

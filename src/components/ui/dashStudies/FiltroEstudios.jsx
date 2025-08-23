@@ -51,7 +51,7 @@ const FiltroEstudios = ({
         <TextField
           label="Número de Estudio"
           fullWidth
-          type="number"
+          // type="number"
           variant="outlined"
           value={filtros.numeroEstudio}
           onChange={(e) =>

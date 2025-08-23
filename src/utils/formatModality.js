@@ -3,11 +3,14 @@ export const modalityMap = {
   CT: 'Tomografía',            // Computed Tomography
   MR: 'Resonancia',            // Magnetic Resonance
   US: 'Ecografía',             // Ultrasound
+  LB: 'Laboratorio',            
   NM: 'Medicina Nuclear',      // Nuclear Medicine
   XA: 'Angiografía',           // X-Ray Angiography
   MG: 'Mamografía',
   DX: 'Radiografía Digital',
   PT: 'Tomografía EP',
+  LAB: 'Laboratorio',
+  PDF: 'Informe PDF',
   OT: 'Otros',
 };
 
@@ -19,7 +22,6 @@ export const modalityMap = {
  */
 export const formatModality = (modality) => {
   if (!modality) return '-';
-
   return modalityMap[modality] || modality;
 };
 
