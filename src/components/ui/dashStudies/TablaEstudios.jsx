@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Table,
   TableHead,
@@ -17,13 +16,12 @@ import {
 import InboxIcon from "@mui/icons-material/Inbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DownloadIcon from "@mui/icons-material/Download";
+import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
 
 
-import exportToExcel from "./utils/exportToExcel";
-import exportToPDF from "./utils/exportToPDF";
-
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
+  console.log(estudios);
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
     const esAsc = orden.ordenPor === campoReal && orden.orden === "asc";
@@ -33,9 +31,12 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const handleVer = (estudio) => {
     console.log("Ver estudio", estudio);
   };
+  const handleClick = (estudio) => {
+    console.log("ver informe", estudio);
+  };
 
   const handleExportar = (estudio) => {
-    exportToPDF([estudio]); // Podés adaptar para exportToExcel también
+   console.log("Exportar estudio", estudio);
   };
 
   return (
@@ -57,6 +58,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                   </TableSortLabel>
                 </TableCell>
               ))}
+              <TableCell align="center">Informes</TableCell>
               <TableCell align="center">Acciones</TableCell>
             </TableRow>
           </TableHead>
@@ -83,7 +85,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
               </TableCell>
             </TableRow>
           ) : (
-            (estudios.map((est, i) => (
+            estudios.map((est, i) => (
               <TableRow key={i}>
                 <TableCell>{est.Patient?.PatientName}</TableCell>
                 <TableCell>{est.Patient?.PatientID}</TableCell>
@@ -92,8 +94,26 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                     ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY")
                     : "N/A"}
                 </TableCell>
-                <TableCell>{est.Study?.ModalitiesInStudy}</TableCell>
+                <TableCell>
+                  {est.Study?.ModalitiesInStudy.filter(
+                    (m) => m !== "INF" && m !== "PDF"
+                  ).join(", ")}
+                </TableCell>
                 <TableCell>{est.Study?.AccessionNumber}</TableCell>
+                <TableCell align="center">
+                  {est.Study?.tieneINF ? (
+                    <DescriptionIcon
+                      color="primary"
+                      sx={{ cursor: "pointer" }}
+                      onClick={() => handleClick(est)} 
+                    />
+                  ) : (
+                    <DescriptionIcon
+                      color="disabled"
+                      sx={{ cursor: "not-allowed" }}
+                    />
+                  )}
+                </TableCell>
                 <TableCell align="center">
                   <Stack direction="row" spacing={1} justifyContent="center">
                     <IconButton
@@ -106,14 +126,14 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                     <IconButton
                       size="small"
                       color="secondary"
-                      onClick={() => handleExportar(est)}
+                      // onClick={() => handleExportar(est)}
                     >
                       <DownloadIcon />
                     </IconButton>
                   </Stack>
                 </TableCell>
               </TableRow>
-            )))
+            ))
           )}
         </TableBody>
       </Table>
