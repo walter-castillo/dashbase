@@ -22,8 +22,10 @@ const DashStudies = () => {
     nombre: "",
     dni: "",
     modality: "",
-    desde: null,
-    hasta: null,
+    desde: dayjs("2000-01-01"),
+    hasta: dayjs(),
+    // desde: null,
+    // hasta: null,
     numeroEstudio: "",
   });
 

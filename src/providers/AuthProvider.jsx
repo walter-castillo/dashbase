@@ -61,7 +61,7 @@ export  const AuthProvider = ({ children }) =>  {
         } catch (error) {  
             dispatch({
                 type: types.auth.error,
-                payload: { error: error.response.data.errors},
+                payload: { error: error?.response.data.errors},
             })
             dispatch({ type: types.auth.stopLoading }) 
 

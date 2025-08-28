@@ -7,6 +7,7 @@ const exportToExcel = (estudios) => {
     Fecha: Study.StudyDate,
     Modalidad: Study.ModalitiesInStudy,
     "N de estudio": Study.AccessionNumber,
+    Informe: Study.tieneINF ? 'Sí' : '',
     Institución: Study.InstitutionName,
   }));
 

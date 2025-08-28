@@ -92,7 +92,7 @@ const FiltroEstudios = ({
             label="Desde"
             fullWidth
             value={filtros.desde}
-            onChange={(date) => setFiltros({ ...filtros, desde: date })}
+              onChange={(date) => setFiltros({ ...filtros, desde: date })}
             format="DD/MM/YYYY"
             maxDate={dayjs()}
             slotProps={{
@@ -160,7 +160,7 @@ const FiltroEstudios = ({
                 flexShrink: 0,
               }}
               color="secondary"
-            //   color={hayFiltrosActivos ? "secondary" : "primary"}
+              //   color={hayFiltrosActivos ? "secondary" : "primary"}
               fullWidth
               disabled={!hayFiltrosActivos}
               onClick={onBuscar}
