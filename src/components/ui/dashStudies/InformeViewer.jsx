@@ -1,11 +1,14 @@
 import { Dialog, IconButton, CircularProgress, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState } from "react";
+import { formatDate } from "../../../utils/formatDate";
 
-export default function InformeViewer({ open, onClose, studyId }) {
+export default function InformeViewer({ open, onClose, selectedStudy }) {
   const [loading, setLoading] = useState(true);
 
-  if (!studyId) return null;
+  if (!selectedStudy) return null;
+
+const { Patient, Study } = selectedStudy;
 
   return (
     <Dialog open={open} onClose={onClose} fullScreen>
@@ -19,7 +22,9 @@ export default function InformeViewer({ open, onClose, studyId }) {
           backgroundColor: "#f5f5f5",
         }}
       >
-        <h2 style={{ margin: 0 }}>Informe PDF</h2>
+        <h3
+          style={{ margin: 0 }}
+        >{`Informe de ${Patient.PatientName} - N° ${Study.AccessionNumber}, ${formatDate(Study.StudyDate)}`}</h3>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -39,14 +44,13 @@ export default function InformeViewer({ open, onClose, studyId }) {
 
       {/* Iframe fullscreen */}
       <iframe
-        src={`http://localhost:3000/api/dashboard/informe/${studyId}`}
+        src={`http://localhost:3000/api/dashboard/informe/${Study.ID}`}
         style={{
           border: "none",
           width: "100%",
           height: "100%",
           display: loading ? "none" : "block",
         }}
-        title="Informe PDF"
         onLoad={() => setLoading(false)}
       />
     </Dialog>

@@ -26,7 +26,7 @@ import InformeViewer from "./InformeViewer";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
-  const [selectedStudyId, setSelectedStudyId] = useState(null);
+  const [selectedStudy, setSelectedStudy] = useState(null);
 
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
@@ -116,8 +116,9 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                             color="primary"
                             sx={{ cursor: "pointer", marginRight: 2 }}
                             onClick={() => {
-                              setSelectedStudyId(est.Study.ID);
+                              setSelectedStudy(est);
                               setOpenInforme(true);
+                              console.log(est);
                             }}
                           />
                         </Tooltip>
@@ -187,7 +188,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
       <InformeViewer
         open={openInforme}
         onClose={() => setOpenInforme(false)}
-        studyId={selectedStudyId}
+        selectedStudy={selectedStudy}
       />
     </>
   );
