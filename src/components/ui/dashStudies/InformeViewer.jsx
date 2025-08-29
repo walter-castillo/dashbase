@@ -8,13 +8,15 @@ export default function InformeViewer({ open, onClose, studyId }) {
   if (!studyId) return null;
 
   return (
-    <Dialog open={open} onClose={onClose} maxWidth="lg" fullWidth>
+    <Dialog open={open} onClose={onClose} fullScreen>
+      {/* Header */}
       <div
         style={{
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
           padding: "8px 16px",
+          backgroundColor: "#f5f5f5",
         }}
       >
         <h2 style={{ margin: 0 }}>Informe PDF</h2>
@@ -23,22 +25,27 @@ export default function InformeViewer({ open, onClose, studyId }) {
         </IconButton>
       </div>
 
+      {/* Loader */}
       {loading && (
         <Box
           display="flex"
           justifyContent="center"
           alignItems="center"
-          height="600px"
+          height="100vh"
         >
           <CircularProgress />
         </Box>
       )}
 
+      {/* Iframe fullscreen */}
       <iframe
         src={`http://localhost:3000/api/dashboard/informe/${studyId}`}
-        width="100%"
-        height="600px"
-        style={{ border: "none", display: loading ? "none" : "block" }}
+        style={{
+          border: "none",
+          width: "100%",
+          height: "100%",
+          display: loading ? "none" : "block",
+        }}
         title="Informe PDF"
         onLoad={() => setLoading(false)}
       />

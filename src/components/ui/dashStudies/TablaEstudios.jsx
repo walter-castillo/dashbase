@@ -17,7 +17,7 @@ import {
 import InboxIcon from "@mui/icons-material/Inbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import UploadFile from "@mui/icons-material/UploadFile";
-import Edit from "@mui/icons-material/Edit";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
@@ -114,7 +114,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                           <DescriptionIcon
                             fontSize="small"
                             color="primary"
-                            sx={{ cursor: "pointer" }}
+                            sx={{ cursor: "pointer", marginRight: 2 }}
                             onClick={() => {
                               setSelectedStudyId(est.Study.ID);
                               setOpenInforme(true);
@@ -124,9 +124,9 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
 
                         {/* Editar */}
                         <Tooltip title="Editar informe">
-                          <Edit
-                            fontSize="inherit"
-                            color="primary"
+                          <DeleteForeverIcon
+                            fontSize="small"
+                            color="error"
                             sx={{ cursor: "pointer" }}
                             onClick={() => handleModificar(est)}
                           />
@@ -140,11 +140,15 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                         sx={{ gap: 0.3 }}
                       >
                         <Tooltip title="Sin informe">
-                          <DescriptionIcon fontSize="small" color="disabled" />
+                          <DescriptionIcon
+                            fontSize="small"
+                            color="disabled"
+                            sx={{ marginRight: 2 }}
+                          />
                         </Tooltip>
                         <Tooltip title="Cargar informe">
                           <UploadFile
-                            fontSize="inherit"
+                            fontSize="small"
                             color="success"
                             sx={{ cursor: "pointer" }}
                             onClick={() => handleCargar(est)}
