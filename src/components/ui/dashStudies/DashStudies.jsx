@@ -15,6 +15,7 @@ const columnMap = {
   Fecha: "StudyDate",
   Modalidad: "ModalitiesInStudy",
   "Número Estudio": "AccessionNumber",
+  Informe: "tieneINF",
 };
 
 const DashStudies = () => {
@@ -58,23 +59,17 @@ const DashStudies = () => {
     if (filtros.nombre) query.append("nombre", filtros.nombre);
     if (filtros.dni) query.append("dni", filtros.dni);
     if (filtros.modality) query.append("modality", filtros.modality);
-    if (filtros.desde)
-      query.append("desde", dayjs(filtros.desde).format("YYYYMMDD"));
-    if (filtros.hasta)
-      query.append("hasta", dayjs(filtros.hasta).format("YYYYMMDD"));
-    if (filtros.numeroEstudio)
-      query.append("numeroEstudio", filtros.numeroEstudio);
+    if (filtros.desde)  query.append("desde", dayjs(filtros.desde).format("YYYYMMDD"));
+    if (filtros.hasta)  query.append("hasta", dayjs(filtros.hasta).format("YYYYMMDD"));
+    if (filtros.numeroEstudio) query.append("numeroEstudio", filtros.numeroEstudio);
 
     try {
       setLoading(true);
       const { data } = await dashAxios.get(`/dashboard/studiesFilter?${query}`);
       setEstudios(data.estudios);
       setPagina(0);
-    } catch (err) {
-      console.error("Error al buscar estudios:", err);
-    } finally {
-      setLoading(false);
-    }
+    } catch (err) { console.error("Error al buscar estudios:", err);
+    } finally { setLoading(false) }
   };
 
   const handleLimpiar = () => {
@@ -144,7 +139,7 @@ const DashStudies = () => {
       />
       <Divider />
       <AccionesEstudios
-        estudios={estudios}
+        estudios={estudiosOrdenados}
         onVerRecientes={() => setMostrarRecientes(true)}
         onLimpiarFiltros={handleLimpiar}
         hayFiltrosActivos={hayFiltrosActivos}
