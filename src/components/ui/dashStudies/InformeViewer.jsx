@@ -1,14 +1,78 @@
 import { Dialog, IconButton, CircularProgress, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { formatDate } from "../../../utils/formatDate";
+import { dashAxios } from "../../../config/DashAxios";
 
 export default function InformeViewer({ open, onClose, selectedStudy }) {
   const [loading, setLoading] = useState(true);
+  const [pdfUrl, setPdfUrl] = useState(null);
 
-  if (!selectedStudy) return null;
+  // hooks siempre se llaman, incluso si selectedStudy es null
 
-const { Patient, Study } = selectedStudy;
+/*   useEffect(() => {
+    if (!open || !selectedStudy) return;
+
+    const { Study } = selectedStudy;
+    setLoading(true);
+
+    const fetchPdf = async () => {
+      try {
+        const response = await dashAxios.get(`/dashboard/informe/${Study.ID}`, {
+          responseType: "blob",
+        });
+        const blobUrl = URL.createObjectURL(response.data);
+        setPdfUrl(blobUrl);
+      } catch (err) {
+        console.error("Error al cargar PDF:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPdf();
+
+    return () => {
+      if (pdfUrl) URL.revokeObjectURL(pdfUrl);
+      setPdfUrl(null);
+    };
+  }, [open, selectedStudy]); */
+
+  useEffect(() => {
+    if (!open || !selectedStudy) return;
+
+    const { Study } = selectedStudy;
+    setLoading(true);
+
+    let blobUrlTemp = null;
+
+    const fetchPdf = async () => {
+      try {
+        const response = await dashAxios.get(`/dashboard/informe/${Study.ID}`, {
+          responseType: "blob",
+        });
+        blobUrlTemp = URL.createObjectURL(response.data);
+        setPdfUrl(blobUrlTemp);
+      } catch (err) {
+        console.error("Error al cargar PDF:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPdf();
+
+    return () => {
+      if (blobUrlTemp) URL.revokeObjectURL(blobUrlTemp);
+      setPdfUrl(null);
+    };
+  }, [open, selectedStudy]);
+
+
+  // Render
+  if (!selectedStudy) return null; // ahora es solo render, hooks ya fueron llamados
+
+  const { Patient, Study } = selectedStudy;
 
   return (
     <Dialog open={open} onClose={onClose} fullScreen>
@@ -22,9 +86,11 @@ const { Patient, Study } = selectedStudy;
           backgroundColor: "#f5f5f5",
         }}
       >
-        <h3
-          style={{ margin: 0 }}
-        >{`Informe de ${Patient.PatientName} - N° ${Study.AccessionNumber}, ${formatDate(Study.StudyDate)}`}</h3>
+        <h3 style={{ margin: 0 }}>
+          {`Informe de ${Patient.PatientName} - N° ${
+            Study.AccessionNumber
+          }, ${formatDate(Study.StudyDate)}`}
+        </h3>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
@@ -42,17 +108,19 @@ const { Patient, Study } = selectedStudy;
         </Box>
       )}
 
-      {/* Iframe fullscreen */}
-      <iframe
-        src={`http://localhost:3000/api/dashboard/informe/${Study.ID}`}
-        style={{
-          border: "none",
-          width: "100%",
-          height: "100%",
-          display: loading ? "none" : "block",
-        }}
-        onLoad={() => setLoading(false)}
-      />
+      {/* Iframe con PDF */}
+      {pdfUrl && (
+        <iframe
+          src={pdfUrl}
+          style={{
+            border: "none",
+            width: "100%",
+            height: "100%",
+            display: loading ? "none" : "block",
+          }}
+          title="Informe PDF"
+        />
+      )}
     </Dialog>
   );
 }

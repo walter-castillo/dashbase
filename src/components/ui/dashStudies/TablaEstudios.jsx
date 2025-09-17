@@ -11,8 +11,7 @@ import {
   Paper,
   IconButton,
   Stack,
-  Tooltip,
-  CircularProgress,
+  Tooltip
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -23,6 +22,7 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
 import { useState } from "react";
 import InformeViewer from "./InformeViewer";
+import { dashAxios } from "../../../config/DashAxios";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
@@ -34,11 +34,10 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
     setOrden({ orden: esAsc ? "desc" : "asc", ordenPor: campoReal });
   };
 
-  const handleVer = (estudio) => console.log("Ver estudio", estudio);
-  const handleModificar = (estudio) =>
-    console.log("Modificar estudio", estudio);
-  const handleCargar = (estudio) => console.log("Cargar estudio", estudio);
-  const handleExportar = (estudio) => console.log("Exportar estudio", estudio);
+  const handleVer = (estudio)       => console.log("Ver estudio", estudio);
+  const handleModificar = (estudio) => console.log("Modificar estudio", estudio);
+  const handleCargar = (estudio)    => console.log("Cargar estudio", estudio);
+  const handleExportar = (estudio)  => console.log("Exportar estudio", estudio);
 
   return (
     <>
@@ -115,10 +114,43 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                             fontSize="small"
                             color="primary"
                             sx={{ cursor: "pointer", marginRight: 2 }}
-                            onClick={() => {
-                              setSelectedStudy(est);
-                              setOpenInforme(true);
-                              console.log(est);
+                            onClick={async () => {
+                              const isMobile = /iPhone|iPad|iPod|Android/i.test(
+                                navigator.userAgent
+                              );
+
+                              if (isMobile) {
+                                // 📱 Mobile → Descargar PDF usando dashAxios
+                                try {
+                                  const response = await dashAxios.get(
+                                    `/dashboard/informe/${est.Study.ID}`,
+                                    {
+                                      responseType: "blob", // muy importante para PDF
+                                    }
+                                  );
+
+                                  const blobUrl = window.URL.createObjectURL(
+                                    response.data
+                                  );
+
+                                  const fileName = `${est.Patient.PatientID}-${est.Patient.PatientName}-${est.Study.AccessionNumber}.pdf`;
+
+                                  const link = document.createElement("a");
+                                  link.href = blobUrl;
+                                  link.download = fileName;
+                                  document.body.appendChild(link);
+                                  link.click();
+                                  document.body.removeChild(link);
+
+                                  window.URL.revokeObjectURL(blobUrl);
+                                } catch (error) {
+                                  console.error("Error al descargar:", error);
+                                }
+                              } else {
+                                // 🖥️ Desktop → Abrir modal
+                                setSelectedStudy(est);
+                                setOpenInforme(true);
+                              }
                             }}
                           />
                         </Tooltip>
