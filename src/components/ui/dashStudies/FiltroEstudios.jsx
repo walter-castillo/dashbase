@@ -85,7 +85,7 @@ const FiltroEstudios = ({
         </FormControl>
       </Grid>
 
-      <Grid container spacing={2} size={{ xs: 12, sm: 8, md: 6 }}>
+      <Grid container spacing={2} size={{ xs: 12, sm: 12, md: 6 }}>
         {/* Desde */}
         <Grid size={{ xs: 6, sm: 6, md: 6 }}>
           <DatePicker
