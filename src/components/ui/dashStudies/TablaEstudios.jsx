@@ -21,7 +21,7 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
 import { useState } from "react";
-import InformeViewer from "./InformeViewer";
+import InformeViewerIframe from "./InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
@@ -217,7 +217,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
       </TableContainer>
 
       {/* Modal del PDF */}
-      <InformeViewer
+      <InformeViewerIframe
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy}
