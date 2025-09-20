@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import {
   Table,
   TableHead,
@@ -11,7 +12,7 @@ import {
   Paper,
   IconButton,
   Stack,
-  Tooltip
+  Tooltip,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -20,16 +21,18 @@ import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
-import { useState } from "react";
 import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
 import InformeButton from "../../actionInforme/InformerButton";
 import ConfirmDialog from "../../actionInforme/ConfirmDialog";
+import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [openUpload, setOpenUpload] = useState(false);
+  const [studyToDelete, setStudyToDelete] = useState(null);
 
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
@@ -37,10 +40,19 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
     setOrden({ orden: esAsc ? "desc" : "asc", ordenPor: campoReal });
   };
 
-  const handleVer = (estudio)       => console.log("Ver estudio", estudio);
-  const handleEliminar = (estudio) => console.log("Eliminar estudio", estudio);
-  const handleCargar = (estudio)    => console.log("Cargar estudio", estudio);
-  const handleExportar = (estudio)  => console.log("Exportar estudio", estudio);
+  const handleVer = (estudio) => console.log("Ver estudio", estudio);
+  const handleEliminar = (estudio) => {
+    console.log("Eliminar estudio", estudio);
+    // Lógica para eliminar el estudio
+  };
+
+  const handleCargar = (estudio) => {
+    console.log("Cargar estudio", estudio);
+    setSelectedStudy(estudio);
+    setOpenUpload(true);
+  };
+
+  const handleExportar = (estudio) => console.log("Exportar estudio", estudio);
 
   return (
     <>
@@ -70,7 +82,8 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
 
           <TableBody>
             {estudios.length === 0 ? (
-              <TableRow>
+            <h1>DEDEWD2ED2EDD</h1>
+              /* <TableRow>
                 <TableCell
                   colSpan={Object.keys(columnMap).length + 2}
                   align="center"
@@ -87,7 +100,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                     </Typography>
                   </Box>
                 </TableCell>
-              </TableRow>
+              </TableRow> */
             ) : (
               estudios.map((est, i) => (
                 <TableRow key={i}>
@@ -123,23 +136,12 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                             fontSize="small"
                             color="error"
                             sx={{ cursor: "pointer" }}
-                            onClick={() => setOpenConfirm(true)}
+                            onClick={() => {
+                              setStudyToDelete(est);
+                              setOpenConfirm(true);
+                            }}
                           />
                         </Tooltip>
-                        {/* Dialog de confirmación */}
-                        <ConfirmDialog
-                          open={openConfirm}
-                          title="Eliminar informe"
-                          message="⚠️ ¿Estás seguro de que quieres eliminar este informe? Esta acción es irreversible."
-                          confirmText="Eliminar"
-                          cancelText="Cancelar"
-                          confirmColor="error"
-                          onConfirm={() => {
-                            handleEliminar(est);
-                            setOpenConfirm(false);
-                          }}
-                          onCancel={() => setOpenConfirm(false)}
-                        />
                       </Box>
                     ) : (
                       <Box
@@ -155,6 +157,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                             sx={{ marginRight: 2 }}
                           />
                         </Tooltip>
+
                         <Tooltip title="Cargar informe">
                           <UploadFile
                             fontSize="small"
@@ -197,6 +200,37 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy}
+      />
+
+      {/* Dialog de confirmación (fuera de la tabla) */}
+      <ConfirmDialog
+        open={openConfirm}
+        title="Eliminar informe"
+        message="⚠️ ¿Estás seguro de que quieres eliminar este informe? Esta acción es irreversible."
+        confirmText="Eliminar"
+        cancelText="Cancelar"
+        confirmColor="error"
+        onConfirm={() => {
+          handleEliminar(studyToDelete);
+          setOpenConfirm(false);
+          setStudyToDelete(null);
+        }}
+        onCancel={() => {
+          setOpenConfirm(false);
+          setStudyToDelete(null);
+        }}
+      />
+
+      {/* Modal de carga (fuera de la tabla) */}
+      <UpLoadPdfDialog
+        open={openUpload}
+        onClose={() => setOpenUpload(false)}
+        studyId={selectedStudy?.Study?.ID}
+        onSuccess={(fileName) => {
+          console.log(`✅ PDF ${fileName} subido con éxito`);
+          // Aquí podrías refrescar la tabla o mostrar snackbar
+          setOpenUpload(false);
+        }}
       />
     </>
   );

@@ -144,7 +144,6 @@ const DashStudies = () => {
         onLimpiarFiltros={handleLimpiar}
         hayFiltrosActivos={hayFiltrosActivos}
       />
-
       {loading ? (
         <Box
           display="flex"
@@ -163,13 +162,16 @@ const DashStudies = () => {
             setOrden={setOrden}
             columnMap={columnMap}
           />
-          <PaginacionEstudios
-            total={estudios.length}
-            pagina={pagina}
-            porPagina={porPagina}
-            setPagina={setPagina}
-            setPorPagina={setPorPagina}
-          />
+
+          {estudios.length > 0 && (
+            <PaginacionEstudios
+              total={estudios.length}
+              pagina={pagina}
+              porPagina={porPagina}
+              setPagina={setPagina}
+              setPorPagina={setPorPagina}
+            />
+          )}
         </>
       )}
     </Paper>
