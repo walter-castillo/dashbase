@@ -21,12 +21,15 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
 import { useState } from "react";
-import InformeViewerIframe from "./InformeViewerIframe";
+import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
+import InformeButton from "../../actionInforme/InformerButton";
+import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
@@ -35,7 +38,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   };
 
   const handleVer = (estudio)       => console.log("Ver estudio", estudio);
-  const handleModificar = (estudio) => console.log("Modificar estudio", estudio);
+  const handleEliminar = (estudio) => console.log("Eliminar estudio", estudio);
   const handleCargar = (estudio)    => console.log("Cargar estudio", estudio);
   const handleExportar = (estudio)  => console.log("Exportar estudio", estudio);
 
@@ -108,62 +111,35 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
                         justifyContent="center"
                         sx={{ gap: 0.3 }}
                       >
-                        {/* Ver informe en modal */}
-                        <Tooltip title="Ver informe">
-                          <DescriptionIcon
-                            fontSize="small"
-                            color="primary"
-                            sx={{ cursor: "pointer", marginRight: 2 }}
-                            onClick={async () => {
-                              const isMobile = /iPhone|iPad|iPod|Android/i.test(
-                                navigator.userAgent
-                              );
+                        <InformeButton
+                          est={est}
+                          setSelectedStudy={setSelectedStudy}
+                          setOpenInforme={setOpenInforme}
+                        />
 
-                              if (isMobile) {
-                                // 📱 Mobile → Descargar PDF usando dashAxios
-                                try {
-                                  const response = await dashAxios.get(
-                                    `/dashboard/informe/${est.Study.ID}`,
-                                    {
-                                      responseType: "blob", // muy importante para PDF
-                                    }
-                                  );
-
-                                  const blobUrl = window.URL.createObjectURL(
-                                    response.data
-                                  );
-
-                                  const fileName = `${est.Patient.PatientID}-${est.Patient.PatientName}-${est.Study.AccessionNumber}.pdf`;
-
-                                  const link = document.createElement("a");
-                                  link.href = blobUrl;
-                                  link.download = fileName;
-                                  document.body.appendChild(link);
-                                  link.click();
-                                  document.body.removeChild(link);
-
-                                  window.URL.revokeObjectURL(blobUrl);
-                                } catch (error) {
-                                  console.error("Error al descargar:", error);
-                                }
-                              } else {
-                                // 🖥️ Desktop → Abrir modal
-                                setSelectedStudy(est);
-                                setOpenInforme(true);
-                              }
-                            }}
-                          />
-                        </Tooltip>
-
-                        {/* Editar */}
-                        <Tooltip title="Editar informe">
+                        {/* Botón eliminar */}
+                        <Tooltip title="Eliminar informe">
                           <DeleteForeverIcon
                             fontSize="small"
                             color="error"
                             sx={{ cursor: "pointer" }}
-                            onClick={() => handleModificar(est)}
+                            onClick={() => setOpenConfirm(true)}
                           />
                         </Tooltip>
+                        {/* Dialog de confirmación */}
+                        <ConfirmDialog
+                          open={openConfirm}
+                          title="Eliminar informe"
+                          message="⚠️ ¿Estás seguro de que quieres eliminar este informe? Esta acción es irreversible."
+                          confirmText="Eliminar"
+                          cancelText="Cancelar"
+                          confirmColor="error"
+                          onConfirm={() => {
+                            handleEliminar(est);
+                            setOpenConfirm(false);
+                          }}
+                          onCancel={() => setOpenConfirm(false)}
+                        />
                       </Box>
                     ) : (
                       <Box

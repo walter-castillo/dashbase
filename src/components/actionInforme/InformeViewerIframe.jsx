@@ -1,8 +1,8 @@
 import { Dialog, IconButton, CircularProgress, Box } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { formatDate } from "../../../utils/formatDate";
-import { dashAxios } from "../../../config/DashAxios";
+import { formatDate } from "../../utils/formatDate";
+import { dashAxios } from "../../config/DashAxios";
 
 export default function InformeViewer({ open, onClose, selectedStudy }) {
   const [loading, setLoading] = useState(true);
