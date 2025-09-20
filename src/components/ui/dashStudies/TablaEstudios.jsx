@@ -26,6 +26,7 @@ import { dashAxios } from "../../../config/DashAxios";
 import InformeButton from "../../actionInforme/InformerButton";
 import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
+import NotStudies from "./NotStudies";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
@@ -82,25 +83,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
 
           <TableBody>
             {estudios.length === 0 ? (
-            <h1>DEDEWD2ED2EDD</h1>
-              /* <TableRow>
-                <TableCell
-                  colSpan={Object.keys(columnMap).length + 2}
-                  align="center"
-                >
-                  <Box
-                    display="flex"
-                    flexDirection="column"
-                    alignItems="center"
-                    py={4}
-                  >
-                    <InboxIcon sx={{ fontSize: 48, color: "grey.400" }} />
-                    <Typography variant="subtitle1" color="text.secondary">
-                      No se encontraron estudios
-                    </Typography>
-                  </Box>
-                </TableCell>
-              </TableRow> */
+            <NotStudies />
             ) : (
               estudios.map((est, i) => (
                 <TableRow key={i}>
