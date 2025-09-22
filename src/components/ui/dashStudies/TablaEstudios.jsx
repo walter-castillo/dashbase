@@ -83,7 +83,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
 
           <TableBody>
             {estudios.length === 0 ? (
-            <NotStudies />
+              <NotStudies colSpan={Object.keys(columnMap).length + 2} />
             ) : (
               estudios.map((est, i) => (
                 <TableRow key={i}>
