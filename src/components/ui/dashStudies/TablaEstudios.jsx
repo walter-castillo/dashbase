@@ -13,6 +13,8 @@ import {
   IconButton,
   Stack,
   Tooltip,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import InboxIcon from "@mui/icons-material/Inbox";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -27,6 +29,7 @@ import InformeButton from "../../actionInforme/InformerButton";
 import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
+import CustomSnackbar from "../CustomSnackbar";
 
 const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openInforme, setOpenInforme] = useState(false);
@@ -34,6 +37,11 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [studyToDelete, setStudyToDelete] = useState(null);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success", // "error" | "info" | "warning"
+  });
 
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
@@ -42,9 +50,30 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   };
 
   const handleVer = (estudio) => console.log("Ver estudio", estudio);
-  const handleEliminar = (estudio) => {
-    console.log("Eliminar estudio", estudio);
-    // Lógica para eliminar el estudio
+ 
+  const handleEliminar = async (estudio) => {
+    try {
+      console.log("Eliminar estudio", estudio.Study.ID);
+
+      const respuesta = await dashAxios.delete(`/dashboard/informe/borrar/${estudio.Study.ID}`);
+    
+      console.log(respuesta);
+
+      // Mensaje de éxito
+      setSnackbar({
+        open: true,
+        message: "Informe eliminado correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Error al eliminar informe", error);
+      // Mostrar snackbar de error
+      setSnackbar({
+        open: true,
+        message: "Error al eliminar informe",
+        severity: "error",
+      });
+    }
   };
 
   const handleCargar = (estudio) => {
@@ -215,6 +244,7 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
           setOpenUpload(false);
         }}
       />
+      <CustomSnackbar snackbar={snackbar} setSnackbar={setSnackbar} />
     </>
   );
 };

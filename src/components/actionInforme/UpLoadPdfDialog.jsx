@@ -32,7 +32,6 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
 
   // Configuración de validación
   const MAX_FILE_SIZE = Number(import.meta.env.VITE_MAX_FILE_SIZE)*1024*1024;
-console.log(MAX_FILE_SIZE);
   const ALLOWED_FILE_TYPES = import.meta.env.VITE_ALLOWED_FILE_TYPES;
 
   // Limpiar estados cuando se cierra el modal

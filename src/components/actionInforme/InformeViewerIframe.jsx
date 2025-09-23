@@ -48,7 +48,7 @@ export default function InformeViewer({ open, onClose, selectedStudy }) {
 
     const fetchPdf = async () => {
       try {
-        const response = await dashAxios.get(`/dashboard/informe/${Study.ID}`, {
+        const response = await dashAxios.get(`/dashboard/informe/ver/${Study.ID}`, {
           responseType: "blob",
         });
         blobUrlTemp = URL.createObjectURL(response.data);
