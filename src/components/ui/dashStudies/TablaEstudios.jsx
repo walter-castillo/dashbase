@@ -68,13 +68,7 @@ const TablaEstudios = ({
     setEstudios((prevEstudios) =>
       prevEstudios.map((est) =>
         est.Study?.ID === estudioId
-          ? {
-              ...est,
-              Study: {
-                ...est.Study,
-                tieneINF: false, // 👈 Cambiar a false inmediatamente
-              },
-            }
+          ? {...est, Study: { ...est.Study, tieneINF: false }}
           : est
       )
     );
@@ -83,13 +77,8 @@ const TablaEstudios = ({
       console.log("Eliminar estudio", estudioId);
       setLoading(true);
 
-      const respuesta = await dashAxios.delete(
-        `/dashboard/informe/borrar/${estudioId}`
-      );
+      const respuesta = await dashAxios.delete(`/dashboard/informe/borrar/${estudioId}`    );
 
-      console.log(respuesta);
-
-      // Mensaje de éxito (ya se actualizó visualmente)
       setSnackbar({
         open: true,
         message: "Informe eliminado correctamente",
@@ -97,8 +86,7 @@ const TablaEstudios = ({
       });
     } catch (error) {
       console.error("Error al eliminar informe", error);
-
-      // 👈 REVERTIR en caso de error - volver al estado anterior
+      //REVERTIR en caso de error - volver al estado anterior
       setEstudios(estudiosPrevios);
 
       setSnackbar({
@@ -107,7 +95,7 @@ const TablaEstudios = ({
         severity: "error",
       });
     } finally {
-      setLoading(false); // 👈 Esto se ejecutará siempre, tanto en éxito como en error
+      setLoading(false);
     }
   };
 
@@ -121,7 +109,16 @@ const TablaEstudios = ({
 
   return (
     <>
-      {loading ? <Loading /> : (
+      {loading && (  <Box
+                display="flex"
+                justifyContent="center"
+                alignItems="center"
+                minHeight="300px"
+                mt={-50}
+              >
+                <Loading />
+              </Box>
+            )}
       <TableContainer component={Paper}>
         <Table>
           {estudios.length > 0 && (
@@ -242,7 +239,7 @@ const TablaEstudios = ({
           </TableBody>
         </Table>
       </TableContainer>
-      )}
+      
       {/* Modal del PDF */}
       <InformeViewerIframe
         open={openInforme}
