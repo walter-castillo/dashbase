@@ -144,10 +144,8 @@ const TablaEstudios = ({
           )}
 
           <TableBody>
-            {estudios.length === 0 ? (
-              <NotStudies colSpan={Object.keys(columnMap).length + 2} />
-            ) : (
-              estudios.map((est, i) => (
+            {estudios.length === 0 ? (<NotStudies colSpan={Object.keys(columnMap).length + 2} />) 
+            : (estudios.map((est, i) => (
                 <TableRow key={i}>
                   <TableCell>{est.Patient?.PatientName}</TableCell>
                   <TableCell>{est.Patient?.PatientID}</TableCell>
