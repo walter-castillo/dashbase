@@ -1,33 +1,47 @@
+// ConfirmDialog.jsx
+import React from "react";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
+  CircularProgress,
+  Typography,
 } from "@mui/material";
 
-export default function ConfirmDialog({
+const ConfirmDialog = ({
   open,
-  title = "Confirmar acción",
-  message = "¿Estás seguro?",
+  title,
+  message,
+  confirmText,
+  cancelText,
+  confirmColor = "primary",
   onConfirm,
   onCancel,
-  confirmText = "Confirmar",
-  cancelText = "Cancelar",
-  confirmColor = "error",
-}) {
+  loading = false, // ⬅ nuevo prop
+}) => {
   return (
     <Dialog open={open} onClose={onCancel}>
       <DialogTitle>{title}</DialogTitle>
       <DialogContent>
-        <p>{message}</p>
+        <Typography>{message}</Typography>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>{cancelText}</Button>
-        <Button onClick={onConfirm} color={confirmColor} variant="contained">
-          {confirmText}
+        <Button onClick={onCancel} disabled={loading}>
+          {cancelText}
+        </Button>
+        <Button
+          color={confirmColor}
+          onClick={onConfirm}
+          disabled={loading}
+          startIcon={loading ? <CircularProgress size={20} /> : null}
+        >
+          {loading ? "Eliminando..." : confirmText}
         </Button>
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default ConfirmDialog;

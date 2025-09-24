@@ -31,7 +31,13 @@ import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
 
-const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
+const TablaEstudios = ({
+  estudios,
+  setEstudios,
+  orden,
+  setOrden,
+  columnMap,
+}) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -50,16 +56,34 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
   };
 
   const handleVer = (estudio) => console.log("Ver estudio", estudio);
- 
-  const handleEliminar = async (estudio) => {
-    try {
-      console.log("Eliminar estudio", estudio.Study.ID);
 
-      const respuesta = await dashAxios.delete(`/dashboard/informe/borrar/${estudio.Study.ID}`);
-    
+  const handleEliminar = async (estudio) => {
+    const estudioId = estudio.Study.ID;
+
+    // Guardar copia de los estudios actuales por si falla la eliminación
+    const estudiosPrevios = [...estudios];
+
+    // 👈 ACTUALIZACIÓN OPTIMISTA - Actualizar inmediatamente en el estado local
+    setEstudios((prevEstudios) =>
+      prevEstudios.map((est) =>
+        est.Study?.ID === estudioId
+          ? {...est, Study: {...est.Study, tieneINF: false, // 👈 Cambiar a false inmediatamente
+              },
+            }
+          : est
+      )
+    );
+
+    try {
+      console.log("Eliminar estudio", estudioId);
+
+      const respuesta = await dashAxios.delete(
+        `/dashboard/informe/borrar/${estudioId}`
+      );
+
       console.log(respuesta);
 
-      // Mensaje de éxito
+      // Mensaje de éxito (ya se actualizó visualmente)
       setSnackbar({
         open: true,
         message: "Informe eliminado correctamente",
@@ -67,7 +91,10 @@ const TablaEstudios = ({ estudios, orden, setOrden, columnMap }) => {
       });
     } catch (error) {
       console.error("Error al eliminar informe", error);
-      // Mostrar snackbar de error
+
+      // 👈 REVERTIR en caso de error - volver al estado anterior
+      setEstudios(estudiosPrevios);
+
       setSnackbar({
         open: true,
         message: "Error al eliminar informe",

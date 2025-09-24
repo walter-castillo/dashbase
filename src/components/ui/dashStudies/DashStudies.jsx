@@ -158,6 +158,7 @@ const DashStudies = () => {
         <>
           <TablaEstudios
             estudios={estudiosPaginados}
+            setEstudios={setEstudios}
             orden={orden}
             setOrden={setOrden}
             columnMap={columnMap}
