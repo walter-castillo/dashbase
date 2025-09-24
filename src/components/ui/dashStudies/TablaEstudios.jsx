@@ -30,6 +30,7 @@ import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
+import { Loading } from "../Loading";
 
 const TablaEstudios = ({
   estudios,
@@ -43,6 +44,7 @@ const TablaEstudios = ({
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
   const [studyToDelete, setStudyToDelete] = useState(null);
+  const [loading, setLoading] = useState(false);
   const [snackbar, setSnackbar] = useState({
     open: false,
     message: "",
@@ -56,7 +58,6 @@ const TablaEstudios = ({
   };
 
   const handleVer = (estudio) => console.log("Ver estudio", estudio);
-
   const handleEliminar = async (estudio) => {
     const estudioId = estudio.Study.ID;
 
@@ -67,7 +68,11 @@ const TablaEstudios = ({
     setEstudios((prevEstudios) =>
       prevEstudios.map((est) =>
         est.Study?.ID === estudioId
-          ? {...est, Study: {...est.Study, tieneINF: false, // 👈 Cambiar a false inmediatamente
+          ? {
+              ...est,
+              Study: {
+                ...est.Study,
+                tieneINF: false, // 👈 Cambiar a false inmediatamente
               },
             }
           : est
@@ -76,6 +81,7 @@ const TablaEstudios = ({
 
     try {
       console.log("Eliminar estudio", estudioId);
+      setLoading(true);
 
       const respuesta = await dashAxios.delete(
         `/dashboard/informe/borrar/${estudioId}`
@@ -100,6 +106,8 @@ const TablaEstudios = ({
         message: "Error al eliminar informe",
         severity: "error",
       });
+    } finally {
+      setLoading(false); // 👈 Esto se ejecutará siempre, tanto en éxito como en error
     }
   };
 
@@ -113,6 +121,7 @@ const TablaEstudios = ({
 
   return (
     <>
+      {loading ? <Loading /> : (
       <TableContainer component={Paper}>
         <Table>
           {estudios.length > 0 && (
@@ -233,14 +242,13 @@ const TablaEstudios = ({
           </TableBody>
         </Table>
       </TableContainer>
-
+      )}
       {/* Modal del PDF */}
       <InformeViewerIframe
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy}
       />
-
       {/* Dialog de confirmación (fuera de la tabla) */}
       <ConfirmDialog
         open={openConfirm}
@@ -259,7 +267,6 @@ const TablaEstudios = ({
           setStudyToDelete(null);
         }}
       />
-
       {/* Modal de carga (fuera de la tabla) */}
       <UpLoadPdfDialog
         open={openUpload}
