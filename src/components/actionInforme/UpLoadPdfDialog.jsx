@@ -22,6 +22,7 @@ import {
   Close,
   UploadFile,
 } from "@mui/icons-material";
+import { dashAxios } from "../../config/DashAxios";
 
 const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
   const [file, setFile] = useState(null);
@@ -52,7 +53,7 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
     }
 
     // Validar tamaño de archivo
-    console.log(file.size, MAX_FILE_SIZE);
+
     if (file.size > MAX_FILE_SIZE) {
       setError(
         `El archivo es demasiado grande. Tamaño máximo: ${
@@ -84,7 +85,7 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
     e.target.value = ""; // permite volver a seleccionar el mismo archivo
   };
 
-  const handleUpload = async () => {
+/*   const handleUpload = async () => {
     if (!file) return;
     setLoading(true);
     setUploadProgress(0);
@@ -117,7 +118,51 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
       setLoading(false);
       setUploadProgress(0);
     }
+  }; */
+
+
+  const handleUpload = async () => {
+    if (!file) return;
+    setLoading(true);
+    setUploadProgress(0);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file); // ✅ debe llamarse "file"
+
+console.log(studyId);
+      const response = await dashAxios.post(
+        `/dashboard/informe/cargar/${studyId}`,
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+          onUploadProgress: (progressEvent) => {
+            const percent = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
+            setUploadProgress(percent);
+          },
+        }
+      );
+
+      console.log("✅ PDF subido:", response.data);
+      if (onSuccess) onSuccess(file.name);
+      setFile(null);
+      onClose();
+    } catch (err) {
+      console.error("Error al subir PDF:", err);
+
+      // Mostrar el mensaje enviado desde el backend si es 400 o 500
+      const msg =
+        err.response?.data?.message ||
+        "❌ Error al subir el PDF. Por favor, intente nuevamente.";
+      setError(msg);
+    } finally {
+      setLoading(false);
+      setUploadProgress(0);
+    }
   };
+  
 
   const formatFileSize = (bytes) => {
     if (bytes === 0) return "0 Bytes";
@@ -203,7 +248,7 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
                   Arrastra un PDF aquí o haz clic para seleccionarlo
                 </Typography>
                 <Typography variant="body2" color="textSecondary" gutterBottom>
-                  Formatos permitidos: PDF • Tamaño máximo: 10MB
+                  Formatos permitidos: PDF • Tamaño máximo: 5MB
                 </Typography>
                 <Button variant="contained" component="span" sx={{ mt: 2 }}>
                   Seleccionar archivo
