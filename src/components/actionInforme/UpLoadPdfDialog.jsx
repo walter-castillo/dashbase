@@ -23,6 +23,7 @@ import {
   UploadFile,
 } from "@mui/icons-material";
 import { dashAxios } from "../../config/DashAxios";
+import CustomSnackbar from "../ui/CustomSnackbar";
 
 const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
   const [file, setFile] = useState(null);
@@ -30,9 +31,15 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
   const [isHover, setIsHover] = useState(false);
   const [error, setError] = useState("");
   const [uploadProgress, setUploadProgress] = useState(0);
+  const [snackbar, setSnackbar] = useState({
+    open: false,
+    message: "",
+    severity: "success", // "error" | "info" | "warning"
+  });
 
   // Configuración de validación
-  const MAX_FILE_SIZE = Number(import.meta.env.VITE_MAX_FILE_SIZE)*1024*1024;
+  const MAX_FILE_SIZE =
+    Number(import.meta.env.VITE_MAX_FILE_SIZE) * 1024 * 1024;
   const ALLOWED_FILE_TYPES = import.meta.env.VITE_ALLOWED_FILE_TYPES;
 
   // Limpiar estados cuando se cierra el modal
@@ -62,7 +69,6 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
       );
       return false;
     }
-
     setError("");
     return true;
   };
@@ -71,7 +77,6 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
     e.preventDefault();
     setIsHover(false);
     const droppedFile = e.dataTransfer.files[0];
-
     if (droppedFile && validateFile(droppedFile)) {
       setFile(droppedFile);
     }
@@ -85,42 +90,6 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
     e.target.value = ""; // permite volver a seleccionar el mismo archivo
   };
 
-/*   const handleUpload = async () => {
-    if (!file) return;
-    setLoading(true);
-    setUploadProgress(0);
-
-    try {
-      // Simulamos la subida con una progresión
-      const interval = setInterval(() => {
-        setUploadProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 10;
-        });
-      }, 200);
-
-      // En una implementación real, aquí iría la llamada a dashAxios.post
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-
-      clearInterval(interval);
-      setUploadProgress(100);
-
-      if (onSuccess) onSuccess(file.name);
-      setFile(null);
-      onClose();
-    } catch (err) {
-      console.error("Error al subir PDF:", err);
-      setError("❌ Error al subir el PDF. Por favor, intente nuevamente.");
-    } finally {
-      setLoading(false);
-      setUploadProgress(0);
-    }
-  }; */
-
-
   const handleUpload = async () => {
     if (!file) return;
     setLoading(true);
@@ -129,8 +98,6 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
     try {
       const formData = new FormData();
       formData.append("file", file); // ✅ debe llamarse "file"
-
-console.log(studyId);
       const response = await dashAxios.post(
         `/dashboard/informe/cargar/${studyId}`,
         formData,
@@ -149,20 +116,28 @@ console.log(studyId);
       if (onSuccess) onSuccess(file.name);
       setFile(null);
       onClose();
+      setSnackbar({
+        open: true,
+        message: "Informe subido correctamente",
+        severity: "success",
+      });
     } catch (err) {
       console.error("Error al subir PDF:", err);
 
-      // Mostrar el mensaje enviado desde el backend si es 400 o 500
-      const msg =
-        err.response?.data?.message ||
-        "❌ Error al subir el PDF. Por favor, intente nuevamente.";
+      setSnackbar({
+        open: true,
+        message:
+          err.response?.data?.message ||
+          "❌ Error al subir informe. Por favor, intente nuevamente.",
+        severity: "error",
+      });
+
       setError(msg);
     } finally {
       setLoading(false);
       setUploadProgress(0);
     }
   };
-  
 
   const formatFileSize = (bytes) => {
     if (bytes === 0) return "0 Bytes";
@@ -178,150 +153,157 @@ console.log(studyId);
   };
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      fullWidth
-      maxWidth="sm"
-      disableRestoreFocus
-    >
-      <DialogTitle
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          gap: 1,
-          backgroundColor: "#f5f5f5",
-          borderBottom: "1px solid #e0e0e0",
-        }}
+    <>
+      <Dialog
+        open={open}
+        onClose={onClose}
+        fullWidth
+        maxWidth="sm"
+        disableRestoreFocus
       >
-        <CloudUpload color="primary" />
-        Subir informe PDF
-      </DialogTitle>
-
-      <DialogContent>
-        <Box
-          onDrop={handleDrop}
-          onDragOver={(e) => {
-            e.preventDefault();
-            setIsHover(true);
-          }}
-          onDragLeave={() => setIsHover(false)}
+        <DialogTitle
           sx={{
-            border: "2px dashed",
-            borderColor: isHover
-              ? "primary.main"
-              : error
-              ? "error.main"
-              : file
-              ? "success.main"
-              : "grey.300",
-            borderRadius: 2,
-            p: 4,
-            textAlign: "center",
-            cursor: "pointer",
-            transition: "all 0.3s ease",
-            backgroundColor: isHover
-              ? "primary.light"
-              : file
-              ? "success.light"
-              : "grey.50",
-            mt: 2,
-            position: "relative",
-            overflow: "hidden",
+            display: "flex",
+            alignItems: "center",
+            gap: 1,
+            backgroundColor: "#f5f5f5",
+            borderBottom: "1px solid #e0e0e0",
           }}
         >
-          <input
-            type="file"
-            accept="application/pdf"
-            style={{ display: "none" }}
-            id="pdf-upload-input"
-            onChange={handleSelectFile}
-          />
+          <CloudUpload color="primary" />
+          Subir informe PDF
+        </DialogTitle>
 
-          {!file ? (
-            <label htmlFor="pdf-upload-input" style={{ cursor: "pointer" }}>
-              <Box>
-                <CloudUpload
-                  sx={{ fontSize: 48, color: "primary.main", mb: 1 }}
-                />
-                <Typography variant="h6" gutterBottom>
-                  Arrastra un PDF aquí o haz clic para seleccionarlo
-                </Typography>
-                <Typography variant="body2" color="textSecondary" gutterBottom>
-                  Formatos permitidos: PDF • Tamaño máximo: 5MB
-                </Typography>
-                <Button variant="contained" component="span" sx={{ mt: 2 }}>
-                  Seleccionar archivo
-                </Button>
-              </Box>
-            </label>
-          ) : (
-            <Box>
-              <CheckCircle color="success" sx={{ fontSize: 48, mb: 1 }} />
-              <Typography variant="h6" gutterBottom>
-                Archivo seleccionado
-              </Typography>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  gap: 1,
-                  mb: 2,
-                }}
-              >
-                <Description color="primary" />
-                <Typography variant="body1" noWrap sx={{ maxWidth: "300px" }}>
-                  {file.name}
-                </Typography>
-                <IconButton size="small" onClick={removeFile}>
-                  <Close />
-                </IconButton>
-              </Box>
-              <Chip
-                label={formatFileSize(file.size)}
-                variant="outlined"
-                size="small"
-              />
+        <DialogContent>
+          <Box
+            onDrop={handleDrop}
+            onDragOver={(e) => {
+              e.preventDefault();
+              setIsHover(true);
+            }}
+            onDragLeave={() => setIsHover(false)}
+            sx={{
+              border: "2px dashed",
+              borderColor: isHover
+                ? "primary.main"
+                : error
+                ? "error.main"
+                : file
+                ? "success.main"
+                : "grey.300",
+              borderRadius: 2,
+              p: 4,
+              textAlign: "center",
+              cursor: "pointer",
+              transition: "all 0.3s ease",
+              backgroundColor: isHover
+                ? "primary.light"
+                : file
+                ? "success.light"
+                : "grey.50",
+              mt: 2,
+              position: "relative",
+              overflow: "hidden",
+            }}
+          >
+            <input
+              type="file"
+              accept="application/pdf"
+              style={{ display: "none" }}
+              id="pdf-upload-input"
+              onChange={handleSelectFile}
+            />
 
-              {loading && (
-                <Box sx={{ width: "100%", mt: 2 }}>
-                  <LinearProgress
-                    variant="determinate"
-                    value={uploadProgress}
-                    sx={{ height: 8, borderRadius: 4 }}
+            {!file ? (
+              <label htmlFor="pdf-upload-input" style={{ cursor: "pointer" }}>
+                <Box>
+                  <CloudUpload
+                    sx={{ fontSize: 48, color: "primary.main", mb: 1 }}
                   />
-                  <Typography variant="body2" sx={{ mt: 1 }}>
-                    Subiendo: {uploadProgress}%
+                  <Typography variant="h6" gutterBottom>
+                    Arrastra un PDF aquí o haz clic para seleccionarlo
                   </Typography>
+                  <Typography
+                    variant="body2"
+                    color="textSecondary"
+                    gutterBottom
+                  >
+                    Formatos permitidos: PDF • Tamaño máximo: 5MB
+                  </Typography>
+                  <Button variant="contained" component="span" sx={{ mt: 2 }}>
+                    Seleccionar archivo
+                  </Button>
                 </Box>
-              )}
-            </Box>
+              </label>
+            ) : (
+              <Box>
+                <CheckCircle color="success" sx={{ fontSize: 48, mb: 1 }} />
+                <Typography variant="h6" gutterBottom>
+                  Archivo seleccionado
+                </Typography>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 1,
+                    mb: 2,
+                  }}
+                >
+                  <Description color="primary" />
+                  <Typography variant="body1" noWrap sx={{ maxWidth: "300px" }}>
+                    {file.name}
+                  </Typography>
+                  <IconButton size="small" onClick={removeFile}>
+                    <Close />
+                  </IconButton>
+                </Box>
+                <Chip
+                  label={formatFileSize(file.size)}
+                  variant="outlined"
+                  size="small"
+                />
+
+                {loading && (
+                  <Box sx={{ width: "100%", mt: 2 }}>
+                    <LinearProgress
+                      variant="determinate"
+                      value={uploadProgress}
+                      sx={{ height: 8, borderRadius: 4 }}
+                    />
+                    <Typography variant="body2" sx={{ mt: 1 }}>
+                      Subiendo: {uploadProgress}%
+                    </Typography>
+                  </Box>
+                )}
+              </Box>
+            )}
+          </Box>
+
+          {error && (
+            <Alert severity="error" sx={{ mt: 2 }}>
+              {error}
+            </Alert>
           )}
-        </Box>
+        </DialogContent>
 
-        {error && (
-          <Alert severity="error" sx={{ mt: 2 }}>
-            {error}
-          </Alert>
-        )}
-      </DialogContent>
-
-      <DialogActions sx={{ p: 2, gap: 1 }}>
-        <Button onClick={onClose} disabled={loading} variant="outlined">
-          Cancelar
-        </Button>
-        <Button
-          onClick={handleUpload}
-          disabled={!file || loading}
-          variant="contained"
-          color="primary"
-          startIcon={loading ? <CircularProgress size={16} /> : null}
-        >
-          {loading ? "Subiendo..." : "Cargar"}
-        </Button>
-      </DialogActions>
-    </Dialog>
+        <DialogActions sx={{ p: 2, gap: 1 }}>
+          <Button onClick={onClose} disabled={loading} variant="outlined">
+            Cancelar
+          </Button>
+          <Button
+            onClick={handleUpload}
+            disabled={!file || loading}
+            variant="contained"
+            color="primary"
+            startIcon={loading ? <CircularProgress size={16} /> : null}
+          >
+            {loading ? "Subiendo..." : "Cargar"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+        <CustomSnackbar snackbar={snackbar} setSnackbar={setSnackbar} />
+    </>
   );
 };
   export default UpLoadPdfDialog;

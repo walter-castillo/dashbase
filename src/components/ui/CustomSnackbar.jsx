@@ -6,7 +6,7 @@ const CustomSnackbar = ({ snackbar, setSnackbar }) => {
   return (
     <Snackbar
       open={snackbar.open}
-      autoHideDuration={4000}
+      autoHideDuration={2000}
       onClose={() => setSnackbar({ ...snackbar, open: false })}
       anchorOrigin={{ vertical: "top", horizontal: "right" }}
     >
@@ -14,7 +14,7 @@ const CustomSnackbar = ({ snackbar, setSnackbar }) => {
         onClose={() => setSnackbar({ ...snackbar, open: false })}
         severity={snackbar.severity}
         sx={{
-          width: "400px", // ancho fijo
+          width: "500px", // ancho fijo
           fontSize: "1.1rem", // texto más grande
           py: 2,
           px: 3,
