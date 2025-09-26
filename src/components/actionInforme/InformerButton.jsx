@@ -13,12 +13,7 @@ export default function InformeButton({
     if (isMobile) {
       // 📱 Mobile → Descargar PDF usando dashAxios
       try {
-        const response = await dashAxios.get(
-          `/dashboard/informe/${est.Study.ID}`,
-          {
-            responseType: "blob", // necesario para PDF
-          }
-        );
+        const response = await dashAxios.get(`/dashboard/informe/ver/${est.Study.ID}`,{responseType: "blob"});
 
         const blobUrl = window.URL.createObjectURL(response.data);
 
@@ -36,7 +31,7 @@ export default function InformeButton({
         console.error("Error al descargar:", error);
       }
     } else {
-      // 🖥️ Desktop → Abrir modal
+      // Desktop → Abrir modal
       setSelectedStudy(est);
       setOpenInforme(true);
     }

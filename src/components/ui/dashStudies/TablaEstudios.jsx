@@ -109,16 +109,17 @@ const TablaEstudios = ({
 
   return (
     <>
-      {loading && (  <Box
-                display="flex"
-                justifyContent="center"
-                alignItems="center"
-                minHeight="300px"
-                mt={-50}
-              >
-                <Loading />
-              </Box>
-            )}
+      {loading && (
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight="300px"
+          mt={-50}
+        >
+          <Loading />
+        </Box>
+      )}
       <TableContainer component={Paper}>
         <Table>
           {estudios.length > 0 && (
@@ -144,8 +145,10 @@ const TablaEstudios = ({
           )}
 
           <TableBody>
-            {estudios.length === 0 ? (<NotStudies colSpan={Object.keys(columnMap).length + 2} />) 
-            : (estudios.map((est, i) => (
+            {estudios.length === 0 ? (
+              <NotStudies colSpan={Object.keys(columnMap).length + 2} />
+            ) : (
+              estudios.map((est, i) => (
                 <TableRow key={i}>
                   <TableCell>{est.Patient?.PatientName}</TableCell>
                   <TableCell>{est.Patient?.PatientID}</TableCell>
@@ -237,7 +240,6 @@ const TablaEstudios = ({
           </TableBody>
         </Table>
       </TableContainer>
-      
       {/* Modal del PDF */}
       <InformeViewerIframe
         open={openInforme}
@@ -269,7 +271,16 @@ const TablaEstudios = ({
         studyId={selectedStudy?.Study?.ID}
         onSuccess={(fileName) => {
           console.log(`✅ PDF ${fileName} subido con éxito`);
-          // Aquí podrías refrescar la tabla o mostrar snackbar
+
+          // 👈 CORRECCIÓN: usar selectedStudy?.Study?.ID en lugar de estudioId
+          setEstudios((prevEstudios) =>
+            prevEstudios.map((est) =>
+              est.Study?.ID === selectedStudy?.Study?.ID
+                ? { ...est, Study: { ...est.Study, tieneINF: true } }
+                : est
+            )
+          );
+
           setOpenUpload(false);
         }}
       />

@@ -115,7 +115,7 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
       console.log("✅ PDF subido:", response.data);
       if (onSuccess) onSuccess(file.name);
       setFile(null);
-      onClose();
+
       setSnackbar({
         open: true,
         message: "Informe subido correctamente",
@@ -132,10 +132,10 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
         severity: "error",
       });
 
-      setError(msg);
     } finally {
       setLoading(false);
       setUploadProgress(0);
+      onClose();
     }
   };
 

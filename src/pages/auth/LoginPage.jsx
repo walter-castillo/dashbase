@@ -38,7 +38,7 @@ export const LoginPage = () => {
       email: "email3@email.com",
       password: "123123Abc",
     });
-    navigate('/dashboard/usuarios');
+    navigate('/dashboard/estudios');
   };
 
   if (!!state.isLoading) return <Loading />;
