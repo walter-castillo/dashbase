@@ -14,7 +14,6 @@ const styles = {
 
 const DownloadStudyButton = ({ studyUID, enabled }) => {
   const isEnabled = !!(studyUID && enabled);
-
   const handleDownload = async (e) => {
     if (!isEnabled) { e.preventDefault(); return }
 try {

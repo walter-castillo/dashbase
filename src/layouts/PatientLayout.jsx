@@ -16,6 +16,7 @@ const PatientLayout = () => {
     const fetchStudies = async () => {
       try {
         const response = await PatientAxios.post('/studies');
+        console.log(response.data);
         const { patient, studies } = response.data;
         setPatient(patient);
         setStudies(studies);
