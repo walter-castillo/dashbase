@@ -3,9 +3,9 @@ const baseURL =  import.meta.env.VITE_URL
 const  token =  import.meta.env.VITE_TOKEN_NAME
 
 export const PatientAxios = axios.create({
-    baseURL: `${baseURL}patient`,
-    timeout: 3000,
-    withCredentials: true, 
+  baseURL: `${baseURL}patient`,
+  timeout: 0,
+  withCredentials: true,
 });
 
 // dashAxios.interceptors.request.use( config  => {
