@@ -68,7 +68,7 @@ const TablaEstudios = ({
     setEstudios((prevEstudios) =>
       prevEstudios.map((est) =>
         est.Study?.ID === estudioId
-          ? {...est, Study: { ...est.Study, tieneINF: false }}
+          ? {...est, Study: { ...est.Study, InformeOk: false }}
           : est
       )
     );
@@ -158,12 +158,12 @@ const TablaEstudios = ({
                       : "N/A"}
                   </TableCell>
                   <TableCell>
-                    {est.Study?.ModalitiesInStudy.join(", ")}
+                    {est.Study?.ModalitiesInStudy}
                   </TableCell>
                   <TableCell>{est.Study?.AccessionNumber}</TableCell>
 
                   <TableCell align="center">
-                    {est.Study?.tieneINF ? (
+                    {est.Study?.InformeOk ? (
                       <Box
                         display="flex"
                         alignItems="center"
@@ -276,7 +276,7 @@ const TablaEstudios = ({
           setEstudios((prevEstudios) =>
             prevEstudios.map((est) =>
               est.Study?.ID === selectedStudy?.Study?.ID
-                ? { ...est, Study: { ...est.Study, tieneINF: true } }
+                ? { ...est, Study: { ...est.Study, InformeOk: true } }
                 : est
             )
           );
