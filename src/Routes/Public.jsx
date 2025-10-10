@@ -5,6 +5,7 @@ import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
+import ViewStudy from "../components/ViewStudy";
 
 // Componente inline que protege rutas públicas
 const PublicRoute = ({ children }) => {
@@ -24,6 +25,7 @@ const PublicRoute = ({ children }) => {
 export const Public = () => {
   return (
     <Route path="/" element={<AuthLayout />}>
+      <Route path="/view/study" element={<ViewStudy />} />
       <Route index element={<HomePage />} />
       <Route
         path="login"
