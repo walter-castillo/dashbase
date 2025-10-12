@@ -25,33 +25,38 @@ const PublicRoute = ({ children }) => {
 
 export const Public = () => {
   return (
-    <Route path="/" element={<AuthLayout />}>
-      <Route path="/view/study" element={<ViewStudyPage />} />
-      <Route index element={<HomePage />} />
-      <Route
-        path="login"
-        element={
-          <PublicRoute>
-            <LoginPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="register"
-        element={
-          <PublicRoute>
-            <RegisterPage />
-          </PublicRoute>
-        }
-      />
-      <Route
-        path="forgotPassword"
-        element={
-          <PublicRoute>
-            <ForgotPassword />
-          </PublicRoute>
-        }
-      />
-    </Route>
+    <>
+      <Route path="/view/study/:id" element={<ViewStudyPage />} />
+      <Route path="/" element={<AuthLayout />}>
+        <Route index element={<HomePage />} />
+
+        <Route path="/view/study" element={<ViewStudy />} />
+
+        <Route
+          path="login"
+          element={
+            <PublicRoute>
+              <LoginPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="register"
+          element={
+            <PublicRoute>
+              <RegisterPage />
+            </PublicRoute>
+          }
+        />
+        <Route
+          path="forgotPassword"
+          element={
+            <PublicRoute>
+              <ForgotPassword />
+            </PublicRoute>
+          }
+        />
+      </Route>
+    </>
   );
 };
