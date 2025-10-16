@@ -68,7 +68,7 @@ const TablaEstudios = ({
     setEstudios((prevEstudios) =>
       prevEstudios.map((est) =>
         est.Study?.ID === estudioId
-          ? {...est, Study: { ...est.Study, InformeOk: false }}
+          ? { ...est, Study: { ...est.Study, tieneINF: false } }
           : est
       )
     );
@@ -103,6 +103,14 @@ const TablaEstudios = ({
     console.log("Cargar estudio", estudio);
     setSelectedStudy(estudio);
     setOpenUpload(true);
+  };
+  const formatearDNI = (dni) => {
+    if (!dni) return "";
+    // Solo si es numérico puro
+    if (/^\d+$/.test(dni)) {
+      return parseInt(dni, 10).toLocaleString("es-AR"); // "10.102.100"
+    }
+    return dni; // si tiene letras o símbolos
   };
 
   const handleExportar = (estudio) => console.log("Exportar estudio", estudio);
@@ -151,19 +159,19 @@ const TablaEstudios = ({
               estudios.map((est, i) => (
                 <TableRow key={i}>
                   <TableCell>{est.Patient?.PatientName}</TableCell>
-                  <TableCell>{est.Patient?.PatientID}</TableCell>
+                  <TableCell>{formatearDNI(est.Patient?.PatientID)}</TableCell>
                   <TableCell>
                     {est.Study?.StudyDate
                       ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY")
                       : "N/A"}
                   </TableCell>
                   <TableCell>
-                    {est.Study?.ModalitiesInStudy}
+                    {est.Study?.ModalitiesInStudy.join(", ")}
                   </TableCell>
                   <TableCell>{est.Study?.AccessionNumber}</TableCell>
 
                   <TableCell align="center">
-                    {est.Study?.InformeOk ? (
+                    {est.Study?.tieneINF ? (
                       <Box
                         display="flex"
                         alignItems="center"
@@ -276,7 +284,7 @@ const TablaEstudios = ({
           setEstudios((prevEstudios) =>
             prevEstudios.map((est) =>
               est.Study?.ID === selectedStudy?.Study?.ID
-                ? { ...est, Study: { ...est.Study, InformeOk: true } }
+                ? { ...est, Study: { ...est.Study, tieneINF: true } }
                 : est
             )
           );

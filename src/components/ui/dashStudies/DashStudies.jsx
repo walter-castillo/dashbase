@@ -66,6 +66,7 @@ const DashStudies = () => {
     try {
       setLoading(true);
       const { data } = await dashAxios.get(`/dashboard/studiesFilter?${query}`);
+      console.log(data.estudios);
       setEstudios(data.estudios);
       setPagina(0);
     } catch (err) { console.error("Error al buscar estudios:", err);
@@ -85,21 +86,42 @@ const DashStudies = () => {
   };
 
   const obtenerValorOrden = (estudio, campo) => {
-    if (campo === "PatientName" || campo === "PatientID") {
-      return estudio.Patient?.[campo] || "";
+    const valor =
+      campo === "PatientName" ||
+      campo === "PatientID" ||
+      campo === "AccessionNumber"
+        ? estudio.Patient?.[campo] || estudio.Study?.[campo] // Para AccessionNumber buscar en Study
+        : estudio.Study?.[campo];
+
+    // Si es PatientID o AccessionNumber numérico puro, convertir a número
+    if (
+      (campo === "PatientID" || campo === "AccessionNumber") &&
+      /^\d+$/.test(valor)
+    ) {
+      return parseInt(valor, 10);
     }
-    return estudio.Study?.[campo] || "";
+
+    return valor || "";
   };
+  
 
   const estudiosOrdenados = useMemo(() => {
     return [...estudios].sort((a, b) => {
       const aVal = obtenerValorOrden(a, orden.ordenPor);
       const bVal = obtenerValorOrden(b, orden.ordenPor);
+
+      // Si ambos son números, ordenar numéricamente
+      if (typeof aVal === "number" && typeof bVal === "number") {
+        return orden.orden === "asc" ? aVal - bVal : bVal - aVal;
+      }
+
+      // Si no, usar comparación de texto
       return orden.orden === "asc"
         ? String(aVal).localeCompare(String(bVal))
         : String(bVal).localeCompare(String(aVal));
     });
   }, [estudios, orden]);
+  
 
   const estudiosPaginados = useMemo(() => {
     const inicio = pagina * porPagina;
