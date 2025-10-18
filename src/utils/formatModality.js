@@ -1,5 +1,5 @@
 export const modalityMap = {
-  CR: 'RX',                      // Radiografía Computada
+  CR: 'Rayo X',                      // Radiografía Computada
   CT: 'Tomografía',            // Computed Tomography
   MR: 'Resonancia',            // Magnetic Resonance
   US: 'Ecografía',             // Ultrasound           
@@ -10,7 +10,6 @@ export const modalityMap = {
   PT: 'Tomografía EP',
   LAB: 'Laboratorio',
   INF: 'Informe',
-
 };
 
 /**

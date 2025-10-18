@@ -49,7 +49,8 @@ if (!studies || !patient ) { return <Loading />}
             gutterBottom
             sx={{ fontWeight: "bold", fontSize: "1.20rem", color: "#1976d2" }}
           >
-            ¡Hola, {patient?.name?.replaceAll("^", " ").trim() || "Paciente"}!
+            ¡Hola,{" "}
+            {patient?.PatientName?.replaceAll("^", " ").trim() || "Paciente"}!
           </Typography>
           <Typography
             variant="subtitle1"
@@ -57,8 +58,10 @@ if (!studies || !patient ) { return <Loading />}
             sx={{ fontSize: "0.95rem", color: "#1976d2" }}
           >
             DNI:{" "}
-            {patient?.id.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") ||
-              "No disponible"}
+            {patient?.PatientID.toString().replace(
+              /\B(?=(\d{3})+(?!\d))/g,
+              "."
+            ) || "No disponible"}
           </Typography>
           <StudyTable studies={studies} />
         </Box>

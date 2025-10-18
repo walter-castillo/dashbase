@@ -5,12 +5,10 @@ import {
 import VisibilityIcon from '@mui/icons-material/Visibility';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ShareIcon from '@mui/icons-material/Share';
-import { formatDate } from '../../../utils/formatdate';
+import { formatDate } from '../../../utils/formatDate';
 import { formatModality } from '../../../utils/formatModality';
 import DownloadStudyButton from './DownloadStudyButton';
-import ViewStudyButton from './viewStudyButton';
-import ViewStudyButton2 from './viewStudyButton2';
-import ViewStudyButton3 from './ViewStudyButton3';
+// import ViewStudyButton from './viewStudyButton';
 
 const styles = {
   paper: { mt: 4, borderRadius: 3, boxShadow: 6, p: 1, backgroundColor: '#fdfdfd' },
@@ -22,6 +20,28 @@ const styles = {
   oddRow: { backgroundColor: '#f5f5f5', '&:hover': { backgroundColor: '#e3f2fd' }},
   textSmall: { fontSize: '0.70rem' },
 };
+
+
+const handleVer = (studyId) => {
+  try {
+    const urlFront = import.meta.env.VITE_URL_FRONT;
+    const viewerUrl = `${urlFront}/view/study/patient/${studyId}`;
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
+
+    const w = window.open(
+      viewerUrl,
+      "_blank",
+      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
+    );
+
+
+    console.log("[VIEWER] Ventana abierta correctamente");
+  } catch (e) {
+    console.error("[VIEWER ERROR]", e);
+  }
+};
+
 
 const StudyTable = ({ studies }) => {
   if (!studies || studies.length === 0) {
@@ -54,10 +74,7 @@ const StudyTable = ({ studies }) => {
                 "Ver3", */
                 "Descargar",
                 "Compartir",
-              ].map((text, i) => (
-                <TableCell key={i} align="center" sx={styles.headerCell}>
-                  {text}
-                </TableCell>
+              ].map((text, i) => (<TableCell key={i} align="center" sx={styles.headerCell}>{text}</TableCell>
               ))}
             </TableRow>
           </TableHead>
@@ -70,15 +87,16 @@ const StudyTable = ({ studies }) => {
                   sx={isEven ? styles.evenRow : styles.oddRow}
                 >
                   <TableCell align="center" sx={styles.textSmall}>
-                    {study.accessionNumber}
+                    {study.AccessionNumber}
                   </TableCell>
                   <TableCell align="center" sx={styles.textSmall}>
-                    {formatDate(study.studyDate)}
+                    {formatDate(study.StudyDate)}
                   </TableCell>
                   <TableCell align="center" sx={styles.textSmall}>
-                    {formatModality(study.modality)}
+                    {formatModality(study.ModalitiesInStudy)}
                   </TableCell>
 
+                  {/* {console.log('study', study)} */}
                   {/* Informe */}
                   <TableCell align="center">
                     <Tooltip
@@ -90,45 +108,32 @@ const StudyTable = ({ studies }) => {
                           href={study.reportURL || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
-                          disabled={!study.reportURL}
+                          disabled={!study.tieneINF}
                         >
                           <DescriptionIcon
-                            sx={{ color: study.reportURL ? "#9c27b0" : "#ccc" }}
+                            sx={{ color: study.tieneINF ? "#9c27b0" : "#ccc" }}
                           />
                         </IconButton>
                       </span>
                     </Tooltip>
                   </TableCell>
 
-                  {/* Ver 
+                  {/* Ver*/}
                   <TableCell align="center">
-                    <ViewStudyButton
-                      studyUID={study.studyUID}
-                      enabled={!!study.studyUID}
-                    />
-                  </TableCell>*/}
-
-                  
-                  {/* Ver  2*/}
-                  <TableCell align="center">
-                    <ViewStudyButton2
-                      studyUID={study.studyUID}
-                      enabled={!!study.studyUID}
-                    />
+                    <IconButton
+                      size="small"
+                      color="primary"
+                      onClick={() => handleVer(study.StudyInstanceUID)}
+                    >
+                      <VisibilityIcon />
+                    </IconButton>
                   </TableCell>
-                  {/* Ver  3
-                  <TableCell align="center">
-                    <ViewStudyButton3
-                      studyUID={study.studyUID}
-                      enabled={!!study.studyUID}
-                    />
-                  </TableCell>*/}
 
                   {/* Descargar */}
                   <TableCell align="center">
                     <DownloadStudyButton
-                      studyUID={study.studyUID}
-                      enabled={!!study.studyUID}
+                      studyUID={study.StudyInstanceUID}
+                      enabled={!!study.StudyInstanceUID}
                     />
                   </TableCell>
 

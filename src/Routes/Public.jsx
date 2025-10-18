@@ -5,8 +5,9 @@ import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
-import ViewStudy from "../components/ViewStudy";
-import ViewStudyPage from "../components/ViewStudyPage";
+import {ViewStudyPage} from "../components/ui/dashStudies/visor/ViewStudy";
+import { ViewStudyPatient } from "../components/ui/patient/visor/ViewStudyPatient";
+
 
 // Componente inline que protege rutas públicas
 const PublicRoute = ({ children }) => {
@@ -27,11 +28,11 @@ export const Public = () => {
   return (
     <>
       <Route path="/view/study/:id" element={<ViewStudyPage />} />
+      <Route path="/view/study/patient/:id" element={<ViewStudyPatient />} />
+
+      
       <Route path="/" element={<AuthLayout />}>
         <Route index element={<HomePage />} />
-
-        <Route path="/view/study" element={<ViewStudy />} />
-
         <Route
           path="login"
           element={

@@ -13,10 +13,9 @@ import {
   IconButton,
   Stack,
   Tooltip,
-  Snackbar,
-  Alert,
+
 } from "@mui/material";
-import InboxIcon from "@mui/icons-material/Inbox";
+
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import UploadFile from "@mui/icons-material/UploadFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -57,7 +56,19 @@ const TablaEstudios = ({
     setOrden({ orden: esAsc ? "desc" : "asc", ordenPor: campoReal });
   };
 
-  const handleVer = (estudio) => console.log("Ver estudio", estudio);
+  const urlFront = import.meta.env.VITE_URL_FRONT;
+  const handleVer = (studyId) => {
+    const viewerUrl = `${urlFront}/view/study/${studyId}`;
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
+
+    window.open(
+      viewerUrl,
+      "_blank",
+      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
+    );
+  };
+    
   const handleEliminar = async (estudio) => {
     const estudioId = estudio.Study.ID;
 
@@ -229,7 +240,7 @@ const TablaEstudios = ({
                       <IconButton
                         size="small"
                         color="primary"
-                        onClick={() => handleVer(est)}
+                        onClick={() => handleVer(est.Study.StudyInstanceUID)}
                       >
                         <VisibilityIcon />
                       </IconButton>

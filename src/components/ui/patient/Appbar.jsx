@@ -17,26 +17,32 @@ const [anchorEl, setAnchorEl] = useState(null);
   };
 
   return (
-      <AppBar position="static">
-         <Toolbar>
-            <Typography variant="h6" sx={{ flexGrow: 1 }}>
-               Portal del Paciente
-            </Typography>
-            <IconButton onClick={handleMenu} color="inherit">
-               <AccountCircle />
-            </IconButton>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
-               <MenuItem disabled>
-                  Nombre: {patient?.name.replaceAll("^", " ").replace(/\s+/g, ' ').trim() || 'Desconocido'}
-               </MenuItem>
-               <MenuItem disabled>
-                  DNI: {Number(patient?.id || 0).toLocaleString("es-AR")}
-               </MenuItem>
-               <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
-            </Menu>
-         </Toolbar>
+    <AppBar position="static">
+      <Toolbar>
+        <Typography variant="h6" sx={{ flexGrow: 1 }}>
+          Portal del Paciente
+        </Typography>
+        <IconButton onClick={handleMenu} color="inherit">
+          <AccountCircle />
+        </IconButton>
+        <Menu
+          anchorEl={anchorEl}
+          open={Boolean(anchorEl)}
+          onClose={handleClose}
+        >
+          <MenuItem disabled>
+            Nombre:{" "}
+            {patient?.PatientName?.replaceAll("^", " ").replace(/\s+/g, " ").trim() ||
+              "Desconocido"}
+          </MenuItem>
+          <MenuItem disabled>
+            DNI: {Number(patient?.PatientID || 0).toLocaleString("es-AR")}
+          </MenuItem>
+          <MenuItem onClick={handleLogout}>Cerrar sesión</MenuItem>
+        </Menu>
+      </Toolbar>
     </AppBar>
-  )
+  );
 }
 
 export default Appbar
