@@ -8,30 +8,33 @@ export default function InformeButton({
   setOpenInforme,
 }) {
   const handleClick = async () => {
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+    const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
 
-    if (isMobile) {
-      // 📱 Mobile → Descargar PDF usando dashAxios
+    if (mobile) {
       try {
-        const response = await dashAxios.get(`/dashboard/informe/ver/${est.Study.ID}`,{responseType: "blob"});
+        const res = await dashAxios.get(
+          `/dashboard/informe/ver/${est.Study.ID}`,
+          {
+            responseType: "blob",
+          }
+        );
 
-        const blobUrl = window.URL.createObjectURL(response.data);
-
+        const blobUrl = URL.createObjectURL(res.data);
         const fileName = `${est.Patient.PatientID}-${est.Patient.PatientName}-${est.Study.AccessionNumber}.pdf`;
 
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = fileName;
+        const link = Object.assign(document.createElement("a"), {
+          href: blobUrl,
+          download: fileName,
+        });
+
         document.body.appendChild(link);
         link.click();
-        document.body.removeChild(link);
-
-        window.URL.revokeObjectURL(blobUrl);
-      } catch (error) {
-        console.error("Error al descargar:", error);
+        link.remove();
+        URL.revokeObjectURL(blobUrl);
+      } catch (err) {
+        console.error("Error al descargar PDF:", err);
       }
     } else {
-      // Desktop → Abrir modal
       setSelectedStudy(est);
       setOpenInforme(true);
     }
@@ -42,7 +45,7 @@ export default function InformeButton({
       <DescriptionIcon
         fontSize="small"
         color="primary"
-        sx={{ cursor: "pointer", marginRight: 2 }}
+        sx={{ cursor: "pointer", mr: 2 }}
         onClick={handleClick}
       />
     </Tooltip>
