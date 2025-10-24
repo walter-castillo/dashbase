@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPatient = () => {
   // const [code, setCode] = useState('G9WYCA');
-  const [code, setCode] = useState("8L7R71");
+  const [code, setCode] = useState("YGOR1U");
   const [dni, setDni] = useState("5394119");
   // const [dni, setDni] = useState('39814413');
   const [loading, setLoading] = useState(false);

@@ -63,7 +63,12 @@ if (!studies || !patient ) { return <Loading />}
               "."
             ) || "No disponible"}
           </Typography>
-          <StudyTable studies={studies} />
+
+
+          <StudyTable studies={studies} patient={patient} />
+
+
+
         </Box>
       </Box>
     </Box>

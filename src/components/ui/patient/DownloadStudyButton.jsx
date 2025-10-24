@@ -11,31 +11,37 @@ const styles = {
   }),
 };
 
-const DownloadStudyButton = ({ studyUID, enabled }) => {
-  const [loading, setLoading] = useState(false);
-  const isEnabled = !!(studyUID && enabled && !loading);
-
-/*   const handleDownload = async (e) => {
-    if (!isEnabled) return;
-    setLoading(true);
-
-  };
+/**
+ * Componente reutilizable para descargar archivos de estudios.
+ *
+ * @param {string} ID - UID del estudio.
+ * @param {boolean} enabled - Si está habilitado o no.
+ * @param {string} format - Tipo de formato a descargar ("jpg" | "dcm" | "zip" | etc).
+ * @param {string} label - Texto del tooltip opcional.
  */
+const DownloadButton = ({ ID, enabled, format = "jpg", label , patient}) => {
+  const [loading, setLoading] = useState(false);
+  const isEnabled = !!(ID && enabled && !loading);
 
   const handleDownload = async (e) => {
     if (!isEnabled) {
       e.preventDefault();
       return;
     }
+
     try {
       setLoading(true);
-      const response = await PatientAxios.get(`/study/download/${studyUID}`, {
-        responseType: "blob",
-      });
+      const response = await PatientAxios.get(
+        `/study/download/${format}/${ID}`,
+        {
+          responseType: "blob",
+        }
+      );
 
       const contentDisposition = response.headers["content-disposition"];
       const filenameMatch = contentDisposition?.match(/filename="?(.+?)"?$/);
-      const filename = filenameMatch?.[1] || "estudio.zip";
+      const filename = `estudio.zip`
+        // filenameMatch?.[1] || `estudio.${format === "jpg" ? "zip" : format}`;
 
       const url = window.URL.createObjectURL(response.data);
       const a = document.createElement("a");
@@ -45,11 +51,10 @@ const DownloadStudyButton = ({ studyUID, enabled }) => {
       window.URL.revokeObjectURL(url);
     } catch (err) {
       console.error("Error en la descarga:", err);
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
-
 
   return (
     <Tooltip
@@ -57,7 +62,7 @@ const DownloadStudyButton = ({ studyUID, enabled }) => {
         loading
           ? "Descargando..."
           : isEnabled
-          ? "Descargar estudio"
+          ? label || `Descargar ${format.toUpperCase()}`
           : "No disponible"
       }
     >
@@ -74,4 +79,4 @@ const DownloadStudyButton = ({ studyUID, enabled }) => {
   );
 };
 
-export default DownloadStudyButton;
+export default DownloadButton;

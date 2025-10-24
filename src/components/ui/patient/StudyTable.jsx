@@ -43,7 +43,9 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const StudyTable = ({ studies }) => {
+const StudyTable = ({ studies, patient }) => {
+
+
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -195,12 +197,19 @@ const StudyTable = ({ studies }) => {
                     {/* 💾 Descargar  */}
                     <TableCell align="center">
                       <DownloadStudyButton
-                        studyUID={study.StudyInstanceUID}
-                        enabled={!!study.StudyInstanceUID}
+                        ID={study.ID}
+                        enabled={!!study.ID}
+                        patient={patient}
+                        format="dcm"
+                        label="Descargar DICOM"
                       />
+
                       <DownloadStudyButton
-                        studyUID={study.StudyInstanceUID}
-                        enabled={!!study.StudyInstanceUID}
+                        ID={study.ID}
+                        enabled={!!study.ID}
+                        patient={patient}
+                        format="jpeg"
+                        label="Descargar imágenes JPEG/JPG"
                       />
                     </TableCell>
 
