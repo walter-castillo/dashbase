@@ -19,7 +19,32 @@ const styles = {
  * @param {string} format - Tipo de formato a descargar ("jpg" | "dcm" | "zip" | etc).
  * @param {string} label - Texto del tooltip opcional.
  */
-const DownloadButton = ({ ID, enabled, format = "jpg", label , patient}) => {
+const DownloadButton = ({ study, enabled, format = "jpg", label , patient}) => {
+/*   {
+    "patient": {
+      "PatientBirthDate": "19481229",
+      "PatientID": "5394119",
+      "PatientName": "Mariani Maria Antonia",
+      "PatientSex": "F"
+    },
+    "study": {
+      "ModalitiesInStudy": ["CR"],
+      "AccessionNumber": "18570",
+      "InstitutionName": "OSAMMVC",
+      "ReferringPhysicianName": "",
+      "StudyDate": "20240405",
+      "StudyTime": "102634.209",
+      "StudyDescription": "",
+      "StudyID": "",
+      "StudyInstanceUID": "1.2.276.0.7230010.3.1.2.4019563207.4700.1760292314.158",
+      "ID": "305e12d0-963f6118-9d0a5078-207f79c2-d598668a",
+      "tieneDOC": false,
+      "tieneINF": true,
+      "tieneLAB": false,
+      "tienePDF": false
+    }
+  } */
+  const { ID } = study;
   const [loading, setLoading] = useState(false);
   const isEnabled = !!(ID && enabled && !loading);
 
@@ -28,7 +53,7 @@ const DownloadButton = ({ ID, enabled, format = "jpg", label , patient}) => {
       e.preventDefault();
       return;
     }
-
+    // console.log(patient, study);
     try {
       setLoading(true);
       const response = await PatientAxios.get(
@@ -40,8 +65,8 @@ const DownloadButton = ({ ID, enabled, format = "jpg", label , patient}) => {
 
       const contentDisposition = response.headers["content-disposition"];
       const filenameMatch = contentDisposition?.match(/filename="?(.+?)"?$/);
-      const filename = `estudio.zip`
-        // filenameMatch?.[1] || `estudio.${format === "jpg" ? "zip" : format}`;
+      const filename =  `${patient.PatientID}-${patient.PatientName.replaceAll(" ", "_")}-${study.AccessionNumber}-${format}`;
+              // filenameMatch?.[1] || `estudio.${format === "jpg" ? "zip" : format}`;
 
       const url = window.URL.createObjectURL(response.data);
       const a = document.createElement("a");

@@ -197,7 +197,7 @@ const StudyTable = ({ studies, patient }) => {
                     {/* 💾 Descargar  */}
                     <TableCell align="center">
                       <DownloadStudyButton
-                        ID={study.ID}
+                        study={study}
                         enabled={!!study.ID}
                         patient={patient}
                         format="dcm"
@@ -205,7 +205,7 @@ const StudyTable = ({ studies, patient }) => {
                       />
 
                       <DownloadStudyButton
-                        ID={study.ID}
+                        study={study}
                         enabled={!!study.ID}
                         patient={patient}
                         format="jpeg"
