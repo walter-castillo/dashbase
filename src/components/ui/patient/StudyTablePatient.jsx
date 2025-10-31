@@ -125,8 +125,8 @@ const StudyTablePatient = ({ studies, patient }) => {
                   "Fecha",
                   "Tipo",
                   "Informe",
-                  "Visualizar",
-                  "dcm/jpeg",
+                  "ver",
+                  "dcm/jpg",
                 ].map((text, i) => (
                   <TableCell key={i} align="center" sx={styles.headerCell}>
                     {text}
@@ -190,21 +190,32 @@ const StudyTablePatient = ({ studies, patient }) => {
 
                     {/* 💾 Descargar  */}
                     <TableCell align="center">
-                      <DownloadStudyButton
-                        study={study}
-                        enabled={!!study.ID}
-                        patient={patient}
-                        format="dcm"
-                        label="Descargar DICOM"
-                      />
+                      <Box
+                        sx={{
+                          display: "flex",
+                          flexDirection: "row", // siempre en línea
+                          gap: 1, // espacio entre botones
+                          justifyContent: "center",
+                          alignItems: "center",
+                          flexWrap: "nowrap", // evita que se rompan a la siguiente línea
+                        }}
+                      >
+                        <DownloadStudyButton
+                          study={study}
+                          enabled={!!study.ID}
+                          patient={patient}
+                          format="dcm"
+                          label="Descargar DICOM"
+                        />
 
-                      <DownloadStudyButton
-                        study={study}
-                        enabled={!!study.ID}
-                        patient={patient}
-                        format="jpeg"
-                        label="Descargar imágenes JPEG/JPG"
-                      />
+                        <DownloadStudyButton
+                          study={study}
+                          enabled={!!study.ID}
+                          patient={patient}
+                          format="jpeg"
+                          label="Descargar imágenes JPEG/JPG"
+                        />
+                      </Box>
                     </TableCell>
                   </TableRow>
                 );

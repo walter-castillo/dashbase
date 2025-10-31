@@ -116,6 +116,7 @@ const TablaEstudios = ({
     setSelectedStudy(estudio);
     setOpenUpload(true);
   };
+  
   const formatearDNI = (dni) => {
     if (!dni) return "";
     // Solo si es numérico puro
