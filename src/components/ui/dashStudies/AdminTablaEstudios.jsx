@@ -30,6 +30,7 @@ import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
+import ShareStudyButton from "../patient/ShareStudyButton";
 
 const TablaEstudios = ({
   estudios,
@@ -124,7 +125,7 @@ const TablaEstudios = ({
     return dni; // si tiene letras o símbolos
   };
 
-  const handleExportar = (estudio) => console.log("Exportar estudio", estudio);
+  const handleDescagarImg = (estudio) => console.log("DescagarImg estudio", estudio);
 
   return (
     <>
@@ -157,7 +158,7 @@ const TablaEstudios = ({
                     </TableSortLabel>
                   </TableCell>
                 ))}
-                <TableCell align="center">Informes</TableCell>
+                {/* <TableCell align="center">Informes</TableCell> */}
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
@@ -237,20 +238,32 @@ const TablaEstudios = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => handleVer(est.Study.StudyInstanceUID)}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
-                      <IconButton
-                        size="small"
-                        color="secondary"
-                        onClick={() => handleExportar(est)}
-                      >
-                        <DownloadIcon />
-                      </IconButton>
+                      {/* ver estudio */}
+                      <Tooltip title="Ver informe">
+                        <IconButton
+                          size="small"
+                          color="primary"
+                          onClick={() => handleVer(est.Study.StudyInstanceUID)}
+                        >
+                          <VisibilityIcon />
+                        </IconButton>
+                      </Tooltip>
+                      {/* descargar img */}
+                      <Tooltip title="Descargar imagenes">
+                        <IconButton
+                          size="small"
+                          color="secondary"
+                          onClick={() => handleDescagarImg(est)}
+                        >
+                          <DownloadIcon />
+                        </IconButton>
+                      </Tooltip>
+
+                      <Tooltip title="Compartir estudio">
+                       
+                          <ShareStudyButton study={est} />
+                   
+                      </Tooltip>
                     </Stack>
                   </TableCell>
                 </TableRow>

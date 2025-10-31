@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import FiltroEstudios from "./FiltroEstudios";
 import AccionesEstudios from "./AccionesEstudios";
-import TablaEstudios from "./TablaEstudios";
+import TablaEstudios from "./AdminTablaEstudios";
 import PaginacionEstudios from "./PaginacionEstudios";
 import { dashAxios } from "../../../config/DashAxios";
 import { Loading } from "../Loading";
@@ -16,6 +16,7 @@ const columnMap = {
   Modalidad: "ModalitiesInStudy",
   "Número Estudio": "AccessionNumber",
   Informe: "tieneINF",
+
 };
 
 const DashStudies = () => {

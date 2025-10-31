@@ -1,12 +1,15 @@
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { PatientAxios } from '../config/PatientAxios';
 import StudyTablePatient from "../components/ui/patient/StudyTablePatient";
 import { Loading } from '../components/ui/Loading';
 import Appbar from '../components/ui/patient/Appbar';
+import { InvitadoAxios } from '../config/InvitadoAxios';
 
-const PatientLayout = () => {
+const GuestLayout = () => {
+  const {token} = useParams()
+  console.log(token);
 
   const [patient, setPatient] = useState(null);
   const [studies, setStudies] = useState([]);
@@ -15,15 +18,16 @@ const PatientLayout = () => {
   useEffect(() => {
     const fetchStudies = async () => {
       try {
-        const response = await PatientAxios.post('/studies');
-        const { patient, studies } = response.data;
+        const response = await InvitadoAxios.get(`/invitado/${token}`);
+        console.log(`Response data:`, response.data);
+        const { patient, study } = response.data;
         // console.log(patient, studies);
 
         setPatient(patient);
-        setStudies(studies);
+        setStudies(study);
       } catch (error) {
         console.error('Error al cargar estudios:', error);
-        navigate('/loginPatient');
+        navigate('/');
       }
     };
     fetchStudies();
@@ -33,7 +37,7 @@ if (!studies || !patient ) { return <Loading />}
 
   return (
     <Box>
-      <Appbar patient={patient} />
+      <Appbar patient={patient} guest={true} />
       <Box sx={{ p: 0 }}>
         <Box
           sx={{
@@ -49,20 +53,10 @@ if (!studies || !patient ) { return <Loading />}
             gutterBottom
             sx={{ fontWeight: "bold", fontSize: "1.20rem", color: "#1976d2" }}
           >
-            ¡Hola,{" "}
+            ¡Acceso temporal a un estudio de:{" "}
             {patient?.PatientName?.replaceAll("^", " ").trim() || "Paciente"}!
           </Typography>
-          <Typography
-            variant="subtitle1"
-            gutterBottom
-            sx={{ fontSize: "0.95rem", color: "#1976d2" }}
-          >
-            DNI:{" "}
-            {patient?.PatientID.toString().replace(
-              /\B(?=(\d{3})+(?!\d))/g,
-              "."
-            ) || "No disponible"}
-          </Typography>
+
 
           <StudyTablePatient studies={studies} patient={patient} />
         </Box>
@@ -71,4 +65,4 @@ if (!studies || !patient ) { return <Loading />}
   );
 };
 
-export default PatientLayout;
+export default GuestLayout;

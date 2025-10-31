@@ -7,6 +7,7 @@ import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
 import {ViewStudyPage} from "../components/ui/dashStudies/visor/ViewStudy";
 import { ViewStudyPatient } from "../components/ui/patient/visor/ViewStudyPatient";
+import GuestLayout from "../layouts/GuestLayout";
 
 
 // Componente inline que protege rutas públicas
@@ -29,8 +30,8 @@ export const Public = () => {
     <>
       <Route path="/view/study/:id" element={<ViewStudyPage />} />
       <Route path="/view/study/patient/:id" element={<ViewStudyPatient />} />
+      <Route path="/invitado/:token" element={<GuestLayout />} />
 
-      
       <Route path="/" element={<AuthLayout />}>
         <Route index element={<HomePage />} />
         <Route

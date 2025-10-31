@@ -19,6 +19,7 @@ import { formatModality } from "../../../utils/formatModality";
 import DownloadStudyButton from "./DownloadStudyButton";
 import InformeViewerIframe from "./InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
+import ShareStudyButton from "./ShareStudyButton";
 
 const styles = {
   paper: {
@@ -43,9 +44,8 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const StudyTable = ({ studies, patient }) => {
-
-
+const StudyTablePatient = ({ studies, patient }) => {
+  console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -84,11 +84,10 @@ const StudyTable = ({ studies, patient }) => {
         );
 
         const blobUrl = window.URL.createObjectURL(response.data);
- 
 
         const link = document.createElement("a");
         link.href = blobUrl;
-        link.download = 'Informe-' + study.AccessionNumber + '.pdf';
+        link.download = "Informe-" + study.AccessionNumber + ".pdf";
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
@@ -117,10 +116,6 @@ const StudyTable = ({ studies, patient }) => {
   return (
     <>
       <Paper sx={styles.paper}>
-        <Typography variant="h5" align="center" gutterBottom sx={styles.title}>
-          Estudios del Paciente
-        </Typography>
-
         <Box sx={styles.tableContainer}>
           <Table>
             <TableHead>
@@ -132,7 +127,6 @@ const StudyTable = ({ studies, patient }) => {
                   "Informe",
                   "Visualizar",
                   "dcm/jpeg",
-                  "Compartir",
                 ].map((text, i) => (
                   <TableCell key={i} align="center" sx={styles.headerCell}>
                     {text}
@@ -212,58 +206,6 @@ const StudyTable = ({ studies, patient }) => {
                         label="Descargar imágenes JPEG/JPG"
                       />
                     </TableCell>
-
-                    {/* 🔗 Compartir */}
-                    <TableCell align="center">
-                      <Tooltip
-                        title={
-                          study.shareURL || study.retrieveURL
-                            ? "Compartir estudio"
-                            : "Compartir no disponible"
-                        }
-                      >
-                        <span>
-                          <IconButton
-                            onClick={() => {
-                              const url =
-                                study.shareURL ||
-                                study.retrieveURL ||
-                                window.location.href;
-                              if (!url) return;
-
-                              if (navigator.share) {
-                                navigator
-                                  .share({
-                                    title: "Estudio Médico",
-                                    text: "Mirá este estudio",
-                                    url,
-                                  })
-                                  .catch(() => {});
-                              } else {
-                                navigator.clipboard
-                                  .writeText(url)
-                                  .then(() =>
-                                    alert("Enlace copiado al portapapeles 📋")
-                                  )
-                                  .catch(() =>
-                                    alert("No se pudo copiar el enlace 😞")
-                                  );
-                              }
-                            }}
-                            disabled={!study.shareURL && !study.retrieveURL}
-                          >
-                            <ShareIcon
-                              sx={{
-                                color:
-                                  study.shareURL || study.retrieveURL
-                                    ? "#4caf50"
-                                    : "#ccc",
-                              }}
-                            />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
-                    </TableCell>
                   </TableRow>
                 );
               })}
@@ -282,4 +224,4 @@ const StudyTable = ({ studies, patient }) => {
   );
 };
 
-export default StudyTable;
+export default StudyTablePatient;
