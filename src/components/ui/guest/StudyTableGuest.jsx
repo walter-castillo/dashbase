@@ -21,6 +21,7 @@ import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
+import { InvitadoAxios } from "../../../config/InvitadoAxios";
 
 const styles = {
   paper: {
@@ -46,24 +47,20 @@ const styles = {
 };
 
 const StudyTableGuest = ({ studies, patient }) => {
-  // console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
 
+  const token = useParams().token; // Token en la ruta: /invitado/:token  
 
-
-    const token = useParams().token; // Token en la ruta: /invitado/:token
-   
-  
-    // Función de descarga que usa token
-    const downloadStudy = async (ID, format) => {
-      const response = await PatientAxios.get(
-        `/study/download/${format}/${ID}`,
-        { responseType: "blob" }
-      );
-      return response.data;
-    };
+  const downloadStudy = async (ID, format) => {
+    const response = await InvitadoAxios.get(
+      `/invitado/download/${format}/${token}`,
+      // api/share/invitado/download/jpeg/
+      { responseType: "blob" }
+    );
+    return response.data;
+  };
 
   const handleVer = (studyId) => {
     try {
@@ -135,17 +132,8 @@ const StudyTableGuest = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {[
-                  "N°",
-                  "Fecha",
-                  "Tipo",
-                  "Informe",
-                  "ver",
-                  "dcm/jpg",
-                ].map((text, i) => (
-                  <TableCell key={i} align="center" sx={styles.headerCell}>
-                    {text}
-                  </TableCell>
+                {["N°", "Fecha", "Tipo", "Informe","ver","jpg"].map((text, i) => (
+                  <TableCell key={i} align="center" sx={styles.headerCell}> {text}</TableCell>
                 ))}
               </TableRow>
             </TableHead>
@@ -162,6 +150,7 @@ const StudyTableGuest = ({ studies, patient }) => {
                       {study.AccessionNumber || "-"}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
+                      {" "}
                       {formatDate(study.StudyDate)}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
@@ -222,8 +211,8 @@ const StudyTableGuest = ({ studies, patient }) => {
                           format="dcm"
                           label="Descargar DICOM"
                           downloadFn={downloadStudy}
-                        />
-
+                        />  
+                        
                         <DownloadStudyButton
                           study={study}
                           enabled={!!study.ID}
