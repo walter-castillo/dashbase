@@ -12,14 +12,15 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
-import ShareIcon from "@mui/icons-material/Share";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
-import DownloadStudyButton from "./DownloadStudyButton";
+
 import InformeViewerIframe from "./InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
-import ShareStudyButton from "./ShareStudyButton";
+import { useParams } from "react-router-dom";
+import { PatientAxios } from "../../../config/PatientAxios";
+import DownloadStudyButton from "../../download/DownloadStudyButton";
 
 const styles = {
   paper: {
@@ -45,10 +46,24 @@ const styles = {
 };
 
 const StudyTableGuest = ({ studies, patient }) => {
-  console.log(studies, patient);
+  // console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
+
+
+
+    const token = useParams().token; // Token en la ruta: /invitado/:token
+   
+  
+    // Función de descarga que usa token
+    const downloadStudy = async (ID, format) => {
+      const response = await PatientAxios.get(
+        `/study/download/${format}/${ID}`,
+        { responseType: "blob" }
+      );
+      return response.data;
+    };
 
   const handleVer = (studyId) => {
     try {
@@ -120,13 +135,18 @@ const StudyTableGuest = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {["N°", "Fecha", "Tipo", "Informe", "ver", "dcm/jpg"].map(
-                  (text, i) => (
-                    <TableCell key={i} align="center" sx={styles.headerCell}>
-                      {text}
-                    </TableCell>
-                  )
-                )}
+                {[
+                  "N°",
+                  "Fecha",
+                  "Tipo",
+                  "Informe",
+                  "ver",
+                  "dcm/jpg",
+                ].map((text, i) => (
+                  <TableCell key={i} align="center" sx={styles.headerCell}>
+                    {text}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
 
@@ -201,6 +221,7 @@ const StudyTableGuest = ({ studies, patient }) => {
                           patient={patient}
                           format="dcm"
                           label="Descargar DICOM"
+                          downloadFn={downloadStudy}
                         />
 
                         <DownloadStudyButton
@@ -209,6 +230,7 @@ const StudyTableGuest = ({ studies, patient }) => {
                           patient={patient}
                           format="jpeg"
                           label="Descargar imágenes JPEG/JPG"
+                          downloadFn={downloadStudy}
                         />
                       </Box>
                     </TableCell>

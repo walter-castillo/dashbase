@@ -6,6 +6,7 @@ import StudyTablePatient from "../components/ui/patient/StudyTablePatient";
 import { Loading } from '../components/ui/Loading';
 import Appbar from '../components/ui/patient/Appbar';
 import { InvitadoAxios } from '../config/InvitadoAxios';
+import StudyTableGuest from '../components/ui/guest/StudyTableGuest';
 
 const GuestLayout = () => {
   const {token} = useParams()
@@ -58,7 +59,8 @@ if (!studies || !patient ) { return <Loading />}
           </Typography>
 
 
-          <StudyTablePatient studies={studies} patient={patient} />
+          {/* <StudyTablePatient studies={studies} patient={patient} /> */}
+          <StudyTableGuest studies={studies} patient={patient} />
         </Box>
       </Box>
     </Box>
