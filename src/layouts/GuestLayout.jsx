@@ -9,7 +9,7 @@ import { InvitadoAxios } from '../config/InvitadoAxios';
 
 const GuestLayout = () => {
   const {token} = useParams()
-  console.log(token);
+  // console.log(token);
 
   const [patient, setPatient] = useState(null);
   const [studies, setStudies] = useState([]);
@@ -19,7 +19,7 @@ const GuestLayout = () => {
     const fetchStudies = async () => {
       try {
         const response = await InvitadoAxios.get(`/invitado/${token}`);
-        console.log(`Response data:`, response.data);
+        // console.log(`Response data:`, response.data);
         const { patient, study } = response.data;
         // console.log(patient, studies);
 

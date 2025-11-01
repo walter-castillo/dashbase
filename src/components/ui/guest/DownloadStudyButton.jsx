@@ -22,21 +22,22 @@ const DownloadStudyButton = ({
   label,
   patient,
 }) => {
-  const params = useParams();
-  console.log(params.token);
+  const params = useParams(); // { token: "..." } si está en la ruta
+  const [searchParams] = useSearchParams(); // ?token=...
 
+  const token = params.token || searchParams.get("token");
 
-
+  console.log("Token:", token);
   const ID = format === "dcm" ? study?.ID : study?.StudyInstanceUID;
   // console.log(ID, format);
   const [loading, setLoading] = useState(false);
   const isEnabled = !!(ID && enabled && !loading);
 
   const handleDownload = async (e) => {
+    
     e.preventDefault();
     if (!isEnabled) return;
     setLoading(true);
-  
 
     // 🪟 Abrir el popup apenas se hace clic
     const popup = window.open("", "_blank", "width=400,height=220");
@@ -81,8 +82,8 @@ const DownloadStudyButton = ({
     }
 
     try {
+        
       // 🔹 Descargar desde el backend (esperando el blob)
-   
       const response = await PatientAxios.get(
         `/study/download/${format}/${ID}`,
         { responseType: "blob" }

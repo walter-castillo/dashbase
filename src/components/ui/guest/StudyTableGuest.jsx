@@ -44,8 +44,8 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const StudyTablePatient = ({ studies, patient }) => {
-  // console.log(studies, patient);
+const StudyTableGuest = ({ studies, patient }) => {
+  console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -120,18 +120,13 @@ const StudyTablePatient = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {[
-                  "N°",
-                  "Fecha",
-                  "Tipo",
-                  "Informe",
-                  "ver",
-                  "dcm/jpg",
-                ].map((text, i) => (
-                  <TableCell key={i} align="center" sx={styles.headerCell}>
-                    {text}
-                  </TableCell>
-                ))}
+                {["N°", "Fecha", "Tipo", "Informe", "ver", "dcm/jpg"].map(
+                  (text, i) => (
+                    <TableCell key={i} align="center" sx={styles.headerCell}>
+                      {text}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
 
@@ -235,4 +230,4 @@ const StudyTablePatient = ({ studies, patient }) => {
   );
 };
 
-export default StudyTablePatient;
+export default StudyTableGuest;
