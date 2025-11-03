@@ -21,15 +21,23 @@ const Appbar = ({ patient, guest = false }) => {
 
   const handleLogout = async () => {
     try {
-      if (!guest) {
+      if (guest) {
+        // 🔹 Si es modo invitado: limpiar token y redirigir al inicio
+        sessionStorage.removeItem("guestToken");
+        console.log("👋 Sesión de invitado cerrada.");
+      } else {
+        // 🔹 Si es paciente autenticado: cerrar sesión en backend
         await PatientAxios.post("/logout");
+        console.log("👋 Sesión de paciente cerrada en el servidor.");
       }
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     } finally {
-      navigate(guest ? "/" : "/loginPatient");
+      navigate("/loginPatient");
     }
   };
+
+  
 
   const displayName =
     patient?.PatientName?.replaceAll("^", " ").replace(/\s+/g, " ").trim() ||

@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 
 export  function ViewStudyPage() {
-  const { id } = useParams(); // <-- ID dinámico del estudio
-
+  const { id, token } = useParams(); // <-- ID dinámico del estudio
+console.log(id, token);
   const viewerUrl = `http://localhost:3000/visor/stone-webviewer/index.html?study=${id}`;
 
   useEffect(() => {

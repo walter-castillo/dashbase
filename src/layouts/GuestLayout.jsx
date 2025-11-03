@@ -1,40 +1,40 @@
-import { Box, Typography } from '@mui/material';
-import { useState, useEffect } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { PatientAxios } from '../config/PatientAxios';
-import StudyTablePatient from "../components/ui/patient/StudyTablePatient";
-import { Loading } from '../components/ui/Loading';
-import Appbar from '../components/ui/patient/Appbar';
-import { InvitadoAxios } from '../config/InvitadoAxios';
-import StudyTableGuest from '../components/ui/guest/StudyTableGuest';
+import { Box, Typography } from "@mui/material";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { InvitadoAxios } from "../config/InvitadoAxios";
+import StudyTableGuest from "../components/ui/guest/StudyTableGuest";
+import { Loading } from "../components/ui/Loading";
+import Appbar from "../components/ui/patient/Appbar";
 
 const GuestLayout = () => {
-  const {token} = useParams()
-  // console.log(token);
-
+  const { token } = useParams();
   const [patient, setPatient] = useState(null);
   const [studies, setStudies] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
+    // 🔹 Guarda el token si viene por URL
+  (token) && sessionStorage.setItem("guestToken", token);
+    
+
+
     const fetchStudies = async () => {
       try {
         const response = await InvitadoAxios.get(`/invitado/${token}`);
-        // console.log(`Response data:`, response.data);
+        console.log(sessionStorage.getItem("guestToken"));
         const { patient, study } = response.data;
-        // console.log(patient, studies);
-
         setPatient(patient);
         setStudies(study);
       } catch (error) {
-        console.error('Error al cargar estudios:', error);
-        navigate('/');
+        console.error("Error al cargar estudios:", error);
+        // navigate("/");
       }
     };
-    fetchStudies();
-  }, [navigate]);
 
-if (!studies || !patient ) { return <Loading />}
+    fetchStudies();
+  }, [token, navigate]);
+
+  if (!studies || !patient) return <Loading />;
 
   return (
     <Box>
@@ -58,8 +58,6 @@ if (!studies || !patient ) { return <Loading />}
             {patient?.PatientName?.replaceAll("^", " ").trim() || "Paciente"}!
           </Typography>
 
-
-          {/* <StudyTablePatient studies={studies} patient={patient} /> */}
           <StudyTableGuest studies={studies} patient={patient} />
         </Box>
       </Box>
