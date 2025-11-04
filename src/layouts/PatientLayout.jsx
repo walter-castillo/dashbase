@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PatientAxios } from '../config/PatientAxios';
-import StudyTablePatient from "../components/ui/patient/StudyTablePatient";
+import PatientTableStudies from "../components/ui/patient/PatientTableStudies";
 import { Loading } from '../components/ui/Loading';
 import Appbar from '../components/ui/patient/Appbar';
 
@@ -64,7 +64,7 @@ if (!studies || !patient ) { return <Loading />}
             ) || "No disponible"}
           </Typography>
 
-          <StudyTablePatient studies={studies} patient={patient} />
+          <PatientTableStudies studies={studies} patient={patient} />
         </Box>
       </Box>
     </Box>

@@ -12,25 +12,20 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
+import ShareIcon from "@mui/icons-material/Share";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
 
-import InformeViewerIframe from "./InformeViewerIframe";
+import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
 import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
-import { InvitadoAxios } from "../../../config/InvitadoAxios";
+
 
 const styles = {
-  paper: {
-    mt: 4,
-    borderRadius: 3,
-    boxShadow: 6,
-    p: 1,
-    backgroundColor: "#fdfdfd",
-  },
+  paper: {mt: 4, borderRadius: 3, boxShadow: 6, p: 1, backgroundColor: "#fdfdfd"},
   title: { fontWeight: "bold", color: "#1976d2" },
   tableContainer: { width: "100%", overflowX: "auto" },
   headerRow: { backgroundColor: "#1976d2" },
@@ -46,21 +41,25 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const StudyTableGuest = ({ studies, patient }) => {
+const PatientTableStudies = ({ studies, patient }) => {
+  // console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
 
-  const token = useParams().token; // Token en la ruta: /invitado/:token  
 
-  const downloadStudy = async (ID, format) => {
-    const response = await InvitadoAxios.get(
-      `/invitado/download/${format}/${token}`,
-      // api/share/invitado/download/jpeg/
-      { responseType: "blob" }
-    );
-    return response.data;
-  };
+
+    const token = useParams().token; // Token en la ruta: /invitado/:token
+   
+  
+    // Función de descarga que usa token
+    const downloadStudy = async (ID, format) => {
+      const response = await PatientAxios.get(
+        `/study/download/${format}/${ID}`,
+        { responseType: "blob" }
+      );
+      return response.data;
+    };
 
   const handleVer = (studyId) => {
     try {
@@ -88,8 +87,8 @@ const StudyTableGuest = ({ studies, patient }) => {
     if (isMobile) {
       try {
         setLoadingInforme(true);
-        const response = await dashAxios.get(
-          `/dashboard/informe/ver/${study.ID}`,
+        const response = await PatientAxios.get(
+          `/informe/ver/${study.ID}`,
           {
             responseType: "blob",
           }
@@ -132,9 +131,13 @@ const StudyTableGuest = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {["N°", "Fecha", "Tipo", "Informe","ver","jpg"].map((text, i) => (
-                  <TableCell key={i} align="center" sx={styles.headerCell}> {text}</TableCell>
-                ))}
+                {["N°", "Fecha", "Tipo", "Informe", "ver", "dcm/jpg"].map(
+                  (text, i) => (
+                    <TableCell key={i} align="center" sx={styles.headerCell}>
+                      {text}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
 
@@ -150,7 +153,6 @@ const StudyTableGuest = ({ studies, patient }) => {
                       {study.AccessionNumber || "-"}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
-                      {" "}
                       {formatDate(study.StudyDate)}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
@@ -211,8 +213,8 @@ const StudyTableGuest = ({ studies, patient }) => {
                           format="dcm"
                           label="Descargar DICOM"
                           downloadFn={downloadStudy}
-                        />  
-                        
+                        />
+
                         <DownloadStudyButton
                           study={study}
                           enabled={!!study.ID}
@@ -236,9 +238,11 @@ const StudyTableGuest = ({ studies, patient }) => {
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy}
+        fetcher={PatientAxios}
+        endpoint={selectedStudy ? `/informe/ver/${selectedStudy.ID}` : null}
       />
     </>
   );
 };
 
-export default StudyTableGuest;
+export default PatientTableStudies;

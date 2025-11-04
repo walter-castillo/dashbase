@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {
-  Table,
+import { useState, useEffect } from "react";
+import {Table, 
   TableHead,
   TableBody,
   TableCell,
@@ -12,8 +11,7 @@ import {
   Paper,
   IconButton,
   Stack,
-  Tooltip,
-
+  Tooltip
 } from "@mui/material";
 
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -23,7 +21,6 @@ import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
 import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
-import { dashAxios } from "../../../config/DashAxios";
 import InformeButton from "../../actionInforme/InformerButton";
 import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
@@ -31,8 +28,9 @@ import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
+import { dashAxios } from "../../../config/DashAxios";
 
-const TablaEstudios = ({
+const AdminTableStudies = ({
   estudios,
   setEstudios,
   orden,
@@ -69,7 +67,7 @@ const TablaEstudios = ({
       `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
     );
   };
-    
+
   const handleEliminar = async (estudio) => {
     const estudioId = estudio.Study.ID;
 
@@ -89,7 +87,9 @@ const TablaEstudios = ({
       console.log("Eliminar estudio", estudioId);
       setLoading(true);
 
-      const respuesta = await dashAxios.delete(`/dashboard/informe/borrar/${estudioId}`    );
+      const respuesta = await dashAxios.delete(
+        `/dashboard/informe/borrar/${estudioId}`
+      );
 
       setSnackbar({
         open: true,
@@ -116,7 +116,7 @@ const TablaEstudios = ({
     setSelectedStudy(estudio);
     setOpenUpload(true);
   };
-  
+
   const formatearDNI = (dni) => {
     if (!dni) return "";
     // Solo si es numérico puro
@@ -126,7 +126,8 @@ const TablaEstudios = ({
     return dni; // si tiene letras o símbolos
   };
 
-  const handleDescagarImg = (estudio) => console.log("DescagarImg estudio", estudio);
+  const handleDescagarImg = (estudio) =>
+    console.log("DescagarImg estudio", estudio);
 
   return (
     <>
@@ -261,9 +262,7 @@ const TablaEstudios = ({
                       </Tooltip>
 
                       <Tooltip title="Compartir estudio">
-                       
-                          <ShareStudyButton study={est} />
-                   
+                        <ShareStudyButton study={est} />
                       </Tooltip>
                     </Stack>
                   </TableCell>
@@ -277,7 +276,13 @@ const TablaEstudios = ({
       <InformeViewerIframe
         open={openInforme}
         onClose={() => setOpenInforme(false)}
-        selectedStudy={selectedStudy}
+        selectedStudy={selectedStudy?.Study}
+        fetcher={dashAxios}
+        endpoint={
+          selectedStudy
+            ? `dashboard/informe/ver/${selectedStudy.Study.ID}`
+            : null
+        }
       />
       {/* Dialog de confirmación (fuera de la tabla) */}
       <ConfirmDialog
@@ -322,4 +327,4 @@ const TablaEstudios = ({
   );
 };
 
-export default TablaEstudios;
+export default AdminTableStudies;

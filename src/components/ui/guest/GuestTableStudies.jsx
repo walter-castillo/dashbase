@@ -12,16 +12,16 @@ import {
 } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
-import ShareIcon from "@mui/icons-material/Share";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
+import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
 
-import InformeViewerIframe from "./InformeViewerIframe";
+
 import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
-import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
+import { InvitadoAxios } from "../../../config/InvitadoAxios";
 
 const styles = {
   paper: {
@@ -46,25 +46,20 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const StudyTablePatient = ({ studies, patient }) => {
-  // console.log(studies, patient);
+const GuestTableStudies = ({ studies, patient }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
 
+  const token = useParams().token; // Token en la ruta: /invitado/:token  
 
-
-    const token = useParams().token; // Token en la ruta: /invitado/:token
-   
-  
-    // Función de descarga que usa token
-    const downloadStudy = async (ID, format) => {
-      const response = await PatientAxios.get(
-        `/study/download/${format}/${ID}`,
-        { responseType: "blob" }
-      );
-      return response.data;
-    };
+  const downloadStudy = async (ID, format) => {
+    const response = await InvitadoAxios.get(
+      `/invitado/download/${format}/${token}`,
+      { responseType: "blob" }
+    );
+    return response.data;
+  };
 
   const handleVer = (studyId) => {
     try {
@@ -136,18 +131,14 @@ const StudyTablePatient = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {[
-                  "N°",
-                  "Fecha",
-                  "Tipo",
-                  "Informe",
-                  "ver",
-                  "dcm/jpg",
-                ].map((text, i) => (
-                  <TableCell key={i} align="center" sx={styles.headerCell}>
-                    {text}
-                  </TableCell>
-                ))}
+                {["N°", "Fecha", "Tipo", "Informe", "ver", "jpg"].map(
+                  (text, i) => (
+                    <TableCell key={i} align="center" sx={styles.headerCell}>
+                      {" "}
+                      {text}
+                    </TableCell>
+                  )
+                )}
               </TableRow>
             </TableHead>
 
@@ -163,6 +154,7 @@ const StudyTablePatient = ({ studies, patient }) => {
                       {study.AccessionNumber || "-"}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
+                      {" "}
                       {formatDate(study.StudyDate)}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
@@ -244,13 +236,21 @@ const StudyTablePatient = ({ studies, patient }) => {
       </Paper>
 
       {/* 🧾 Modal visor PDF */}
+      {/* <InformeViewerIframe
+        open={openInforme}
+        onClose={() => setOpenInforme(false)}
+        selectedStudy={selectedStudy}
+      /> */}
+
       <InformeViewerIframe
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy}
+        fetcher={InvitadoAxios}
+        endpoint={selectedStudy ? `/informe/ver/${selectedStudy.ID}` : null}
       />
     </>
   );
 };
 
-export default StudyTablePatient;
+export default GuestTableStudies;

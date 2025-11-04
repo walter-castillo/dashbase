@@ -1,29 +1,40 @@
-import { Dialog, IconButton, CircularProgress, Box } from "@mui/material";
+import {
+  Dialog,
+  IconButton,
+  CircularProgress,
+  Box,
+  Typography,
+  Button,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
 import { formatDate } from "../../utils/formatDate";
-import { dashAxios } from "../../config/DashAxios";
 
-export default function InformeViewerIframe({ open, onClose, selectedStudy }) {
-  const [loading, setLoading] = useState(false);
+export default function InformeViewerIframe({
+  open,
+  onClose,
+  selectedStudy,
+  fetcher,
+  endpoint,
+}) {
+  
+  const [loading, setLoading] = useState(true);
   const [pdfUrl, setPdfUrl] = useState(null);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
-    if (!open || !selectedStudy) return;
-
-    const { Study } = selectedStudy;
+    if (!open || !selectedStudy || !fetcher || !endpoint) return;
     let blobUrlTemp = null;
-
     const fetchPdf = async () => {
       setLoading(true);
+      setError(false);
       try {
-        const res = await dashAxios.get(`/dashboard/informe/ver/${Study.ID}`, {
-          responseType: "blob",
-        });
+        const res = await fetcher.get(endpoint, { responseType: "blob" });
         blobUrlTemp = URL.createObjectURL(res.data);
         setPdfUrl(blobUrlTemp);
       } catch (err) {
-        console.error("Error al cargar PDF:", err);
+        console.error("❌ Error al cargar PDF:", err);
+        setError(true);
       } finally {
         setLoading(false);
       }
@@ -34,35 +45,44 @@ export default function InformeViewerIframe({ open, onClose, selectedStudy }) {
     return () => {
       if (blobUrlTemp) URL.revokeObjectURL(blobUrlTemp);
       setPdfUrl(null);
+      setError(false);
     };
-  }, [open, selectedStudy]);
+  }, [open, selectedStudy, fetcher, endpoint]);
 
   if (!selectedStudy) return null;
 
-  const { Patient, Study } = selectedStudy;
-
   return (
-    <Dialog open={open} onClose={onClose} fullScreen>
-      {/* Header */}
-      <Box
-        display="flex"
-        justifyContent="space-between"
-        alignItems="center"
-        px={2}
-        py={1}
-        bgcolor="#f5f5f5"
+    <Dialog
+      open={open}
+      onClose={() => {
+        document.activeElement?.blur();
+        onClose();
+      }}
+      fullScreen
+      disableEnforceFocus
+      disableRestoreFocus
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          padding: "8px 16px",
+          backgroundColor: "#f5f5f5",
+        }}
       >
         <h3 style={{ margin: 0 }}>
-          Informe de {Patient.PatientName} - N° {Study.AccessionNumber},{" "}
-          {formatDate(Study.StudyDate)}
+          {`Informe - N° ${selectedStudy?.AccessionNumber || ""}, ${formatDate(
+            selectedStudy.StudyDate
+          )}`}
         </h3>
         <IconButton onClick={onClose}>
           <CloseIcon />
         </IconButton>
-      </Box>
+      </div>
 
-      {/* Loader o PDF */}
-      {loading ? (
+      {/* Loader */}
+      {loading && (
         <Box
           display="flex"
           justifyContent="center"
@@ -71,18 +91,40 @@ export default function InformeViewerIframe({ open, onClose, selectedStudy }) {
         >
           <CircularProgress />
         </Box>
-      ) : (
-        pdfUrl && (
-          <iframe
-            src={pdfUrl}
-            title="Informe PDF"
-            style={{
-              border: "none",
-              width: "100%",
-              height: "100%",
-            }}
-          />
-        )
+      )}
+
+      {/* Error */}
+      {!loading && error && (
+        <Box
+          display="flex"
+          flexDirection="column"
+          justifyContent="center"
+          alignItems="center"
+          height="100vh"
+          textAlign="center"
+          gap={2}
+        >
+          <Typography color="error" variant="h6">
+            No se pudo cargar el informe PDF 😕
+          </Typography>
+          <Button variant="outlined" onClick={onClose}>
+            Cerrar
+          </Button>
+        </Box>
+      )}
+
+      {/* PDF */}
+      {pdfUrl && !error && (
+        <iframe
+          src={pdfUrl}
+          style={{
+            border: "none",
+            width: "100%",
+            height: "100%",
+            display: loading ? "none" : "block",
+          }}
+          title="Informe PDF"
+        />
       )}
     </Dialog>
   );
