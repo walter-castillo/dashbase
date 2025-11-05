@@ -22,6 +22,7 @@ import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
+import InformeButton from "../../actionInforme/InformerButton";
 
 
 const styles = {
@@ -42,7 +43,7 @@ const styles = {
 };
 
 const PatientTableStudies = ({ studies, patient }) => {
-  // console.log(studies, patient);
+  console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -79,40 +80,7 @@ const PatientTableStudies = ({ studies, patient }) => {
     }
   };
 
-  const handleInformeClick = async (study) => {
-    if (!study?.tieneINF) return;
 
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      try {
-        setLoadingInforme(true);
-        const response = await PatientAxios.get(
-          `/informe/ver/${study.ID}`,
-          {
-            responseType: "blob",
-          }
-        );
-
-        const blobUrl = window.URL.createObjectURL(response.data);
-
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = "Informe-" + study.AccessionNumber + ".pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
-      } catch (error) {
-        console.error("Error al descargar informe:", error);
-      } finally {
-        setLoadingInforme(false);
-      }
-    } else {
-      setSelectedStudy(study);
-      setOpenInforme(true);
-    }
-  };
 
   if (!studies || studies.length === 0) {
     return (
@@ -161,26 +129,22 @@ const PatientTableStudies = ({ studies, patient }) => {
 
                     {/* 🟣 Informe */}
                     <TableCell align="center">
-                      <Tooltip
-                        title={
-                          study.tieneINF
-                            ? "Ver informe"
-                            : "Sin informe disponible"
-                        }
-                      >
-                        <span>
-                          <IconButton
-                            onClick={() => handleInformeClick(study)}
-                            disabled={!study.tieneINF || loadingInforme}
-                          >
-                            <DescriptionIcon
-                              sx={{
-                                color: study.tieneINF ? "#9c27b0" : "#ccc",
-                              }}
-                            />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
+                      {study.tieneINF ? (
+                      <InformeButton
+                        est={{ Study: study, Patient: patient }}
+                        fetcher={PatientAxios}
+                        endpoint={`/informe/ver/`}
+                      />
+                      ) : (
+                        <Tooltip title="No hay informe disponible">
+                          <DescriptionIcon
+                            fontSize="small"
+                            color="disabled"
+                            sx={{ marginRight: 2 }}
+                          />
+                        </Tooltip>
+                      )}
+
                     </TableCell>
 
                     {/* 👁 Ver */}
@@ -232,15 +196,6 @@ const PatientTableStudies = ({ studies, patient }) => {
           </Table>
         </Box>
       </Paper>
-
-      {/* 🧾 Modal visor PDF */}
-      <InformeViewerIframe
-        open={openInforme}
-        onClose={() => setOpenInforme(false)}
-        selectedStudy={selectedStudy}
-        fetcher={PatientAxios}
-        endpoint={selectedStudy ? `/informe/ver/${selectedStudy.ID}` : null}
-      />
     </>
   );
 };

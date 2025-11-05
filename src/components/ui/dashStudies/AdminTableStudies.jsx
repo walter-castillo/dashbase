@@ -194,8 +194,8 @@ const AdminTableStudies = ({
                       >
                         <InformeButton
                           est={est}
-                          setSelectedStudy={setSelectedStudy}
-                          setOpenInforme={setOpenInforme}
+                          fetcher={dashAxios}
+                          endpoint="dashboard/informe/ver/"
                         />
 
                         {/* Botón eliminar */}
@@ -273,7 +273,7 @@ const AdminTableStudies = ({
         </Table>
       </TableContainer>
       {/* Modal del PDF */}
-      <InformeViewerIframe
+      {/*  <InformeViewerIframe
         open={openInforme}
         onClose={() => setOpenInforme(false)}
         selectedStudy={selectedStudy?.Study}
@@ -283,7 +283,7 @@ const AdminTableStudies = ({
             ? `dashboard/informe/ver/${selectedStudy.Study.ID}`
             : null
         }
-      />
+      /> */}
       {/* Dialog de confirmación (fuera de la tabla) */}
       <ConfirmDialog
         open={openConfirm}

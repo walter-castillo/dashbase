@@ -22,6 +22,7 @@ import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
 import { InvitadoAxios } from "../../../config/InvitadoAxios";
+import InformeButton from "../../actionInforme/InformerButton";
 
 const styles = {
   paper: {
@@ -79,41 +80,6 @@ const GuestTableStudies = ({ studies, patient }) => {
     }
   };
 
-  const handleInformeClick = async (study) => {
-    if (!study?.tieneINF) return;
-
-    const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-
-    if (isMobile) {
-      try {
-        setLoadingInforme(true);
-        const response = await dashAxios.get(
-          `/dashboard/informe/ver/${study.ID}`,
-          {
-            responseType: "blob",
-          }
-        );
-
-        const blobUrl = window.URL.createObjectURL(response.data);
-
-        const link = document.createElement("a");
-        link.href = blobUrl;
-        link.download = "Informe-" + study.AccessionNumber + ".pdf";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        window.URL.revokeObjectURL(blobUrl);
-      } catch (error) {
-        console.error("Error al descargar informe:", error);
-      } finally {
-        setLoadingInforme(false);
-      }
-    } else {
-      setSelectedStudy(study);
-      setOpenInforme(true);
-    }
-  };
-
   if (!studies || studies.length === 0) {
     return (
       <Paper sx={styles.paper}>
@@ -161,28 +127,25 @@ const GuestTableStudies = ({ studies, patient }) => {
                       {formatModality(study.ModalitiesInStudy) || "-"}
                     </TableCell>
 
+                   
                     {/* 🟣 Informe */}
                     <TableCell align="center">
-                      <Tooltip
-                        title={
-                          study.tieneINF
-                            ? "Ver informe"
-                            : "Sin informe disponible"
-                        }
-                      >
-                        <span>
-                          <IconButton
-                            onClick={() => handleInformeClick(study)}
-                            disabled={!study.tieneINF || loadingInforme}
-                          >
-                            <DescriptionIcon
-                              sx={{
-                                color: study.tieneINF ? "#9c27b0" : "#ccc",
-                              }}
-                            />
-                          </IconButton>
-                        </span>
-                      </Tooltip>
+                      {study.tieneINF ? (
+                      <InformeButton
+                        est={{ Study: study, Patient: patient }}
+                        fetcher={InvitadoAxios}
+                        endpoint={`/invitado/informe/ver/`}
+                      />
+                      ) : (
+                        <Tooltip title="No hay informe disponible">
+                          <DescriptionIcon
+                            fontSize="small"
+                            color="disabled"
+                            sx={{ marginRight: 2 }}
+                          />
+                        </Tooltip>
+                      )}
+
                     </TableCell>
 
                     {/* 👁 Ver */}
@@ -234,21 +197,6 @@ const GuestTableStudies = ({ studies, patient }) => {
           </Table>
         </Box>
       </Paper>
-
-      {/* 🧾 Modal visor PDF */}
-      {/* <InformeViewerIframe
-        open={openInforme}
-        onClose={() => setOpenInforme(false)}
-        selectedStudy={selectedStudy}
-      /> */}
-
-      <InformeViewerIframe
-        open={openInforme}
-        onClose={() => setOpenInforme(false)}
-        selectedStudy={selectedStudy}
-        fetcher={InvitadoAxios}
-        endpoint={selectedStudy ? `/informe/ver/${selectedStudy.ID}` : null}
-      />
     </>
   );
 };
