@@ -27,7 +27,7 @@ const GuestLayout = () => {
         setStudies(study);
       } catch (error) {
         console.error("Error al cargar estudios:", error);
-        // navigate("/");
+        navigate("/");
       }
     };
 

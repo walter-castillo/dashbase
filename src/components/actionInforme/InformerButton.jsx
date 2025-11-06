@@ -24,7 +24,6 @@ export default function InformeButton({
   const [error, setError] = useState(false);
 
   const mobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
-console.log(est, mobile);
   const handleClick = async () => {
     if (!est) return;
     if (mobile) {
