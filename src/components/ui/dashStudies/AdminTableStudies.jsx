@@ -29,6 +29,7 @@ import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
+import DescargarPdfIcon from "../action/DescargarPdfIcon";
 
 const AdminTableStudies = ({
   estudios,
@@ -48,7 +49,8 @@ const AdminTableStudies = ({
     message: "",
     severity: "success", // "error" | "info" | "warning"
   });
-
+  const handleDescargar = (estudio) => {console.log(estudio);}
+  
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
     const esAsc = orden.ordenPor === campoReal && orden.orden === "asc";
@@ -264,6 +266,9 @@ const AdminTableStudies = ({
                       <Tooltip title="Compartir estudio">
                         <ShareStudyButton study={est} />
                       </Tooltip>
+
+                      {/* descagar est en pdf */}
+                      <DescargarPdfIcon onClick={() => handleDescargar(est)} />
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -272,18 +277,6 @@ const AdminTableStudies = ({
           </TableBody>
         </Table>
       </TableContainer>
-      {/* Modal del PDF */}
-      {/*  <InformeViewerIframe
-        open={openInforme}
-        onClose={() => setOpenInforme(false)}
-        selectedStudy={selectedStudy?.Study}
-        fetcher={dashAxios}
-        endpoint={
-          selectedStudy
-            ? `dashboard/informe/ver/${selectedStudy.Study.ID}`
-            : null
-        }
-      /> */}
       {/* Dialog de confirmación (fuera de la tabla) */}
       <ConfirmDialog
         open={openConfirm}
