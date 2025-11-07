@@ -30,6 +30,7 @@ import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
 import DescargarPdfIcon from "../action/DescargarPdfIcon";
+const urlFront = import.meta.env.VITE_URL_FRONT;
 
 const AdminTableStudies = ({
   estudios,
@@ -57,7 +58,7 @@ const AdminTableStudies = ({
     setOrden({ orden: esAsc ? "desc" : "asc", ordenPor: campoReal });
   };
 
-  const urlFront = import.meta.env.VITE_URL_FRONT;
+
   const handleVer = (studyId) => {
     const viewerUrl = `${urlFront}/view/study/${studyId}`;
     const width = window.screen.availWidth;
@@ -128,8 +129,7 @@ const AdminTableStudies = ({
     return dni; // si tiene letras o símbolos
   };
 
-  const handleDescagarImg = (estudio) =>
-    console.log("DescagarImg estudio", estudio);
+  const handleDescagarImg = (estudio) =>{ console.log("DescagarImg estudio", estudio)  }
 
   return (
     <>
@@ -162,6 +162,7 @@ const AdminTableStudies = ({
                     </TableSortLabel>
                   </TableCell>
                 ))}
+                
                 {/* <TableCell align="center">Informes</TableCell> */}
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
@@ -246,10 +247,19 @@ const AdminTableStudies = ({
                       <Tooltip title="Ver informe">
                         <IconButton
                           size="small"
-                          color="primary"
                           onClick={() => handleVer(est.Study.StudyInstanceUID)}
                         >
-                          <VisibilityIcon />
+                          <VisibilityIcon
+                            sx={{
+                              color: "#2faed3",
+                              cursor: "pointer",
+                              transition: "0.2s",
+                              "&:hover": {
+                                color: "#6fbdd4",
+                                transform: "scale(1.25)",
+                              },
+                            }}
+                          />
                         </IconButton>
                       </Tooltip>
                       {/* descargar img */}

@@ -97,9 +97,11 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
 
     try {
       const formData = new FormData();
-      formData.append("file", file); // ✅ debe llamarse "file"
+      formData.append("file", file);
+      formData.append("studyId", studyId);
+
       const response = await dashAxios.post(
-        `/dashboard/informe/cargar/${studyId}`,
+        "/dashboard/informe/cargar",
         formData,
         {
           headers: { "Content-Type": "multipart/form-data" },
@@ -111,6 +113,7 @@ const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
           },
         }
       );
+
 
       console.log("✅ PDF subido:", response.data);
       if (onSuccess) onSuccess(file.name);

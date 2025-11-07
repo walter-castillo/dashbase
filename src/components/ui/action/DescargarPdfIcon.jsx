@@ -40,7 +40,7 @@ export default function DescargarPdfIcon({ onClick }) {
             color="error"
             sx={{
               transition: "0.2s",
-              "&:hover": { color: "#d32f2f", transform: "scale(1.15)" },
+              "&:hover": { color: "#d32f2f", transform: "scale(1.25)" },
             }}
           />
         )}
