@@ -118,7 +118,7 @@ export default function ViewStudyButton({ studyId, endpoint }) {
               userSelect: "none",
             }}
           >
-            Esc para salir
+            ESC para salir
           </Typography>
 
           <IconButton
@@ -129,7 +129,7 @@ export default function ViewStudyButton({ studyId, endpoint }) {
               "&:hover": { background: "rgba(255,255,255,0.2)" },
             }}
           >
-            <CloseIcon sx={{ fontSize: "3.5rem" }} />
+            <CloseIcon sx={{ fontSize: "2.5rem" }} />
           </IconButton>
         </Box>
 

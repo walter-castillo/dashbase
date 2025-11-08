@@ -28,12 +28,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               {/* Estilos globales para pisar padding/margen de Box iframe */}
               <GlobalStyles
                 styles={{
-                  ".MuiBox-root iframe": {
-                    width: "100% !important",
-                    height: "100% !important",
-                    margin: 0,
-                    padding: "0 !important",
-                    borderRadius: 0,
+                  ".css-vmwhh9": {
+                    padding: "12px 1px 1px 1px !important",
                   },
                 }}
               />
