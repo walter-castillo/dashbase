@@ -15,10 +15,6 @@ import DescriptionIcon from "@mui/icons-material/Description";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
-import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
-
-
-import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
 import { InvitadoAxios } from "../../../config/InvitadoAxios";

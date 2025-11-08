@@ -16,9 +16,6 @@ import ShareIcon from "@mui/icons-material/Share";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
-
-import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
-import { dashAxios } from "../../../config/DashAxios";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";

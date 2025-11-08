@@ -17,10 +17,8 @@ import {Table,
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import UploadFile from "@mui/icons-material/UploadFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import DownloadIcon from "@mui/icons-material/Download";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
-import InformeViewerIframe from "../../actionInforme/InformeViewerIframe";
 import InformeButton from "../../actionInforme/InformerButton";
 import ConfirmDialog from "../../actionInforme/ConfirmDialog";
 import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
@@ -29,7 +27,7 @@ import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
-import DescargarPdfIcon from "../action/DescargarPdfIcon";
+import DownloadImgIcon from "../action/DownloadImgIcon";
 const urlFront = import.meta.env.VITE_URL_FRONT;
 
 const AdminTableStudies = ({
@@ -39,7 +37,6 @@ const AdminTableStudies = ({
   setOrden,
   columnMap,
 }) => {
-  const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [openConfirm, setOpenConfirm] = useState(false);
   const [openUpload, setOpenUpload] = useState(false);
@@ -50,7 +47,6 @@ const AdminTableStudies = ({
     message: "",
     severity: "success", // "error" | "info" | "warning"
   });
-  const handleDescargar = (estudio) => {console.log(estudio);}
   
   const handleOrden = (colVisible) => {
     const campoReal = columnMap[colVisible];
@@ -162,7 +158,7 @@ const AdminTableStudies = ({
                     </TableSortLabel>
                   </TableCell>
                 ))}
-                
+
                 {/* <TableCell align="center">Informes</TableCell> */}
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
@@ -178,9 +174,7 @@ const AdminTableStudies = ({
                   <TableCell>{est.Patient?.PatientName}</TableCell>
                   <TableCell>{formatearDNI(est.Patient?.PatientID)}</TableCell>
                   <TableCell>
-                    {est.Study?.StudyDate
-                      ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY")
-                      : "N/A"}
+                    {est.Study?.StudyDate ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY") : "N/A"}
                   </TableCell>
                   <TableCell>
                     {est.Study?.ModalitiesInStudy.join(", ")}
@@ -241,10 +235,10 @@ const AdminTableStudies = ({
                     )}
                   </TableCell>
 
+                  {/* ver estudio */}
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      {/* ver estudio */}
-                      <Tooltip title="Ver informe">
+                      <Tooltip title="Ver estudio">
                         <IconButton
                           size="small"
                           onClick={() => handleVer(est.Study.StudyInstanceUID)}
@@ -262,23 +256,45 @@ const AdminTableStudies = ({
                           />
                         </IconButton>
                       </Tooltip>
-                      {/* descargar img */}
-                      <Tooltip title="Descargar imagenes">
-                        <IconButton
-                          size="small"
-                          color="secondary"
-                          onClick={() => handleDescagarImg(est)}
-                        >
-                          <DownloadIcon />
-                        </IconButton>
-                      </Tooltip>
 
+                      {/* descargar imagenes JPG */}
+                      <DownloadImgIcon
+                        fetcher={dashAxios}
+                        endpoint="/dashboard/download/studyjpg"
+                        id={est.Study.StudyInstanceUID}
+                        label="JPG"
+                        tooltip="Descargar imágenes JPG"
+                        color="#2e7d32"
+                        fileType="zip"
+                      />
+
+                      {/* descargar imagenes DCM */}
+                      <DownloadImgIcon
+                        fetcher={dashAxios}
+                        endpoint="/dashboard/download/studydcm"
+                        id={est.Study.StudyInstanceUID}
+                        label="DCM"
+                        tooltip="Descargar estudio DICOM"
+                        color="#ce1eeade"
+                        fileType="zip"
+                      />
+
+                      {/* descargar imagenes PDF */}
+                      <DownloadImgIcon
+                        fetcher={dashAxios}
+                        endpoint="/dashboard/download/studypdf"
+                        id={est.Study.StudyInstanceUID}
+                        label="PDF"
+                        tooltip="Descargar estudio pdf"
+                        color="#1565c0"
+                        fileType="pdf"
+                      />
+
+                      {/* compartir estudio */}
                       <Tooltip title="Compartir estudio">
                         <ShareStudyButton study={est} />
                       </Tooltip>
 
-                      {/* descagar est en pdf */}
-                      <DescargarPdfIcon onClick={() => handleDescargar(est)} />
                     </Stack>
                   </TableCell>
                 </TableRow>
