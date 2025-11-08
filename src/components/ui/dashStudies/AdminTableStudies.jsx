@@ -28,7 +28,8 @@ import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
 import DownloadImgIcon from "../action/DownloadImgIcon";
-const urlFront = import.meta.env.VITE_URL_FRONT;
+import ViewStudyButton from "../action/ViewStudyButton";
+
 
 const AdminTableStudies = ({
   estudios,
@@ -55,17 +56,7 @@ const AdminTableStudies = ({
   };
 
 
-  const handleVer = (studyId) => {
-    const viewerUrl = `${urlFront}/view/study/${studyId}`;
-    const width = window.screen.availWidth;
-    const height = window.screen.availHeight;
 
-    window.open(
-      viewerUrl,
-      "_blank",
-      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
-    );
-  };
 
   const handleEliminar = async (estudio) => {
     const estudioId = estudio.Study.ID;
@@ -119,9 +110,7 @@ const AdminTableStudies = ({
   const formatearDNI = (dni) => {
     if (!dni) return "";
     // Solo si es numérico puro
-    if (/^\d+$/.test(dni)) {
-      return parseInt(dni, 10).toLocaleString("es-AR"); // "10.102.100"
-    }
+    if (/^\d+$/.test(dni)) return parseInt(dni, 10).toLocaleString("es-AR"); // "10.102.100"   
     return dni; // si tiene letras o símbolos
   };
 
@@ -174,7 +163,9 @@ const AdminTableStudies = ({
                   <TableCell>{est.Patient?.PatientName}</TableCell>
                   <TableCell>{formatearDNI(est.Patient?.PatientID)}</TableCell>
                   <TableCell>
-                    {est.Study?.StudyDate ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY") : "N/A"}
+                    {est.Study?.StudyDate
+                      ? dayjs(est.Study.StudyDate).format("DD/MM/YYYY")
+                      : "N/A"}
                   </TableCell>
                   <TableCell>
                     {est.Study?.ModalitiesInStudy.join(", ")}
@@ -235,27 +226,15 @@ const AdminTableStudies = ({
                     )}
                   </TableCell>
 
-                  {/* ver estudio */}
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      <Tooltip title="Ver estudio">
-                        <IconButton
-                          size="small"
-                          onClick={() => handleVer(est.Study.StudyInstanceUID)}
-                        >
-                          <VisibilityIcon
-                            sx={{
-                              color: "#2faed3",
-                              cursor: "pointer",
-                              transition: "0.2s",
-                              "&:hover": {
-                                color: "#6fbdd4",
-                                transform: "scale(1.25)",
-                              },
-                            }}
-                          />
-                        </IconButton>
-                      </Tooltip>
+
+
+                     {/* ver estudio */}
+                      <ViewStudyButton
+                        studyId={est.Study.StudyInstanceUID}
+                        endpoint="/view/study/"
+                      />
 
                       {/* descargar imagenes JPG */}
                       <DownloadImgIcon
@@ -294,7 +273,6 @@ const AdminTableStudies = ({
                       <Tooltip title="Compartir estudio">
                         <ShareStudyButton study={est} />
                       </Tooltip>
-
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -303,6 +281,7 @@ const AdminTableStudies = ({
           </TableBody>
         </Table>
       </TableContainer>
+
       {/* Dialog de confirmación (fuera de la tabla) */}
       <ConfirmDialog
         open={openConfirm}
@@ -321,6 +300,7 @@ const AdminTableStudies = ({
           setStudyToDelete(null);
         }}
       />
+
       {/* Modal de carga (fuera de la tabla) */}
       <UpLoadPdfDialog
         open={openUpload}
