@@ -27,7 +27,7 @@ import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
 import ShareStudyButton from "../patient/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
-import DownloadImgIcon from "../action/DownloadImgIcon";
+import DownloadImgButton from "../action/DownloadImgButton";
 import ViewStudyButton from "../action/ViewStudyButton";
 
 
@@ -228,18 +228,16 @@ const AdminTableStudies = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-
-
-                     {/* ver estudio */}
+                      {/* 👀ver estudio */}
                       <ViewStudyButton
                         studyId={est.Study.StudyInstanceUID}
                         endpoint="/view/study/"
                       />
 
                       {/* descargar imagenes JPG */}
-                      <DownloadImgIcon
+                      <DownloadImgButton
                         fetcher={dashAxios}
-                        endpoint="/dashboard/download/studyjpg"
+                        endpoint="/dashboard/download/study/jpeg"
                         id={est.Study.StudyInstanceUID}
                         label="JPG"
                         tooltip="Descargar imágenes JPG"
@@ -248,10 +246,10 @@ const AdminTableStudies = ({
                       />
 
                       {/* descargar imagenes DCM */}
-                      <DownloadImgIcon
+                      <DownloadImgButton
                         fetcher={dashAxios}
-                        endpoint="/dashboard/download/studydcm"
-                        id={est.Study.StudyInstanceUID}
+                        endpoint="/dashboard/download/study/dcm"
+                        id={est.Study.ID}
                         label="DCM"
                         tooltip="Descargar estudio DICOM"
                         color="#ce1eeade"
@@ -259,9 +257,9 @@ const AdminTableStudies = ({
                       />
 
                       {/* descargar imagenes PDF */}
-                      <DownloadImgIcon
+                      <DownloadImgButton
                         fetcher={dashAxios}
-                        endpoint="/dashboard/download/studypdf"
+                        endpoint="/dashboard/download/study/pdf"
                         id={est.Study.StudyInstanceUID}
                         label="PDF"
                         tooltip="Descargar estudio pdf"

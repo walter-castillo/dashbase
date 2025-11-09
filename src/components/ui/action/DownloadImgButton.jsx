@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function DownloadImgIcon({
+export default function DownloadImgButton({
   fetcher,
   endpoint,
   id,
