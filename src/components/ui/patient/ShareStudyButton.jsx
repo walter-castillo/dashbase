@@ -31,7 +31,7 @@ const ShareStudyButton = ({ study }) => {
     try {
       console.log(duration);
    
-      const response = await PatientAxios.post(`/dashboard/share/${study.ID}`, {
+      const response = await PatientAxios.post(`share/${study.ID}`, {
         duration,
       });
 

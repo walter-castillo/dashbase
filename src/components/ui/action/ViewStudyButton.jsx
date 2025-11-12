@@ -31,15 +31,25 @@ export default function ViewStudyButton({ studyId, endpoint }) {
     if (!open) return;
 
     let timeout;
+
     const handleMouseMove = () => {
       setShowBar(true);
       clearTimeout(timeout);
       timeout = setTimeout(() => setShowBar(false), 2000);
     };
 
+    const handleKeyDown = (e) => {
+      if (e.key === "Escape") {
+        handleClose();
+      }
+    };
+
     window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("keydown", handleKeyDown);
+
     return () => {
       window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("keydown", handleKeyDown);
       clearTimeout(timeout);
     };
   }, [open]);
@@ -174,41 +184,3 @@ export default function ViewStudyButton({ studyId, endpoint }) {
     </>
   );
 }
-
-/* import { Tooltip, IconButton } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
-
-export default function ViewStudyButton({ studyId, endpoint }) {
-  const urlFront = import.meta.env.VITE_URL_FRONT;
-
-  const handleVer = () => {
-    const viewerUrl = `${urlFront}${endpoint}${studyId}`;
-    const width = window.screen.availWidth;
-    const height = window.screen.availHeight;
-
-    window.open(
-      viewerUrl,
-      "_blank",
-      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
-    );
-  };
-
-  return (
-    <Tooltip title="Ver estudio">
-      <IconButton size="small" onClick={handleVer}>
-        <VisibilityIcon
-          sx={{
-            color: "#2faed3",
-            cursor: "pointer",
-            transition: "0.2s",
-            "&:hover": {
-              color: "#6fbdd4",
-              transform: "scale(1.25)",
-            },
-          }}
-        />
-      </IconButton>
-    </Tooltip>
-  );
-}
- */

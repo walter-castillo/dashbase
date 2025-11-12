@@ -20,6 +20,7 @@ import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
 import InformeButton from "../../actionInforme/InformerButton";
+import DownloadImgButton from "../action/DownloadImgButton";
 
 
 const styles = {
@@ -40,42 +41,29 @@ const styles = {
 };
 
 const PatientTableStudies = ({ studies, patient }) => {
-  console.log(studies, patient);
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
 
 
 
-    const token = useParams().token; // Token en la ruta: /invitado/:token
+ const token = useParams().token; // Token en la ruta: /invitado/:token
    
-  
-    // Función de descarga que usa token
-    const downloadStudy = async (ID, format) => {
-      const response = await PatientAxios.get(
-        `/study/download/${format}/${ID}`,
-        { responseType: "blob" }
-      );
-      return response.data;
-    };
-
-  const handleVer = (studyId) => {
-    try {
-      const urlFront = import.meta.env.VITE_URL_FRONT;
-      const viewerUrl = `${urlFront}/view/study/patient/${studyId}`;
-      const width = window.screen.availWidth;
-      const height = window.screen.availHeight;
-
-      window.open(
-        viewerUrl,
-        "_blank",
-        `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
-      );
-      // console.log("[VIEWER] Ventana abierta correctamente");
-    } catch (e) {
-      console.error("[VIEWER ERROR]", e);
-    }
-  };
+const handleVer = (studyId) => {
+  try {
+    const urlFront = import.meta.env.VITE_URL_FRONT;
+    const viewerUrl = `${urlFront}/view/study/patient/${studyId}`;
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
+    window.open(
+      viewerUrl,
+      "_blank",
+      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
+    );
+  } catch (e) {
+    console.error("[VIEWER ERROR]", e);
+  }
+};
 
 
 
@@ -127,11 +115,11 @@ const PatientTableStudies = ({ studies, patient }) => {
                     {/* 🟣 Informe */}
                     <TableCell align="center">
                       {study.tieneINF ? (
-                      <InformeButton
-                        est={{ Study: study, Patient: patient }}
-                        fetcher={PatientAxios}
-                        endpoint={`/informe/ver/`}
-                      />
+                        <InformeButton
+                          est={{ Study: study, Patient: patient }}
+                          fetcher={PatientAxios}
+                          endpoint={`/informe/ver/`}
+                        />
                       ) : (
                         <Tooltip title="No hay informe disponible">
                           <DescriptionIcon
@@ -141,7 +129,6 @@ const PatientTableStudies = ({ studies, patient }) => {
                           />
                         </Tooltip>
                       )}
-
                     </TableCell>
 
                     {/* 👁 Ver */}
@@ -167,22 +154,23 @@ const PatientTableStudies = ({ studies, patient }) => {
                           flexWrap: "nowrap", // evita que se rompan a la siguiente línea
                         }}
                       >
-                        <DownloadStudyButton
-                          study={study}
-                          enabled={!!study.ID}
-                          patient={patient}
-                          format="dcm"
-                          label="Descargar DICOM"
-                          downloadFn={downloadStudy}
+                        <DownloadImgButton
+                          fetcher={PatientAxios}
+                          endpoint="/study/download/dcm"
+                          id={study.ID}
+                          label="DCM"
+                          tooltip="Descargar estudio DICOM"
+                          color="#ce1eeade"
+                          fileType="zip"
                         />
-
-                        <DownloadStudyButton
-                          study={study}
-                          enabled={!!study.ID}
-                          patient={patient}
-                          format="jpeg"
-                          label="Descargar imágenes JPEG/JPG"
-                          downloadFn={downloadStudy}
+                        <DownloadImgButton
+                          fetcher={PatientAxios}
+                          endpoint="/study/download/jpeg"
+                          id={study.StudyInstanceUID}
+                          label="JPG"
+                          tooltip="Descargar estudio JPG/JPEG"
+                          color="#68f011"
+                          fileType="zip"
                         />
                       </Box>
                     </TableCell>

@@ -228,6 +228,7 @@ const AdminTableStudies = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
+                      
                       {/* 👀ver estudio */}
                       <ViewStudyButton
                         studyId={est.Study.StudyInstanceUID}
