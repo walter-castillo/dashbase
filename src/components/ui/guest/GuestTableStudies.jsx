@@ -61,7 +61,7 @@ const GuestTableStudies = ({ studies, patient }) => {
   const handleVer = (studyId) => {
     try {
       const urlFront = import.meta.env.VITE_URL_FRONT;
-      const viewerUrl = `${urlFront}/view/study/patient/${studyId}`;
+      const viewerUrl = `${urlFront}/view/study/invitado/${studyId}`;
       const width = window.screen.availWidth;
       const height = window.screen.availHeight;
 
