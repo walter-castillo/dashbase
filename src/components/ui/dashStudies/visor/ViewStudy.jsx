@@ -4,9 +4,9 @@ import { Box } from "@mui/material";
 
 export  function ViewStudyPage() {
   const { id, token } = useParams(); // <-- ID dinámico del estudio
-console.log(id, token);
-  const viewerUrl = `http://localhost:3000/visor/stone-webviewer/index.html?study=${id}`;
 
+  const viewerUrl = `http://localhost:3000/visor/stone-webviewer/index.html?study=${id}`;
+console.log( viewerUrl, "desde ViewStudyPage");
   useEffect(() => {
     // Actualiza el título dinámicamente
     document.title = `Visor DICOM - Estudio ${id || ""}`;

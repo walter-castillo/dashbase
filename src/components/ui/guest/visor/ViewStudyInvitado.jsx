@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 export  function ViewStudyInvitado() {
   const { id } = useParams(); // <-- ID dinámico del estudio
 
-  const viewerUrl = `http://localhost:3000/view/invitado/stone-webviewer/index.html?study=${id}`;
+  const viewerUrl = `http://localhost:3000/api/share/view/invitado/stone-webviewer/index.html?study=${id}`;
 
   useEffect(() => {
     // Actualiza el título dinámicamente

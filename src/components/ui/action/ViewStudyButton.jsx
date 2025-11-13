@@ -24,7 +24,7 @@ export default function ViewStudyButton({ studyId, endpoint }) {
   const handleClose = () => setOpen(false);
 
   const viewerUrl = `${urlFront}${endpoint}${studyId}`;
-
+console.log( viewerUrl, "desde ViewStudyButton");
   return (
     <>
       <Tooltip title="Ver estudio">

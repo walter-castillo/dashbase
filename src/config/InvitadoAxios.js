@@ -3,7 +3,7 @@ const baseURL = import.meta.env.VITE_URL;
 
 export const InvitadoAxios = axios.create({
   baseURL: `${baseURL}share`,
-  timeout: 0,
+  timeout: 0, 
 });
 
 // Interceptor para agregar el token a cada request
