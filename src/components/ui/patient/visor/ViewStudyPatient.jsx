@@ -1,12 +1,12 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
+const urlBackEnd = import.meta.env.VITE_URL_BACKEND;
 
 export  function ViewStudyPatient() {
   const { id } = useParams(); // <-- ID dinámico del estudio
-
-  const viewerUrl = `http://localhost:3000/view/patient/stone-webviewer/index.html?study=${id}`;
-
+  const endpoint = "view/patient";
+  const viewerUrl = `${urlBackEnd}/${endpoint}/stone-webviewer/index.html?study=${id}`;
   useEffect(() => {
     // Actualiza el título dinámicamente
     document.title = `Visor DICOM - Estudio ${id || ""}`;
@@ -15,7 +15,7 @@ export  function ViewStudyPatient() {
       document.title = "Visor DICOM";
     };
   }, [id]);
-
+ 
   return (
     <Box
       sx={{

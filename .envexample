@@ -1,7 +1,9 @@
-VITE_URL=http://localhost:3000/api/
+VITE_URL_BACKEND=http://localhost:3000
+VITE_URL_API=http://localhost:3000/api/
 VITE_URL_FRONT=http://localhost:3001
 VITE_TOKEN_NAME='token1'
 VITE_TOKEN_PATIENT='token2'
+VITE_TOKEN_GUEST='tokenguest'
 VITE_COMPANY=Front-Base
 
 # Informes Pdf

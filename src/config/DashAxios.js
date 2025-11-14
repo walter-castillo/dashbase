@@ -1,5 +1,5 @@
 import axios from 'axios';
-const baseURL =  import.meta.env.VITE_URL
+const baseURL = import.meta.env.VITE_URL_API;
 const  token =  import.meta.env.VITE_TOKEN_NAME
 
 export const dashAxios = axios.create({

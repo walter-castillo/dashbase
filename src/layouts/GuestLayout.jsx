@@ -6,6 +6,7 @@ import GuestTableStudies from "../components/ui/guest/GuestTableStudies";
 import { Loading } from "../components/ui/Loading";
 import Appbar from "../components/ui/patient/Appbar";
 
+const tokenGuest = import.meta.env.VITE_TOKEN_GUEST;
 const GuestLayout = () => {
   const { token } = useParams();
   const [patient, setPatient] = useState(null);
@@ -14,14 +15,12 @@ const GuestLayout = () => {
 
   useEffect(() => {
     // 🔹 Guarda el token si viene por URL
-  (token) && sessionStorage.setItem("guestToken", token);
-    
-
+  (token) && sessionStorage.setItem(tokenGuest, token);
+  console.log(sessionStorage.getItem(tokenGuest),tokenGuest, "token invitado desde GuestLayout");
 
     const fetchStudies = async () => {
       try {
         const response = await InvitadoAxios.get(`/invitado/${token}`);
-        console.log(sessionStorage.getItem("guestToken"));
         const { patient, study } = response.data;
         setPatient(patient);
         setStudies(study);

@@ -5,7 +5,7 @@ import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
-import {ViewStudyPage} from "../components/ui/dashStudies/visor/ViewStudy";
+import { ViewStudyAdmin } from "../components/ui/dashStudies/visor/ViewStudyAdmin";
 import { ViewStudyPatient } from "../components/ui/patient/visor/ViewStudyPatient";
 import GuestLayout from "../layouts/GuestLayout";
 import { ViewStudyInvitado } from "../components/ui/guest/visor/ViewStudyInvitado";
@@ -29,7 +29,7 @@ const PublicRoute = ({ children }) => {
 export const Public = () => {
   return (
     <>
-      <Route path="/view/study/:id" element={<ViewStudyPage />} />
+      {/* <Route path="/view/study/:id" element={<ViewStudyAdmin />} /> */}
       <Route path="/view/study/patient/:id" element={<ViewStudyPatient />} />
       <Route path="/view/study/invitado/:id" element={<ViewStudyInvitado />} />
       <Route path="/invitado/:token" element={<GuestLayout />} />
