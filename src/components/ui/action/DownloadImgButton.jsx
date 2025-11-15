@@ -53,12 +53,6 @@ export default function DownloadImgButton({
           filename = decodeURIComponent(match[1] || match[2]);
         }
       }
-
-      // const filename =
-      //   res.headers["content-disposition"]
-      //     ?.split("filename=")[1]
-      //     ?.replace(/['"]/g, "") || `study_${id}.${fileType}`;
-
       link.download = decodeURIComponent(filename);
       link.click();
       URL.revokeObjectURL(link.href);

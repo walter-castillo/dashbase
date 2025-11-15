@@ -2,16 +2,15 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Box } from "@mui/material";
 
-export  function ViewStudyInvitado() {
-  const { id } = useParams(); // <-- ID dinámico del estudio
+const urlBackEnd = import.meta.env.VITE_URL_BACKEND;
 
-  const viewerUrl = `http://localhost:3000/api/share/view/invitado/stone-webviewer/index.html?study=${id}`;
+export function VisorStudy({ endpointBack }) {
+  const { id } = useParams(); // <-- ID dinámico del estudio
+  const viewerUrl = `${urlBackEnd}/${endpointBack}/stone-webviewer/index.html?study=${id}`;
 
   useEffect(() => {
-    // Actualiza el título dinámicamente
     document.title = `Visor DICOM - Estudio ${id || ""}`;
     return () => {
-      // Opcional: restaurar el título anterior al desmontar
       document.title = "Visor DICOM";
     };
   }, [id]);
@@ -21,7 +20,7 @@ export  function ViewStudyInvitado() {
       sx={{
         width: "100vw",
         height: "100vh",
-        p: "15px",
+        // p: "15px",
         m: 0,
         overflow: "hidden",
         bgcolor: "background.default",

@@ -5,22 +5,19 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
   Typography,
   Tooltip,
   Box,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
-import ShareIcon from "@mui/icons-material/Share";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../../config/PatientAxios";
-import DownloadStudyButton from "../../download/DownloadStudyButton";
 import InformeButton from "../../actionInforme/InformerButton";
 import DownloadImgButton from "../action/DownloadImgButton";
+import ButtonOpenVisor from "../action/ButtonOpenVisor";
 
 
 const styles = {
@@ -133,13 +130,10 @@ const handleVer = (studyId) => {
 
                     {/* 👁 Ver */}
                     <TableCell align="center">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => handleVer(study.StudyInstanceUID)}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
+                      <ButtonOpenVisor
+                        studyId={study.StudyInstanceUID}
+                        endpointFront="/visor-paciente/"
+                      />
                     </TableCell>
 
                     {/* 💾 Descargar  */}

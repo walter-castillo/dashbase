@@ -5,12 +5,10 @@ import {
   TableHead,
   TableRow,
   Paper,
-  IconButton,
   Typography,
   Tooltip,
   Box,
 } from "@mui/material";
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
@@ -19,6 +17,7 @@ import { useParams } from "react-router-dom";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
 import { InvitadoAxios } from "../../../config/InvitadoAxios";
 import InformeButton from "../../actionInforme/InformerButton";
+import ButtonOpenVisor from "../action/ButtonOpenVisor";
 
 const styles = {
   paper: {
@@ -58,24 +57,7 @@ const GuestTableStudies = ({ studies, patient }) => {
     return response.data;
   };
 
-  const handleVer = (studyId) => {
-    try {
-      const urlFront = import.meta.env.VITE_URL_FRONT;
-      const viewerUrl = `${urlFront}/view/study/invitado/${studyId}`;
-      const width = window.screen.availWidth;
-      const height = window.screen.availHeight;
-
-      window.open(
-        viewerUrl,
-        "_blank",
-        `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
-      );
-      // console.log("[VIEWER] Ventana abierta correctamente");
-    } catch (e) {
-      console.error("[VIEWER ERROR]", e);
-    }
-  };
-
+  
   if (!studies || studies.length === 0) {
     return (
       <Paper sx={styles.paper}>
@@ -123,15 +105,14 @@ const GuestTableStudies = ({ studies, patient }) => {
                       {formatModality(study.ModalitiesInStudy) || "-"}
                     </TableCell>
 
-                   
                     {/* 🟣 Informe */}
                     <TableCell align="center">
                       {study.tieneINF ? (
-                      <InformeButton
-                        est={{ Study: study, Patient: patient }}
-                        fetcher={InvitadoAxios}
-                        endpoint={`/invitado/informe/ver/`}
-                      />
+                        <InformeButton
+                          est={{ Study: study, Patient: patient }}
+                          fetcher={InvitadoAxios}
+                          endpoint={`/invitado/informe/ver/`}
+                        />
                       ) : (
                         <Tooltip title="No hay informe disponible">
                           <DescriptionIcon
@@ -141,18 +122,14 @@ const GuestTableStudies = ({ studies, patient }) => {
                           />
                         </Tooltip>
                       )}
-
                     </TableCell>
 
                     {/* 👁 Ver */}
                     <TableCell align="center">
-                      <IconButton
-                        size="small"
-                        color="primary"
-                        onClick={() => handleVer(study.StudyInstanceUID)}
-                      >
-                        <VisibilityIcon />
-                      </IconButton>
+                      <ButtonOpenVisor
+                        studyId={study.StudyInstanceUID}
+                        endpointFront="/visor-invitado/"
+                      />
                     </TableCell>
 
                     {/* 💾 Descargar  */}

@@ -5,10 +5,8 @@ import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
-import { ViewStudyAdmin } from "../components/ui/dashStudies/visor/ViewStudyAdmin";
-import { ViewStudyPatient } from "../components/ui/patient/visor/ViewStudyPatient";
 import GuestLayout from "../layouts/GuestLayout";
-import { ViewStudyInvitado } from "../components/ui/guest/visor/ViewStudyInvitado";
+import { VisorStudy } from "../components/ui/action/VisorStudy";
 
 
 // Componente inline que protege rutas públicas
@@ -29,9 +27,20 @@ const PublicRoute = ({ children }) => {
 export const Public = () => {
   return (
     <>
-      {/* <Route path="/view/study/:id" element={<ViewStudyAdmin />} /> */}
-      <Route path="/view/study/patient/:id" element={<ViewStudyPatient />} />
-      <Route path="/view/study/invitado/:id" element={<ViewStudyInvitado />} />
+      <Route
+        path="/visor-estudios/:id"
+        element={<VisorStudy endpointBack="api/visor" />}
+      />
+      <Route
+        path="/visor-paciente/:id"
+        element={<VisorStudy endpointBack="view/patient" />}
+      />
+      <Route
+        path="/visor-invitado/:id"
+        element={<VisorStudy endpointBack="api/share/view/invitado" />}
+      />
+      {/* <Route path="/view/study/invitado/:id" element={<ViewStudyInvitado />} /> */}
+
       <Route path="/invitado/:token" element={<GuestLayout />} />
 
       <Route path="/" element={<AuthLayout />}>

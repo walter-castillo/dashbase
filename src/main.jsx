@@ -29,7 +29,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
               <GlobalStyles
                 styles={{
                   ".css-vmwhh9": {
-                    padding: "12px 1px 1px 1px !important",
+                    padding: "1px 1px 1px 1px !important",
                   },
                 }}
               />

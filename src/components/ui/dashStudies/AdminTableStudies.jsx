@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState} from "react";
 import {Table, 
   TableHead,
   TableBody,
@@ -6,15 +6,12 @@ import {Table,
   TableContainer,
   TableRow,
   TableSortLabel,
-  Typography,
   Box,
   Paper,
-  IconButton,
   Stack,
   Tooltip
 } from "@mui/material";
 
-import VisibilityIcon from "@mui/icons-material/Visibility";
 import UploadFile from "@mui/icons-material/UploadFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DescriptionIcon from "@mui/icons-material/Description";
@@ -25,10 +22,11 @@ import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
-import ShareStudyButton from "../patient/ShareStudyButton";
+import ShareStudyButton from "../action/ShareStudyButton";
 import { dashAxios } from "../../../config/DashAxios";
 import DownloadImgButton from "../action/DownloadImgButton";
-import ViewStudyButton from "../action/ViewStudyButton";
+import ButtonOpenVisor from "../action/ButtonOpenVisor";
+
 
 
 const AdminTableStudies = ({
@@ -56,14 +54,10 @@ const AdminTableStudies = ({
   };
 
 
-
-
   const handleEliminar = async (estudio) => {
     const estudioId = estudio.Study.ID;
-
     // Guardar copia de los estudios actuales por si falla la eliminación
     const estudiosPrevios = [...estudios];
-
     // 👈 ACTUALIZACIÓN OPTIMISTA - Actualizar inmediatamente en el estado local
     setEstudios((prevEstudios) =>
       prevEstudios.map((est) =>
@@ -102,7 +96,6 @@ const AdminTableStudies = ({
   };
 
   const handleCargar = (estudio) => {
-    console.log("Cargar estudio", estudio);
     setSelectedStudy(estudio);
     setOpenUpload(true);
   };
@@ -114,7 +107,6 @@ const AdminTableStudies = ({
     return dni; // si tiene letras o símbolos
   };
 
-  const handleDescagarImg = (estudio) =>{ console.log("DescagarImg estudio", estudio)  }
 
   return (
     <>
@@ -147,8 +139,6 @@ const AdminTableStudies = ({
                     </TableSortLabel>
                   </TableCell>
                 ))}
-
-                {/* <TableCell align="center">Informes</TableCell> */}
                 <TableCell align="center">Acciones</TableCell>
               </TableRow>
             </TableHead>
@@ -228,11 +218,9 @@ const AdminTableStudies = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      
-                      {/* 👀ver estudio */}
-                      <ViewStudyButton
+                      <ButtonOpenVisor
                         studyId={est.Study.StudyInstanceUID}
-                        endpoint="/view/study/"
+                        endpointFront="/visor-estudios/"
                       />
 
                       {/* descargar imagenes JPG */}
@@ -307,8 +295,6 @@ const AdminTableStudies = ({
         studyId={selectedStudy?.Study?.ID}
         onSuccess={(fileName) => {
           console.log(`✅ PDF ${fileName} subido con éxito`);
-
-          // 👈 CORRECCIÓN: usar selectedStudy?.Study?.ID en lugar de estudioId
           setEstudios((prevEstudios) =>
             prevEstudios.map((est) =>
               est.Study?.ID === selectedStudy?.Study?.ID
