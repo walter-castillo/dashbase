@@ -37,7 +37,7 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const PatientTableStudies = ({ studies, patient }) => {
+const TablePatient = ({ studies, patient }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -179,4 +179,4 @@ const handleVer = (studyId) => {
   );
 };
 
-export default PatientTableStudies;
+export default TablePatient;

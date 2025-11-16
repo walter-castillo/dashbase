@@ -42,7 +42,7 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const GuestTableStudies = ({ studies, patient }) => {
+const TableInvitado = ({ studies, patient }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
@@ -174,4 +174,4 @@ const GuestTableStudies = ({ studies, patient }) => {
   );
 };
 
-export default GuestTableStudies;
+export default TableInvitado;

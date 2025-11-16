@@ -29,7 +29,7 @@ import ButtonOpenVisor from "../action/ButtonOpenVisor";
 
 
 
-const AdminTableStudies = ({
+const TableAdmin = ({
   estudios,
   setEstudios,
   orden,
@@ -311,4 +311,4 @@ const AdminTableStudies = ({
   );
 };
 
-export default AdminTableStudies;
+export default TableAdmin;

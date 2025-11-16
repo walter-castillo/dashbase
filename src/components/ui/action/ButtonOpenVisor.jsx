@@ -1,6 +1,8 @@
 import { IconButton, Tooltip } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 
+// este boton abre el popup del visor , donde tinene que ser la misma ruta para que se habra VisorStudy.jsx y en la ruta se pasa el back
+
 const ButtonOpenVisor = ({ studyId, endpointFront }) => {
   const handleOpen = () => {
     try {

@@ -4,7 +4,7 @@ import dayjs from "dayjs";
 
 import FiltroEstudios from "./FiltroEstudios";
 import AccionesEstudios from "./AccionesEstudios";
-import AdminTableStudies from "./AdminTableStudies";
+import TableAdmin from "./TableAdmin";
 import PaginacionEstudios from "./PaginacionEstudios";
 import { dashAxios } from "../../../config/axiosClients";
 import { Loading } from "../Loading";
@@ -179,7 +179,7 @@ const DashStudies = () => {
         </Box>
       ) : (
         <>
-          <AdminTableStudies
+          <TableAdmin
             estudios={estudiosPaginados}
             setEstudios={setEstudios}
             orden={orden}
