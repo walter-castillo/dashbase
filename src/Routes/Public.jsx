@@ -17,7 +17,7 @@ const PublicRoute = ({ children }) => {
 
   if (token) {
     // Redirige a la ruta anterior si existe, o al dashboard por defecto
-    const from = location.state?.from?.pathname || "/dashboard/usuarios";
+    const from = location.state?.from?.pathname || "/dashboard/estudios";
      return <Navigate to={from} replace />;
   }
 

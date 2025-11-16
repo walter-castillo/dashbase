@@ -14,10 +14,10 @@ import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
 import { useParams } from "react-router-dom";
-import DownloadStudyButton from "../../download/DownloadStudyButton";
 import { InvitadoAxios } from "../../../config/axiosClients";
 import InformeButton from "../../actionInforme/InformerButton";
 import ButtonOpenVisor from "../action/ButtonOpenVisor";
+import DownloadImgButton from "../action/DownloadImgButton";
 
 const styles = {
   paper: {
@@ -48,15 +48,6 @@ const TableInvitado = ({ studies, patient }) => {
   const [loadingInforme, setLoadingInforme] = useState(false);
 
   const token = useParams().token; // Token en la ruta: /invitado/:token  
-
-  const downloadStudy = async (ID, format) => {
-    const response = await InvitadoAxios.get(
-      `/invitado/download/${format}/${token}`,
-      { responseType: "blob" }
-    );
-    return response.data;
-  };
-
   
   if (!studies || studies.length === 0) {
     return (
@@ -137,29 +128,20 @@ const TableInvitado = ({ studies, patient }) => {
                       <Box
                         sx={{
                           display: "flex",
-                          flexDirection: "row", // siempre en línea
-                          gap: 1, // espacio entre botones
+                          flexDirection: "row", 
                           justifyContent: "center",
                           alignItems: "center",
-                          flexWrap: "nowrap", // evita que se rompan a la siguiente línea
+                          flexWrap: "nowrap"
                         }}
                       >
-                        <DownloadStudyButton
-                          study={study}
-                          enabled={!!study.ID}
-                          patient={patient}
-                          format="dcm"
-                          label="Descargar DICOM"
-                          downloadFn={downloadStudy}
-                        />
-
-                        <DownloadStudyButton
-                          study={study}
-                          enabled={!!study.ID}
-                          patient={patient}
-                          format="jpeg"
-                          label="Descargar imágenes JPEG/JPG"
-                          downloadFn={downloadStudy}
+            
+                        <DownloadImgButton 
+                        fetcher={InvitadoAxios}
+                        endpoint="/invitado/download/jpeg"
+                        id={study.StudyInstanceUID}
+                        label="JPG"
+                        tooltip="Descargar estudio JPG/JPEG"
+                        color="#68f011"
                         />
                       </Box>
                     </TableCell>

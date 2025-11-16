@@ -48,6 +48,7 @@ InvitadoAxios.interceptors.request.use(
     if (guestToken) {
       // Se puede enviar como header o query, recomiendo header
       config.headers["bearer"] = guestToken;
+      // config.headers["bearer"] = guestToken;
 
       // Si Orthanc o tu middleware lo espera en query:
       // config.params = { ...(config.params || {}), token };
