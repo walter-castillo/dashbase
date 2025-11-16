@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { TextField, Button, Container, Typography, Box, CircularProgress } from '@mui/material';
-import { PatientAxios } from '../../config/PatientAxios';
+import { PatientAxios } from '../../config/axiosClients';
 import { useNavigate } from 'react-router-dom';
 
 const LoginPatient = () => {

@@ -1,7 +1,7 @@
 import { Box, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { InvitadoAxios } from "../config/InvitadoAxios";
+import { InvitadoAxios } from "../config/axiosClients";
 import GuestTableStudies from "../components/ui/guest/GuestTableStudies";
 import { Loading } from "../components/ui/Loading";
 import Appbar from "../components/ui/patient/Appbar";

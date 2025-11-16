@@ -9,8 +9,7 @@ import {
 } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { dashAxios } from "../../../config/DashAxios";
-import { PatientAxios } from "../../../config/PatientAxios";
+import { PatientAxios } from "../../../config/axiosClients";
 
 
   // terminar , comp en construccion-----------------------------------------------

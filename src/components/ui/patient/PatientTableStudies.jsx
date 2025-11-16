@@ -14,7 +14,7 @@ import { useState } from "react";
 import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
 import { useParams } from "react-router-dom";
-import { PatientAxios } from "../../../config/PatientAxios";
+import { PatientAxios } from "../../../config/axiosClients";
 import InformeButton from "../../actionInforme/InformerButton";
 import DownloadImgButton from "../action/DownloadImgButton";
 import ButtonOpenVisor from "../action/ButtonOpenVisor";

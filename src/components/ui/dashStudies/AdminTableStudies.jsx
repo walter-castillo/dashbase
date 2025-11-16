@@ -23,7 +23,7 @@ import NotStudies from "./NotStudies";
 import CustomSnackbar from "../CustomSnackbar";
 import { Loading } from "../Loading";
 import ShareStudyButton from "../action/ShareStudyButton";
-import { dashAxios } from "../../../config/DashAxios";
+import { dashAxios } from "../../../config/axiosClients";
 import DownloadImgButton from "../action/DownloadImgButton";
 import ButtonOpenVisor from "../action/ButtonOpenVisor";
 

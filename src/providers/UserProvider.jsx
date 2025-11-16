@@ -1,6 +1,6 @@
 import { useReducer, useState, createContext, useContext } from "react"
 import { UserReducer } from "../reducers/UserReducer"
-import { dashAxios } from "../config/DashAxios"
+import { dashAxios } from "../config/axiosClients";
 import { types } from "../types/types"
 
 const UserContext = createContext();

@@ -15,7 +15,7 @@ import { formatDate } from "../../../utils/formatDate";
 import { formatModality } from "../../../utils/formatModality";
 import { useParams } from "react-router-dom";
 import DownloadStudyButton from "../../download/DownloadStudyButton";
-import { InvitadoAxios } from "../../../config/InvitadoAxios";
+import { InvitadoAxios } from "../../../config/axiosClients";
 import InformeButton from "../../actionInforme/InformerButton";
 import ButtonOpenVisor from "../action/ButtonOpenVisor";
 

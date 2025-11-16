@@ -6,7 +6,7 @@ import FiltroEstudios from "./FiltroEstudios";
 import AccionesEstudios from "./AccionesEstudios";
 import AdminTableStudies from "./AdminTableStudies";
 import PaginacionEstudios from "./PaginacionEstudios";
-import { dashAxios } from "../../../config/DashAxios";
+import { dashAxios } from "../../../config/axiosClients";
 import { Loading } from "../Loading";
 
 const columnMap = {

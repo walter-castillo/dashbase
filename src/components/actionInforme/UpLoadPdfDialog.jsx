@@ -22,7 +22,7 @@ import {
   Close,
   UploadFile,
 } from "@mui/icons-material";
-import { dashAxios } from "../../config/DashAxios";
+import { dashAxios } from "../../config/axiosClients";
 import CustomSnackbar from "../ui/CustomSnackbar";
 
 const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {

@@ -1,6 +1,6 @@
 import { useReducer, useState, createContext, useContext } from "react"
 import { RoleReducer } from "../reducers/RoleReducer"
-import { dashAxios } from "../config/DashAxios"
+import { dashAxios } from "../config/axiosClients";
 import { types } from "../types/types"
 
 

@@ -1,7 +1,7 @@
 import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PatientAxios } from '../config/PatientAxios';
+import { PatientAxios } from '../config/axiosClients';
 import PatientTableStudies from "../components/ui/patient/PatientTableStudies";
 import { Loading } from '../components/ui/Loading';
 import Appbar from '../components/ui/patient/Appbar';

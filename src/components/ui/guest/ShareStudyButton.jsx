@@ -9,8 +9,8 @@ import {
 } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { dashAxios } from "../../../config/DashAxios";
-import { PatientAxios } from "../../../config/PatientAxios";
+import { dashAxios } from "../../../config/axiosClients";
+import { PatientAxios } from "../../../config/axiosClients";
 
 const ShareStudyButton = ({ study }) => {
   const [anchorEl, setAnchorEl] = useState(null);

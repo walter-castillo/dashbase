@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import jsPDF from 'jspdf';
 import QRCode from 'qrcode';
-import { dashAxios } from '../../config/DashAxios';
+import { dashAxios } from '../../config/axiosClients';
 
 const GenerateCode = () => {
   const [dni, setDni] = useState(5394119);
@@ -129,8 +129,8 @@ import {
   InputLabel,
   FormControl
 } from '@mui/material';
-import { PatientAxios } from '../../config/PatientAxios';
-import  {dashAxios}  from '../../config/DashAxios';
+import { PatientAxios } from '../../config/axiosClients';
+import  {dashAxios}  from '../../config/axiosClients';
 
 const GenerateCode = () => {
   const [dni, setDni] = useState(5394119);
