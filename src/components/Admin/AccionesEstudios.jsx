@@ -3,8 +3,8 @@ import { Button, Box } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { GridDownloadIcon } from "@mui/x-data-grid";
 
-import exportToExcel from "./utils/exportToExcel";
-import exportToPDF from "./utils/exportToPDF";
+import exportToPDF from "../../utils/exportToPdf";
+import exportToExcel from "../../utils/exportToExcel";
 
 const AccionesEstudios = ({
   estudios = [],
