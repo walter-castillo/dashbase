@@ -16,16 +16,16 @@ import UploadFile from "@mui/icons-material/UploadFile";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import DescriptionIcon from "@mui/icons-material/Description";
 import dayjs from "dayjs";
-import InformeButton from "../../actionInforme/InformerButton";
-import ConfirmDialog from "../../actionInforme/ConfirmDialog";
-import UpLoadPdfDialog from "../../actionInforme/UploadPdfDialog";
+import InformeButton from "../ui/actionInforme/InformerButton";
+import ConfirmDialog from "../ui/actionInforme/ConfirmDialog";
+import UpLoadPdfDialog from "../ui/actionInforme/UploadPdfDialog";
 import NotStudies from "./NotStudies";
-import CustomSnackbar from "../CustomSnackbar";
-import { Loading } from "../Loading";
-import ShareStudyButton from "../action/ShareStudyButton";
-import { dashAxios } from "../../../config/axiosClients";
-import DownloadImgButton from "../action/DownloadImgButton";
-import ButtonOpenVisor from "../action/ButtonOpenVisor";
+import CustomSnackbar from "../ui/CustomSnackbar";
+import { Loading } from "../ui/Loading";
+import ShareStudyButton from "../ui/action/ShareStudyButton";
+import { dashAxios } from "../../config/axiosClients";
+import DownloadImgButton from "../ui/action/DownloadImgButton";
+import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 
 
 

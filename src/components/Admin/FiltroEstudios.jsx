@@ -9,7 +9,7 @@ import {
   Box,
 } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
-import { modalityOptions } from "../../../utils/formatModality";
+import { modalityOptions } from "../../utils/formatModality";
 import ClearAllIcon from "@mui/icons-material/ClearAll";
 import dayjs from "dayjs";
 import { GridSearchIcon } from "@mui/x-data-grid";

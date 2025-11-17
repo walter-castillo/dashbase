@@ -2,9 +2,9 @@ import { Box, Typography } from "@mui/material";
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { InvitadoAxios } from "../config/axiosClients";
-import TableInvitado from "../components/ui/guest/TableInvitado";
+import TableInvitado from "../components/guest/TableInvitado";
 import { Loading } from "../components/ui/Loading";
-import Appbar from "../components/ui/patient/Appbar";
+import Appbar from "../components/patient/Appbar";
 
 const tokenGuest = import.meta.env.VITE_TOKEN_GUEST;
 const GuestLayout = () => {

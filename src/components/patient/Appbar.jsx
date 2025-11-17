@@ -10,7 +10,7 @@ import {
 import { AccountCircle } from "@mui/icons-material";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { PatientAxios } from "../../../config/axiosClients";
+import { PatientAxios } from "../../config/axiosClients";
 
 const Appbar = ({ patient, guest = false }) => {
   const [anchorEl, setAnchorEl] = useState(null);

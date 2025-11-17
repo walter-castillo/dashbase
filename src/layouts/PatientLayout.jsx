@@ -2,9 +2,9 @@ import { Box, Typography } from '@mui/material';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PatientAxios } from '../config/axiosClients';
-import TablePatient from "../components/ui/patient/TablePatient";
+import TablePatient from "../components/patient/TablePatient";
 import { Loading } from '../components/ui/Loading';
-import Appbar from '../components/ui/patient/Appbar';
+import Appbar from '../components/patient/Appbar';
 
 const PatientLayout = () => {
 

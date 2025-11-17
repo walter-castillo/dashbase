@@ -6,8 +6,8 @@ import FiltroEstudios from "./FiltroEstudios";
 import AccionesEstudios from "./AccionesEstudios";
 import TableAdmin from "./TableAdmin";
 import PaginacionEstudios from "./PaginacionEstudios";
-import { dashAxios } from "../../../config/axiosClients";
-import { Loading } from "../Loading";
+import { dashAxios } from "../../config/axiosClients";
+import { Loading } from "../ui/Loading";
 
 const columnMap = {
   Paciente: "PatientName",

@@ -10,8 +10,12 @@ import {
 import DescriptionIcon from "@mui/icons-material/Description";
 import CloseIcon from "@mui/icons-material/Close";
 import { useState, useEffect } from "react";
-import { formatDate } from "../../utils/formatDate";
-import { dashAxios } from "../../config/axiosClients";
+// import { formatDate } from "../../utils/formatDate";
+// import { dashAxios } from "../../config/axiosClients";
+import { formatDate } from "../../../utils/formatDate";
+import { dashAxios } from "../../../config/axiosClients";
+
+
 
 export default function InformeButton({
   est,

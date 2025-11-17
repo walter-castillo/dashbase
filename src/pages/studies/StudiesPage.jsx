@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import DashStudies from "../../components/ui/dashStudies/DashStudies";
+import DashStudies from "../../components/Admin/DashStudies";
 
 export const StudiesPage = () => {
   return (

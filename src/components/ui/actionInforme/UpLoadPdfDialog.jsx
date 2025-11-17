@@ -22,8 +22,8 @@ import {
   Close,
   UploadFile,
 } from "@mui/icons-material";
-import { dashAxios } from "../../config/axiosClients";
-import CustomSnackbar from "../ui/CustomSnackbar";
+import { dashAxios } from "../../../config/axiosClients";
+import CustomSnackbar from "../CustomSnackbar";
 
 const UpLoadPdfDialog = ({ open, onClose, studyId, onSuccess }) => {
   const [file, setFile] = useState(null);

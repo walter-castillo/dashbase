@@ -11,22 +11,17 @@ import {
 } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import { useState } from "react";
-import { formatDate } from "../../../utils/formatDate";
-import { formatModality } from "../../../utils/formatModality";
+import { formatDate } from "../../utils/formatDate";
+import { formatModality } from "../../utils/formatModality";
 import { useParams } from "react-router-dom";
-import { InvitadoAxios } from "../../../config/axiosClients";
-import InformeButton from "../../actionInforme/InformerButton";
-import ButtonOpenVisor from "../action/ButtonOpenVisor";
-import DownloadImgButton from "../action/DownloadImgButton";
+import { PatientAxios } from "../../config/axiosClients";
+import InformeButton from "../ui/actionInforme/InformerButton";
+import DownloadImgButton from "../ui/action/DownloadImgButton";
+import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
+
 
 const styles = {
-  paper: {
-    mt: 4,
-    borderRadius: 3,
-    boxShadow: 6,
-    p: 1,
-    backgroundColor: "#fdfdfd",
-  },
+  paper: {mt: 4, borderRadius: 3, boxShadow: 6, p: 1, backgroundColor: "#fdfdfd"},
   title: { fontWeight: "bold", color: "#1976d2" },
   tableContainer: { width: "100%", overflowX: "auto" },
   headerRow: { backgroundColor: "#1976d2" },
@@ -42,13 +37,33 @@ const styles = {
   textSmall: { fontSize: "0.70rem" },
 };
 
-const TableInvitado = ({ studies, patient }) => {
+const TablePatient = ({ studies, patient }) => {
   const [openInforme, setOpenInforme] = useState(false);
   const [selectedStudy, setSelectedStudy] = useState(null);
   const [loadingInforme, setLoadingInforme] = useState(false);
 
-  const token = useParams().token; // Token en la ruta: /invitado/:token  
-  
+
+
+ const token = useParams().token; // Token en la ruta: /invitado/:token
+   
+const handleVer = (studyId) => {
+  try {
+    const urlFront = import.meta.env.VITE_URL_FRONT;
+    const viewerUrl = `${urlFront}/view/study/patient/${studyId}`;
+    const width = window.screen.availWidth;
+    const height = window.screen.availHeight;
+    window.open(
+      viewerUrl,
+      "_blank",
+      `width=${width},height=${height},top=0,left=0,noopener,noreferrer`
+    );
+  } catch (e) {
+    console.error("[VIEWER ERROR]", e);
+  }
+};
+
+
+
   if (!studies || studies.length === 0) {
     return (
       <Paper sx={styles.paper}>
@@ -66,10 +81,9 @@ const TableInvitado = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {["N°", "Fecha", "Tipo", "Informe", "ver", "jpg"].map(
+                {["N°", "Fecha", "Tipo", "Informe", "ver", "dcm/jpg"].map(
                   (text, i) => (
                     <TableCell key={i} align="center" sx={styles.headerCell}>
-                      {" "}
                       {text}
                     </TableCell>
                   )
@@ -89,7 +103,6 @@ const TableInvitado = ({ studies, patient }) => {
                       {study.AccessionNumber || "-"}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
-                      {" "}
                       {formatDate(study.StudyDate)}
                     </TableCell>
                     <TableCell align="center" sx={styles.textSmall}>
@@ -101,8 +114,8 @@ const TableInvitado = ({ studies, patient }) => {
                       {study.tieneINF ? (
                         <InformeButton
                           est={{ Study: study, Patient: patient }}
-                          fetcher={InvitadoAxios}
-                          endpoint={`/invitado/informe/ver/`}
+                          fetcher={PatientAxios}
+                          endpoint={`/informe/ver/`}
                         />
                       ) : (
                         <Tooltip title="No hay informe disponible">
@@ -119,7 +132,7 @@ const TableInvitado = ({ studies, patient }) => {
                     <TableCell align="center">
                       <ButtonOpenVisor
                         studyId={study.StudyInstanceUID}
-                        endpointFront="/visor-invitado/"
+                        endpointFront="/visor-paciente/"
                       />
                     </TableCell>
 
@@ -128,20 +141,30 @@ const TableInvitado = ({ studies, patient }) => {
                       <Box
                         sx={{
                           display: "flex",
-                          flexDirection: "row", 
+                          flexDirection: "row", // siempre en línea
+                          gap: 1, // espacio entre botones
                           justifyContent: "center",
                           alignItems: "center",
-                          flexWrap: "nowrap"
+                          flexWrap: "nowrap", // evita que se rompan a la siguiente línea
                         }}
                       >
-            
-                        <DownloadImgButton 
-                        fetcher={InvitadoAxios}
-                        endpoint="/invitado/download/jpeg"
-                        id={study.StudyInstanceUID}
-                        label="JPG"
-                        tooltip="Descargar estudio JPG/JPEG"
-                        color="#68f011"
+                        <DownloadImgButton
+                          fetcher={PatientAxios}
+                          endpoint="/study/download/dcm"
+                          id={study.ID}
+                          label="DCM"
+                          tooltip="Descargar estudio DICOM"
+                          color="#ce1eeade"
+                          fileType="zip"
+                        />
+                        <DownloadImgButton
+                          fetcher={PatientAxios}
+                          endpoint="/study/download/jpeg"
+                          id={study.StudyInstanceUID}
+                          label="JPG"
+                          tooltip="Descargar estudio JPG/JPEG"
+                          color="#68f011"
+                          fileType="zip"
                         />
                       </Box>
                     </TableCell>
@@ -156,4 +179,4 @@ const TableInvitado = ({ studies, patient }) => {
   );
 };
 
-export default TableInvitado;
+export default TablePatient;
