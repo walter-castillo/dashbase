@@ -1,7 +1,6 @@
-import { Routes, Route } from 'react-router-dom';
+import {  Route } from 'react-router-dom';
 import PatientLayout from '../layouts/PatientLayout';
 import LoginPatient from '../pages/patient/LoginPatient';
-import GuestLayout from '../layouts/GuestLayout';
 
 export const Patient = ()=> {
   return (

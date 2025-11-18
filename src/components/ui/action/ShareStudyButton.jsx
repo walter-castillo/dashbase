@@ -9,39 +9,18 @@ import {
 } from "@mui/material";
 import ShareIcon from "@mui/icons-material/Share";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import { PatientAxios } from "../../../config/axiosClients";
 
-
-  // terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------// terminar , comp en construccion-----------------------------------------------
-    // terminar , comp en construccion-----------------------------------------------
-      // terminar , comp en construccion-----------------------------------------------
-
-
-const ShareStudyButton = ({ study }) => {
+const ShareStudyButton = ({
+  id, // ID único que te pasan
+  studyId, // StudyInstanceUID
+  endpoint, // Ej: "/share/create"
+  fetcher, // Ej: dashAxios o InvitadoAxios
+}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
-    console.log(study);
   };
 
   const handleClose = () => {
@@ -52,26 +31,28 @@ const ShareStudyButton = ({ study }) => {
     handleClose();
 
     try {
-      console.log(duration);
-   
-      const response = await PatientAxios.post(`share/${study.ID}`, {
+      const body = {
+        id,
+        studyId,
         duration,
-      });
-
-      const { shareUrl } = response.data;
-
+      };     
+      const response = await fetcher.post(`${endpoint}`, body);
+      const { link, expiresIn, expiresAt } = response.data;
+        console.log(response.data);
       if (navigator.share) {
         await navigator.share({
           title: "Estudio Médico",
           text: "Accedé a este estudio compartido:",
-          url: shareUrl,
+          url: link,
+          expiresIn,
+          expiresAt,
         });
       } else {
-        await navigator.clipboard.writeText(shareUrl);
+        await navigator.clipboard.writeText(link);
         alert("🔗 Enlace copiado al portapapeles");
-      } 
+      }
     } catch (err) {
-      console.error("Error al generar enlace compartido:", err);
+      console.error("❌ Error al generar enlace compartido:", err);
       alert("❌ No se pudo generar el enlace compartido");
     }
   };
@@ -85,11 +66,10 @@ const ShareStudyButton = ({ study }) => {
       </Tooltip>
 
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-        <MenuItem
-          sx={{ opacity: 1, fontWeight: "bold", color: "#1976d2" }}
-        >
+        <MenuItem sx={{ opacity: 1, fontWeight: "bold", color: "#1976d2" }}>
           Compartir Link por:
         </MenuItem>
+
         {[
           { label: "1 hora", value: "1h" },
           { label: "1 día", value: "1d" },

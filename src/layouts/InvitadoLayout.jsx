@@ -7,23 +7,30 @@ import { Loading } from "../components/ui/Loading";
 import Appbar from "../components/patient/Appbar";
 
 const tokenGuest = import.meta.env.VITE_TOKEN_GUEST;
-const GuestLayout = () => {
+const InvitadoLayout = () => {
   const { token } = useParams();
   const [patient, setPatient] = useState(null);
   const [studies, setStudies] = useState([]);
+  const [expira, setSExpira] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     // 🔹 Guarda el token si viene por URL
-  (token) && sessionStorage.setItem(tokenGuest, token);
-  console.log(sessionStorage.getItem(tokenGuest),tokenGuest, "token invitado desde GuestLayout");
+    token && sessionStorage.setItem(tokenGuest, token);
+    console.log(
+      sessionStorage.getItem(tokenGuest),
+      tokenGuest,
+      "token invitado desde GuestLayout"
+    );
 
     const fetchStudies = async () => {
       try {
         const response = await InvitadoAxios.get(`/invitado/${token}`);
-        const { patient, study } = response.data;
+
+        const { patient, study, expira } = response.data;
         setPatient(patient);
         setStudies(study);
+        setSExpira(expira)
       } catch (error) {
         console.error("Error al cargar estudios:", error);
         navigate("/");
@@ -54,7 +61,16 @@ const GuestLayout = () => {
             sx={{ fontWeight: "bold", fontSize: "1.20rem", color: "#1976d2" }}
           >
             ¡Acceso temporal a un estudio de:{" "}
-            {patient?.PatientName?.replaceAll("^", " ").trim() || "Paciente"}!
+            {patient?.PatientName?.replaceAll("^", " ").trim() || "Paciente"} !{" "} <br />
+            <span
+              style={{
+                fontSize: "0.85rem",
+                fontWeight: "normal",
+                opacity: 0.8,
+              }}
+            >
+              (Hasta el: {expira})
+            </span>
           </Typography>
 
           <TableInvitado studies={studies} patient={patient} />
@@ -64,4 +80,4 @@ const GuestLayout = () => {
   );
 };
 
-export default GuestLayout;
+export default InvitadoLayout;

@@ -43,9 +43,6 @@ const styles = {
 };
 
 const TableInvitado = ({ studies, patient }) => {
-  const [openInforme, setOpenInforme] = useState(false);
-  const [selectedStudy, setSelectedStudy] = useState(null);
-  const [loadingInforme, setLoadingInforme] = useState(false);
 
   const token = useParams().token; // Token en la ruta: /invitado/:token  
   

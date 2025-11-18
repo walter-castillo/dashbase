@@ -9,8 +9,7 @@ import exportToExcel from "../../utils/exportToExcel";
 const AccionesEstudios = ({
   estudios = [],
   onVerRecientes,
-  onLimpiarFiltros,
-  hayFiltrosActivos = false,
+  onLimpiarFiltros
 }) => {
   // Funciones internas para exportar
   const handleExportExcel = () => exportToExcel(estudios);

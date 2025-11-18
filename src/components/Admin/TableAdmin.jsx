@@ -257,9 +257,12 @@ const TableAdmin = ({
                       />
 
                       {/* compartir estudio */}
-                      <Tooltip title="Compartir estudio">
-                        <ShareStudyButton study={est} />
-                      </Tooltip>
+                      <ShareStudyButton
+                        id={est.Study.ID}
+                        studyId={est.Study.StudyInstanceUID}
+                        endpoint="share/create"
+                        fetcher={dashAxios}
+                      />
                     </Stack>
                   </TableCell>
                 </TableRow>

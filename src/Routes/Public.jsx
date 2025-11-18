@@ -5,7 +5,7 @@ import { HomePage } from "../pages/home/HomePage";
 import { LoginPage } from "../pages/auth/LoginPage";
 import { RegisterPage } from "../pages/auth/RegisterPage";
 import { ForgotPassword } from "../pages/auth/ForgotPassword";
-import GuestLayout from "../layouts/GuestLayout";
+import InvitadoLayout from "../layouts/InvitadoLayout";
 import { VisorStudy } from "../components/ui/action/VisorStudy";
 
 
@@ -41,7 +41,7 @@ export const Public = () => {
       />
       {/* <Route path="/view/study/invitado/:id" element={<ViewStudyInvitado />} /> */}
 
-      <Route path="/invitado/:token" element={<GuestLayout />} />
+      <Route path="/invitado/:token" element={<InvitadoLayout />} />
 
       <Route path="/" element={<AuthLayout />}>
         <Route index element={<HomePage />} />
