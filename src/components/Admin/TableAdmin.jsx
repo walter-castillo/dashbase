@@ -7,6 +7,7 @@ import {Table,
   TableRow,
   TableSortLabel,
   Box,
+  Button,
   Paper,
   Stack,
   Tooltip
@@ -26,6 +27,7 @@ import ShareStudyButton from "../ui/action/ShareStudyButton";
 import { dashAxios } from "../../config/axiosClients";
 import DownloadImgButton from "../ui/action/DownloadImgButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
+import DeleteButtonStudy from "../ui/action/DeleteButtonStudy";
 
 
 
@@ -53,8 +55,44 @@ const TableAdmin = ({
     setOrden({ orden: esAsc ? "desc" : "asc", ordenPor: campoReal });
   };
 
+  const handleEliminarEstudio = async (estudio) => {
+    const estudioId = estudio.Study.ID;
 
-  const handleEliminar = async (estudio) => {
+    const estudiosPrevios = [...estudios];
+
+    // ➤ actualización optimista
+    setEstudios((prev) => prev.filter((e) => e.Study.ID !== estudioId));
+
+    try {
+      setLoading(true);
+
+      const respuesta = await dashAxios.delete(
+        `/dashboard/borrar/estudio/${estudioId}`
+      );
+
+      setSnackbar({
+        open: true,
+        message: "Estudio eliminado correctamente",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Error al eliminar estudio", error);
+
+      // ➤ rollback si falla
+      setEstudios(estudiosPrevios);
+
+      setSnackbar({
+        open: true,
+        message: "Error al eliminar estudio",
+        severity: "error",
+      });
+    } finally {
+      setLoading(false);
+    }
+  };
+  
+
+  const handleEliminarInforme = async (estudio) => {
     const estudioId = estudio.Study.ID;
     // Guardar copia de los estudios actuales por si falla la eliminación
     const estudiosPrevios = [...estudios];
@@ -261,6 +299,12 @@ const TableAdmin = ({
                         endpoint="share/create"
                         fetcher={dashAxios}
                       />
+
+
+                      {/* eliminar estudio */}
+                      <DeleteButtonStudy estudio={est} onDelete={handleEliminarEstudio} />
+
+
                     </Stack>
                   </TableCell>
                 </TableRow>
@@ -279,7 +323,7 @@ const TableAdmin = ({
         cancelText="Cancelar"
         confirmColor="error"
         onConfirm={() => {
-          handleEliminar(studyToDelete);
+          handleEliminarInforme(studyToDelete);
           setOpenConfirm(false);
           setStudyToDelete(null);
         }}
