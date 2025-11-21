@@ -71,9 +71,7 @@ const TableAdmin = ({
       console.log("Eliminar estudio", estudioId);
       setLoading(true);
 
-      const respuesta = await dashAxios.delete(
-        `/dashboard/informe/borrar/${estudioId}`
-      );
+      const respuesta = await dashAxios.delete(`/dashboard/informe/borrar/${estudioId}`);
 
       setSnackbar({
         open: true,

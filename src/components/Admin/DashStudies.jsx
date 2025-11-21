@@ -32,7 +32,7 @@ const DashStudies = () => {
   });
 
   const [estudios, setEstudios] = useState([]);
-  const [orden, setOrden] = useState({ orden: "asc", ordenPor: "StudyDate" });
+  const [orden, setOrden] = useState({ orden: "desc", ordenPor: "StudyDate" });
   const [pagina, setPagina] = useState(0);
   const [porPagina, setPorPagina] = useState(10);
   const [mostrarRecientes, setMostrarRecientes] = useState(false);
