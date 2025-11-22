@@ -28,6 +28,8 @@ import { dashAxios } from "../../config/axiosClients";
 import DownloadImgButton from "../ui/action/DownloadImgButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 import DeleteButtonStudy from "../ui/action/DeleteButtonStudy";
+import EyeLabButton from "../ui/action/ButtonVerLab";
+import { DisabledDownloadButton, DisabledUploadReport, DisabledViewReport } from "../DisabledIcons";
 
 
 
@@ -199,7 +201,12 @@ const TableAdmin = ({
                   <TableCell>{est.Study?.AccessionNumber}</TableCell>
 
                   <TableCell align="center">
-                    {est.Study?.tieneINF ? (
+                    {est.Study?.tieneLAB ? (
+                      <>
+                        <DisabledViewReport />
+                        <DisabledUploadReport />
+                      </>
+                    ) : est.Study?.tieneINF ? (
                       <Box
                         display="flex"
                         alignItems="center"
@@ -254,32 +261,52 @@ const TableAdmin = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      <ButtonOpenVisor
-                        studyId={est.Study.StudyInstanceUID}
-                        endpointFront="/visor-estudios/"
-                      />
+                      {/* abrir visor*/}
+                      {est.Study?.tieneLAB ? (
+                          <EyeLabButton />  
+                        ):(
+                          <ButtonOpenVisor
+                          studyId={est.Study.StudyInstanceUID}
+                          endpointFront="/visor-estudios/"
+                        />
+                        )
+                      }
+                    
+                     
+
+                      
 
                       {/* descargar imagenes JPG */}
-                      <DownloadImgButton
-                        fetcher={dashAxios}
-                        endpoint="/dashboard/download/study/jpeg"
-                        id={est.Study.StudyInstanceUID}
-                        label="JPG"
-                        tooltip="Descargar imágenes JPG"
-                        color="#2e7d32"
-                        fileType="zip"
-                      />
 
-                      {/* descargar imagenes DCM */}
-                      <DownloadImgButton
-                        fetcher={dashAxios}
-                        endpoint="/dashboard/download/study/dcm"
-                        id={est.Study.ID}
-                        label="DCM"
-                        tooltip="Descargar estudio DICOM"
-                        color="#ce1eeade"
-                        fileType="zip"
-                      />
+                      {est.Study?.tieneLAB ? (
+                        <>
+                          <DisabledDownloadButton label="JPG" />
+                          <DisabledDownloadButton label="DCM" />
+                        </>
+                      ) : (
+                        <>
+                          <DownloadImgButton
+                            fetcher={dashAxios}
+                            endpoint="/dashboard/download/study/jpeg"
+                            id={est.Study.StudyInstanceUID}
+                            label="JPG"
+                            tooltip="Descargar imágenes JPG"
+                            color="#2e7d32"
+                            fileType="zip"
+                          />
+
+                          {/* descargar imagenes DCM */}
+                          <DownloadImgButton
+                            fetcher={dashAxios}
+                            endpoint="/dashboard/download/study/dcm"
+                            id={est.Study.ID}
+                            label="DCM"
+                            tooltip="Descargar estudio DICOM"
+                            color="#ce1eeade"
+                            fileType="zip"
+                          />
+                        </>
+                      )}
 
                       {/* descargar imagenes PDF */}
                       <DownloadImgButton
@@ -300,11 +327,11 @@ const TableAdmin = ({
                         fetcher={dashAxios}
                       />
 
-
                       {/* eliminar estudio */}
-                      <DeleteButtonStudy estudio={est} onDelete={handleEliminarEstudio} />
-
-
+                      <DeleteButtonStudy
+                        estudio={est}
+                        onDelete={handleEliminarEstudio}
+                      />
                     </Stack>
                   </TableCell>
                 </TableRow>
