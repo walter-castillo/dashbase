@@ -162,8 +162,8 @@ const TableAdmin = ({
       <TableContainer component={Paper}>
         <Table>
           {estudios.length > 0 && (
-            <TableHead>
-              <TableRow>
+            <TableHead >
+              <TableRow >
                 {Object.keys(columnMap).map((col) => (
                   <TableCell key={col}>
                     <TableSortLabel
@@ -263,18 +263,13 @@ const TableAdmin = ({
                     <Stack direction="row" spacing={1} justifyContent="center">
                       {/* abrir visor*/}
                       {est.Study?.tieneLAB ? (
-                          <EyeLabButton />  
-                        ):(
-                          <ButtonOpenVisor
+                        <EyeLabButton />
+                      ) : (
+                        <ButtonOpenVisor
                           studyId={est.Study.StudyInstanceUID}
                           endpointFront="/visor-estudios/"
                         />
-                        )
-                      }
-                    
-                     
-
-                      
+                      )}
 
                       {/* descargar imagenes JPG */}
 

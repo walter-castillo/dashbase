@@ -18,6 +18,7 @@ const  tokenName =  import.meta.env.VITE_TOKEN_NAME
 import { useAuth } from "../providers/AuthProvider";
 import { Loading } from "../components/ui/Loading";
 import GenerateCode from "../pages/code/GenerateCode";
+import Laboratorio from "../pages/laboratorio/Laboratorio";
 
 export const ProtectedRoutes = () => {
    const token = localStorage.getItem(tokenName);
@@ -98,19 +99,30 @@ export const Private = () => {
          <Route
            path="/dashboard/estudios"
            element={
-             <ValidatePrivate component={StudiesPage} 
-              requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]} 
+             <ValidatePrivate
+               component={StudiesPage}
+               requiredPermissions={[PERMISOS.ESTUDIOS_VER_TODOS]}
              />
            }
          />
 
          <Route
            path="/dashboard/generarcodigo"
-            element={
+           element={
              <ValidatePrivate
-              requiredPermissions={[PERMISOS.GENERAR_CODIGO]}
-              component={GenerateCode}
-            />
+               requiredPermissions={[PERMISOS.GENERAR_CODIGO]}
+               component={GenerateCode}
+             />
+           }
+         />
+
+         <Route
+           path="/dashboard/laboratorios"
+           element={
+             <ValidatePrivate
+               requiredPermissions={[PERMISOS.CARGAR_LABORATORIOS]}
+               component={Laboratorio}
+             />
            }
          />
 

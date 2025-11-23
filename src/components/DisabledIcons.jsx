@@ -9,7 +9,7 @@ export function DisabledViewReport() {
       <DescriptionIcon
         fontSize="small"
         color="disabled"
-        sx={{ opacity: 0.4, cursor: "default", mr: 2 }}
+        sx={{ opacity: 0.4, cursor: "default", mr: 2, cursor: "not-allowed" }}
       />
     </Tooltip>
   );
@@ -21,7 +21,7 @@ export function DisabledUploadReport() {
       <UploadFileIcon
         fontSize="small"
         color="disabled"
-        sx={{ opacity: 0.4, cursor: "default" }}
+        sx={{ opacity: 0.4, cursor: "not-allowed" }}
       />
     </Tooltip>
   );
@@ -49,6 +49,7 @@ export function DisabledDownloadButton({ label = "DCM" }) {
             fontSize: "0.55rem",
             color: "gray",
             mb: "-2px",
+            cursor: "not-allowed",
           }}
         >
           {label}

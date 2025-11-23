@@ -20,6 +20,7 @@ export default function MenuItem() {
   const permGenerarCodigo = useHasAccess({permiso:PERMISOS.GENERAR_CODIGO})
   const permVerRoles = useHasAccess({permiso:PERMISOS.ROLES_VER_TODOS})
   const permVerEstudios= useHasAccess({permiso:PERMISOS.ESTUDIOS_VER_TODOS})
+  const permCargarLaboratorios= useHasAccess({permiso:PERMISOS.CARGAR_LABORATORIOS})
   
 
   const handleClick = (index) => {
@@ -43,7 +44,7 @@ export default function MenuItem() {
           <ListItemText primary="Roles/Permisos" />
         </ListItemButton>
       )}
-      
+
       {permVerUsuarios && (
         <ListItemButton component={Link} to="/dashboard/usuarios">
           <ListItemIcon>
@@ -70,6 +71,17 @@ export default function MenuItem() {
           <ListItemText primary="Estudios" />
         </ListItemButton>
       )}
+
+      {permCargarLaboratorios && (
+        <ListItemButton component={Link} to="/dashboard/laboratorios">
+          <ListItemIcon>
+            <InboxIcon />
+          </ListItemIcon>
+          <ListItemText primary="Laboratorios" />
+        </ListItemButton>
+      )
+      
+      }
 
       {/* <ListItemButton onClick={() => handleClick(1)}>
         <ListItemIcon>

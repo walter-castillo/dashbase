@@ -18,6 +18,8 @@ import { PatientAxios } from "../../config/axiosClients";
 import InformeButton from "../ui/actionInforme/InformerButton";
 import DownloadImgButton from "../ui/action/DownloadImgButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
+import ButtonVerLab from "../ui/action/ButtonVerLab";
+import { DisabledDownloadButton } from "../DisabledIcons";
 
 
 const styles = {
@@ -130,13 +132,22 @@ const handleVer = (studyId) => {
 
                     {/* 👁 Ver */}
                     <TableCell align="center">
-                      <ButtonOpenVisor
-                        studyId={study.StudyInstanceUID}
-                        endpointFront="/visor-paciente/"
-                      />
+
+                    {study.tieneLAB ? 
+                      (<ButtonVerLab />)
+                      :
+                      ( <ButtonOpenVisor
+                          studyId={study.StudyInstanceUID}
+                          endpointFront="/visor-paciente/"
+                        />
+                      )
+                    }
+
+                     
                     </TableCell>
 
                     {/* 💾 Descargar  */}
+
                     <TableCell align="center">
                       <Box
                         sx={{
@@ -148,24 +159,37 @@ const handleVer = (studyId) => {
                           flexWrap: "nowrap", // evita que se rompan a la siguiente línea
                         }}
                       >
-                        <DownloadImgButton
-                          fetcher={PatientAxios}
-                          endpoint="/study/download/dcm"
-                          id={study.ID}
-                          label="DCM"
-                          tooltip="Descargar estudio DICOM"
-                          color="#ce1eeade"
-                          fileType="zip"
-                        />
-                        <DownloadImgButton
-                          fetcher={PatientAxios}
-                          endpoint="/study/download/jpeg"
-                          id={study.StudyInstanceUID}
-                          label="JPG"
-                          tooltip="Descargar estudio JPG/JPEG"
-                          color="#68f011"
-                          fileType="zip"
-                        />
+
+                      {study.tieneLAB ? 
+                        (
+                          <> 
+                          <DisabledDownloadButton label="JPG" />
+                          <DisabledDownloadButton label="DCM" />
+                          </>
+                        ):
+                        (
+                          <>  
+                            <DownloadImgButton
+                              fetcher={PatientAxios}
+                              endpoint="/study/download/dcm"
+                              id={study.ID}
+                              label="DCM"
+                              tooltip="Descargar estudio DICOM"
+                              color="#ce1eeade"
+                              fileType="zip"
+                            />
+                            <DownloadImgButton
+                              fetcher={PatientAxios}
+                              endpoint="/study/download/jpeg"
+                              id={study.StudyInstanceUID}
+                              label="JPG"
+                              tooltip="Descargar estudio JPG/JPEG"
+                              color="#68f011"
+                              fileType="zip"
+                            />
+                          </>
+                        )
+                      }
                       </Box>
                     </TableCell>
                   </TableRow>

@@ -18,6 +18,8 @@ import { InvitadoAxios } from "../../config/axiosClients";
 import InformeButton from "../ui/actionInforme/InformerButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 import DownloadImgButton from "../ui/action/DownloadImgButton";
+import { DisabledDownloadButton } from "../DisabledIcons";
+import ButtonVerLab from "../ui/action/ButtonVerLab";
 
 const styles = {
   paper: {
@@ -114,10 +116,15 @@ const TableInvitado = ({ studies, patient }) => {
 
                     {/* 👁 Ver */}
                     <TableCell align="center">
+
+                     { study.tieneLAB ? 
+                      <ButtonVerLab />
+                      :
                       <ButtonOpenVisor
                         studyId={study.StudyInstanceUID}
                         endpointFront="/visor-invitado/"
                       />
+                      }
                     </TableCell>
 
                     {/* 💾 Descargar  */}
@@ -132,6 +139,11 @@ const TableInvitado = ({ studies, patient }) => {
                         }}
                       >
             
+
+                      {study.tieneLAB ? 
+                      ( <DisabledDownloadButton label="JPG" />)
+                      :
+                      
                         <DownloadImgButton 
                         fetcher={InvitadoAxios}
                         endpoint="/invitado/download/jpeg"
@@ -140,6 +152,7 @@ const TableInvitado = ({ studies, patient }) => {
                         tooltip="Descargar estudio JPG/JPEG"
                         color="#68f011"
                         />
+                      }
                       </Box>
                     </TableCell>
                   </TableRow>

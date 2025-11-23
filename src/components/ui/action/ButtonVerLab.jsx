@@ -2,7 +2,7 @@
 import React from "react";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-import PreviewTwoToneIcon from "@mui/icons-material/PreviewTwoTone";
+import PreviewOutlinedIcon from "@mui/icons-material/PreviewOutlined";
 
 export default function ButtonVerLab({ onClick }) {
   return (
@@ -12,8 +12,7 @@ export default function ButtonVerLab({ onClick }) {
         aria-label="Ver Lab"
         sx={{ position: "relative" }}
       >
-        {/* Ícono base */}
-        <PreviewTwoToneIcon sx={{ fontSize: 26, color: "#2fd332f0" }} />
+        <PreviewOutlinedIcon sx={{ fontSize: 26, color: "#2fd332f0" }} />
       </IconButton>
     </Tooltip>
   );
