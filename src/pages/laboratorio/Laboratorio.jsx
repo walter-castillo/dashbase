@@ -1,7 +1,8 @@
+import LabUploader from "../../components/laboratorio/LabUploader"
 
 const Laboratorio = () => {
   return (
-    <div>Laboratorio</div>
+    <LabUploader />
   )
 }
 

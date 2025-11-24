@@ -9,7 +9,7 @@ export function DisabledViewReport() {
       <DescriptionIcon
         fontSize="small"
         color="disabled"
-        sx={{ opacity: 0.4, cursor: "default", mr: 2, cursor: "not-allowed" }}
+        sx={{ opacity: 0.4, mr: 2, cursor: "not-allowed" }}
       />
     </Tooltip>
   );
