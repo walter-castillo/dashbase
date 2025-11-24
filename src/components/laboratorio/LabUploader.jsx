@@ -35,21 +35,27 @@ export default function LabUploader() {
     },
   });
 
-  // 🔥 SUBIR TODOS LOS PDFs
   const uploadAll = async () => {
+    // 🔥 Filtrar solo los que necesitan subirse
+    const toUpload = files.filter(
+      (f) => f.status === "pending" || f.status === "error"
+    );
+
+    if (toUpload.length === 0) return;
+
     const updated = [...files];
 
-    for (let i = 0; i < updated.length; i++) {
-      updated[i].status = "uploading";
+    for (let f of toUpload) {
+      const idx = updated.findIndex((x) => x.file.name === f.file.name);
+      updated[idx].status = "uploading";
       setFiles([...updated]);
 
       const formData = new FormData();
-      formData.append("files", updated[i].file);
+      formData.append("files", updated[idx].file);
 
       try {
-        // fake-animation de progreso (250ms → 100%)
         for (let p = 10; p <= 90; p += 10) {
-          updated[i].progress = p;
+          updated[idx].progress = p;
           setFiles([...updated]);
           await new Promise((r) => setTimeout(r, 80));
         }
@@ -60,19 +66,20 @@ export default function LabUploader() {
 
         const r = res.data.results[0];
 
-        updated[i].status = r.status;
-        updated[i].data = r.data || null;
-        updated[i].error = r.error || null;
-        updated[i].progress = 100;
+        updated[idx].status = r.status;
+        updated[idx].data = r.data;
+        updated[idx].error = null;
+        updated[idx].progress = 100;
       } catch (err) {
-        updated[i].status = "error";
-        updated[i].progress = 100;
-        updated[i].error = err.message;
+        updated[idx].status = "error";
+        updated[idx].progress = 100;
+        updated[idx].error = err.message;
       }
 
       setFiles([...updated]);
     }
   };
+    
 
   // 🔄 REINTENTAR SOLO LOS FALLADOS
   const retryErrors = async () => {
