@@ -9,10 +9,10 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody,
+  TableBody
 } from "@mui/material";
 import { useDropzone } from "react-dropzone";
-import axios from "axios";
+
 import { dashAxios } from "../../config/axiosClients";
 
 export default function LabUploader() {
@@ -37,9 +37,7 @@ export default function LabUploader() {
 
   const uploadAll = async () => {
     // 🔥 Filtrar solo los que necesitan subirse
-    const toUpload = files.filter(
-      (f) => f.status === "pending" || f.status === "error"
-    );
+    const toUpload = files.filter( (f) => f.status === "pending" || f.status === "error"  );
 
     if (toUpload.length === 0) return;
 
@@ -60,9 +58,10 @@ export default function LabUploader() {
           await new Promise((r) => setTimeout(r, 80));
         }
 
-        const res = await dashAxios.post("/dashboard/labs/bulk", formData, {
-          headers: { "Content-Type": "multipart/form-data" },
-        });
+        const res = await dashAxios.post(
+          "/dashboard/laboratorios/subir",
+          formData, {headers: { "Content-Type": "multipart/form-data" }}
+        );
 
         const r = res.data.results[0];
 
@@ -105,11 +104,7 @@ export default function LabUploader() {
         }
 
         const res = await dashAxios.post(
-          "/dashboard/labs/bulk",
-          formData,
-          {
-            headers: { "Content-Type": "multipart/form-data" },
-          }
+          "/dashboard/laboratorios/subir", formData, {headers: { "Content-Type": "multipart/form-data" } } 
         );
 
         const r = res.data.results[0];
@@ -164,6 +159,15 @@ export default function LabUploader() {
           >
             Reintentar fallados
           </Button>
+
+          {/* 🔥 Nuevo botón LIMPIAR */}
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={() => { setFiles([]); setResults([]) }}
+          >
+            Limpiar
+          </Button>
         </Box>
       )}
 
@@ -209,10 +213,7 @@ export default function LabUploader() {
                     <LinearProgress
                       variant="determinate"
                       value={f.progress}
-                      sx={{
-                        height: 10,
-                        borderRadius: 5,
-                      }}
+                      sx={{ height: 10, borderRadius: 5}}
                     />
                   </TableCell>
 
