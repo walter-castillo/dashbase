@@ -30,6 +30,8 @@ import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 import DeleteButtonStudy from "../ui/action/DeleteButtonStudy";
 import EyeLabButton from "../ui/action/ButtonVerLab";
 import { DisabledDownloadButton, DisabledUploadReport, DisabledViewReport } from "../DisabledIcons";
+import EmailButton from "../ui/action/EmailButton";
+import WhatsAppButton from "../ui/action/WhatsAppButton";
 
 
 
@@ -162,8 +164,8 @@ const TableAdmin = ({
       <TableContainer component={Paper}>
         <Table>
           {estudios.length > 0 && (
-            <TableHead >
-              <TableRow >
+            <TableHead>
+              <TableRow>
                 {Object.keys(columnMap).map((col) => (
                   <TableCell key={col}>
                     <TableSortLabel
@@ -320,6 +322,20 @@ const TableAdmin = ({
                         studyId={est.Study.StudyInstanceUID}
                         endpoint="share/create"
                         fetcher={dashAxios}
+                      />
+
+                      <WhatsAppButton
+                        onClick={() =>
+                          console.log(est.Study.StudyInstanceUID)
+                          // enviarWhatsApp(row.patientPhone, row.studyId)
+                        }
+                      />
+
+                      <EmailButton
+                        onClick={() =>
+                          console.log(est.Study.StudyInstanceUID)
+                          // enviarEmail(row.patientEmail, row.studyId)
+                        }
                       />
 
                       {/* eliminar estudio */}
