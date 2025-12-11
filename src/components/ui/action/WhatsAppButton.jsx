@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Tooltip, Box } from "@mui/material";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import { dashAxios } from "../../../config/axiosClients";
 
 export default function WhatsAppButton({
-  onClick,
-  label = "WA",
+  phone,
+  studyId,
+  dni,
+  id,
   color = "#25D366",
-  tooltip = "Enviar por WhatsApp",
+  label = "WA",
+  tooltip = "Enviar al WhatsApp del paciente",
 }) {
   const [loading, setLoading] = useState(false);
 
@@ -15,9 +19,15 @@ export default function WhatsAppButton({
     setLoading(true);
 
     try {
-      await onClick(); // función recibida del padre
+      const payload = { phone, studyId, id, dni };
+
+      console.log("📤 Enviando datos a WhatsApp:", payload);
+
+      await dashAxios.post("/dashboard/whatsapp/send-qr", payload);
+
+      console.log("✔️ WhatsApp enviado correctamente");
     } catch (e) {
-      console.error("Error en envío WA:", e);
+      console.error("❌ Error en envío WA:", e);
     } finally {
       setLoading(false);
     }
@@ -31,25 +41,24 @@ export default function WhatsAppButton({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          height: 32,
-          width: 32,
           cursor: loading ? "not-allowed" : "pointer",
           transition: "0.2s",
-          "&:hover": {
-            transform: "scale(1.1)",
-            filter: "brightness(1.2)",
-          },
+          "&:hover": !loading
+            ? {
+                transform: "scale(1.1)",
+                filter: "brightness(1.2)",
+              }
+            : {},
         }}
       >
         <WhatsAppIcon
           sx={{
             fontSize: 20,
             color,
-            mb: "-3px",
+            mt: "7px",
+            opacity: loading ? 0.5 : 1,
           }}
         />
-
         <span
           style={{
             fontSize: "0.55rem",

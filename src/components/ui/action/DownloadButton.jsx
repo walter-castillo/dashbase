@@ -8,7 +8,7 @@ import {
   Typography,
 } from "@mui/material";
 
-export default function DownloadImgButton({
+export default function DownloadButton({
   fetcher,
   endpoint,
   id,
@@ -20,7 +20,6 @@ export default function DownloadImgButton({
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState(false);
   const [error, setError] = useState(false);
-
   const handleDownload = async () => {
     if (loading) return;
     setLoading(true);

@@ -17,7 +17,7 @@ import { useParams } from "react-router-dom";
 import { InvitadoAxios } from "../../config/axiosClients";
 import InformeButton from "../ui/actionInforme/InformerButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
-import DownloadImgButton from "../ui/action/DownloadImgButton";
+import DownloadButton from "../ui/action/DownloadButton";
 import { DisabledDownloadButton } from "../DisabledIcons";
 import ButtonVerLab from "../ui/action/ButtonVerLab";
 
@@ -45,6 +45,7 @@ const styles = {
 };
 
 const TableInvitado = ({ studies, patient }) => {
+  console.log(studies);
 
   const token = useParams().token; // Token en la ruta: /invitado/:token  
   
@@ -65,7 +66,7 @@ const TableInvitado = ({ studies, patient }) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {["N°", "Fecha", "Tipo", "Informe", "ver", "jpg"].map(
+                {["N°", "Fecha", "Tipo", "Informe", "ver", ""].map(
                   (text, i) => (
                     <TableCell key={i} align="center" sx={styles.headerCell}>
                       {" "}
@@ -116,15 +117,18 @@ const TableInvitado = ({ studies, patient }) => {
 
                     {/* 👁 Ver */}
                     <TableCell align="center">
-
-                     { study.tieneLAB ? 
-                      <ButtonVerLab />
-                      :
-                      <ButtonOpenVisor
-                        studyId={study.StudyInstanceUID}
-                        endpointFront="/visor-invitado/"
-                      />
-                      }
+                      {study.tieneLAB ? (
+                        <ButtonVerLab
+                          est={{ Study: study, Patient: patient }}
+                          fetcher={InvitadoAxios}
+                          endpoint="/invitado/laboratorio/ver/"
+                        />
+                      ) : (
+                        <ButtonOpenVisor
+                          studyId={study.StudyInstanceUID}
+                          endpointFront="/visor-invitado/"
+                        />
+                      )}
                     </TableCell>
 
                     {/* 💾 Descargar  */}
@@ -132,27 +136,32 @@ const TableInvitado = ({ studies, patient }) => {
                       <Box
                         sx={{
                           display: "flex",
-                          flexDirection: "row", 
+                          flexDirection: "row",
                           justifyContent: "center",
                           alignItems: "center",
-                          flexWrap: "nowrap"
+                          flexWrap: "nowrap",
                         }}
                       >
-            
-
-                      {study.tieneLAB ? 
-                      ( <DisabledDownloadButton label="JPG" />)
-                      :
-                      
-                        <DownloadImgButton 
-                        fetcher={InvitadoAxios}
-                        endpoint="/invitado/download/jpeg"
-                        id={study.StudyInstanceUID}
-                        label="JPG"
-                        tooltip="Descargar estudio JPG/JPEG"
-                        color="#68f011"
-                        />
-                      }
+                        {study.tieneLAB ? (
+                          <DownloadButton
+                            label="PDF"
+                            fetcher={InvitadoAxios}
+                            endpoint="/invitado/laboratorio/descargar"
+                            id={study.ID}
+                            tooltip="Descargar informe PDF"
+                            color="#1976d2"
+                            fileType="pdf"
+                          />
+                        ) : (
+                          <DownloadButton
+                            fetcher={InvitadoAxios}
+                            endpoint="/invitado/download/jpeg"
+                            id={study.StudyInstanceUID}
+                            label="JPG"
+                            tooltip="Descargar estudio JPG/JPEG"
+                            color="#68f011"
+                          />
+                        )}
                       </Box>
                     </TableCell>
                   </TableRow>

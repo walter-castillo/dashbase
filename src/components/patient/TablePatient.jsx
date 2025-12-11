@@ -16,7 +16,7 @@ import { formatModality } from "../../utils/formatModality";
 import { useParams } from "react-router-dom";
 import { PatientAxios } from "../../config/axiosClients";
 import InformeButton from "../ui/actionInforme/InformerButton";
-import DownloadImgButton from "../ui/action/DownloadImgButton";
+import DownloadButton from "../ui/action/DownloadButton";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 import ButtonVerLab from "../ui/action/ButtonVerLab";
 import { DisabledDownloadButton } from "../DisabledIcons";
@@ -83,7 +83,7 @@ const handleVer = (studyId) => {
           <Table>
             <TableHead>
               <TableRow sx={styles.headerRow}>
-                {["N°", "Fecha", "Tipo", "Informe", "ver", "dcm/jpg"].map(
+                {["N°", "Fecha", "Tipo", "Informe", "ver", ""].map(
                   (text, i) => (
                     <TableCell key={i} align="center" sx={styles.headerCell}>
                       {text}
@@ -133,18 +133,19 @@ const handleVer = (studyId) => {
                     {/* 👁 Ver */}
                     <TableCell align="center">
 
-                    {study.tieneLAB ? 
-                      (<ButtonVerLab />)
-                      :
-                      ( <ButtonOpenVisor
-                          studyId={study.StudyInstanceUID}
-                          endpointFront="/visor-paciente/"
-                        />
-                      )
-                    }
-
-                     
-                    </TableCell>
+                    {study.tieneLAB ? (
+                      <ButtonVerLab
+                        est={{ Study: study, Patient: patient }}
+                        fetcher={PatientAxios}
+                        endpoint="/laboratorio/ver/"
+                      />
+                    ) : (
+                      <ButtonOpenVisor
+                        studyId={study.StudyInstanceUID}
+                        endpointFront="/visor-paciente/"
+                      />
+                    )}
+                  </TableCell>
 
                     {/* 💾 Descargar  */}
 
@@ -163,13 +164,24 @@ const handleVer = (studyId) => {
                       {study.tieneLAB ? 
                         (
                           <> 
-                          <DisabledDownloadButton label="JPG" />
-                          <DisabledDownloadButton label="DCM" />
+
+                  
+                          <DownloadButton
+                            label="PDF"
+                            fetcher={PatientAxios}
+                            endpoint="/laboratorio/descargar"
+                            id={study.ID}
+                            tooltip="Descargar informe PDF"
+                            color="#1976d2"
+                            fileType="pdf"
+                          />
+                            {/* <DisabledDownloadButton label="JPG" /> */}
+                            {/* <DisabledDownloadButton label="DCM" /> */}
                           </>
                         ):
                         (
                           <>  
-                            <DownloadImgButton
+                            <DownloadButton
                               fetcher={PatientAxios}
                               endpoint="/study/download/dcm"
                               id={study.ID}
@@ -178,7 +190,7 @@ const handleVer = (studyId) => {
                               color="#ce1eeade"
                               fileType="zip"
                             />
-                            <DownloadImgButton
+                            <DownloadButton
                               fetcher={PatientAxios}
                               endpoint="/study/download/jpeg"
                               id={study.StudyInstanceUID}

@@ -2,6 +2,84 @@
 import { Box, Tooltip, Typography } from "@mui/material";
 import DescriptionIcon from "@mui/icons-material/Description";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import EmailIcon from "@mui/icons-material/Email";
+
+export function DisabledEmailButton({ label = "MAIL" }) {
+  return (
+    <Tooltip title="Email no disponible">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          opacity: 0.4,
+          cursor: "not-allowed",
+          // height: 32,
+          // width: 32,
+        }}
+      > 
+        <EmailIcon
+          sx={{
+            fontSize: 20,
+            color: "gray",
+            mt: "7px",
+          }}
+        />
+
+        <span
+          style={{
+            fontSize: "0.55rem",
+            fontWeight: 700,
+            color: "gray",
+          }}
+        >
+          {label}
+        </span>
+      </Box>
+    </Tooltip>
+  );
+}
+
+
+
+
+export function DisabledWhatsAppButton({ label = "WA" }) {
+  return (
+    <Tooltip title="WhatsApp no disponible">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          opacity: 0.4,
+          cursor: "not-allowed",
+          // height: 32,
+          // width: 32,
+        }}
+      >
+        <WhatsAppIcon
+          sx={{
+            fontSize: 20,
+            color: "gray",
+            mt: "7px",
+          }}
+        />
+
+        <span
+          style={{
+            fontSize: "0.55rem",
+            fontWeight: 700,
+            color: "gray",
+          }}
+        >
+          {label}
+        </span>
+      </Box>
+    </Tooltip>
+  );
+}
+
 
 export function DisabledViewReport() {
   return (

@@ -12,7 +12,7 @@ const ButtonOpenVisor = ({ studyId, endpointFront }) => {
       const width = window.screen.availWidth;
       const height = window.screen.availHeight;
 
-      window.open(
+      window.open( 
         viewerUrl,
         "_blank",
         `width=${width},height=${height},top=0,left=0,noopener,noreferrer`

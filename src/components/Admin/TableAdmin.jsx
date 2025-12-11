@@ -7,7 +7,6 @@ import {Table,
   TableRow,
   TableSortLabel,
   Box,
-  Button,
   Paper,
   Stack,
   Tooltip
@@ -25,11 +24,11 @@ import CustomSnackbar from "../ui/CustomSnackbar";
 import { Loading } from "../ui/Loading";
 import ShareStudyButton from "../ui/action/ShareStudyButton";
 import { dashAxios } from "../../config/axiosClients";
-import DownloadImgButton from "../ui/action/DownloadImgButton";
+import DownloadButton from "../ui/action/DownloadButton";
+import ButtonVerLab from "../ui/action/ButtonVerLab";
 import ButtonOpenVisor from "../ui/action/ButtonOpenVisor";
 import DeleteButtonStudy from "../ui/action/DeleteButtonStudy";
-import EyeLabButton from "../ui/action/ButtonVerLab";
-import { DisabledDownloadButton, DisabledUploadReport, DisabledViewReport } from "../DisabledIcons";
+import { DisabledDownloadButton, DisabledEmailButton, DisabledUploadReport, DisabledViewReport, DisabledWhatsAppButton } from "../DisabledIcons";
 import EmailButton from "../ui/action/EmailButton";
 import WhatsAppButton from "../ui/action/WhatsAppButton";
 
@@ -179,7 +178,7 @@ const TableAdmin = ({
                     </TableSortLabel>
                   </TableCell>
                 ))}
-                <TableCell align="center">Acciones</TableCell>
+                <TableCell align="center">''</TableCell>
               </TableRow>
             </TableHead>
           )}
@@ -263,9 +262,13 @@ const TableAdmin = ({
 
                   <TableCell align="center">
                     <Stack direction="row" spacing={1} justifyContent="center">
-                      {/* abrir visor*/}
+                      {/* abrir visor/laboratorio*/}
                       {est.Study?.tieneLAB ? (
-                        <EyeLabButton />
+                        <ButtonVerLab
+                          est={est}
+                          fetcher={dashAxios}
+                          endpoint="dashboard/laboratorio/ver/"
+                        />
                       ) : (
                         <ButtonOpenVisor
                           studyId={est.Study.StudyInstanceUID}
@@ -282,10 +285,10 @@ const TableAdmin = ({
                         </>
                       ) : (
                         <>
-                          <DownloadImgButton
+                          <DownloadButton
                             fetcher={dashAxios}
                             endpoint="/dashboard/download/study/jpeg"
-                            id={est.Study.StudyInstanceUID}
+                            id={est.Study.ID}
                             label="JPG"
                             tooltip="Descargar imágenes JPG"
                             color="#2e7d32"
@@ -293,7 +296,7 @@ const TableAdmin = ({
                           />
 
                           {/* descargar imagenes DCM */}
-                          <DownloadImgButton
+                          <DownloadButton
                             fetcher={dashAxios}
                             endpoint="/dashboard/download/study/dcm"
                             id={est.Study.ID}
@@ -306,7 +309,7 @@ const TableAdmin = ({
                       )}
 
                       {/* descargar imagenes PDF */}
-                      <DownloadImgButton
+                      <DownloadButton
                         fetcher={dashAxios}
                         endpoint="/dashboard/download/study/pdf"
                         id={est.Study.StudyInstanceUID}
@@ -324,19 +327,29 @@ const TableAdmin = ({
                         fetcher={dashAxios}
                       />
 
-                      <WhatsAppButton
-                        onClick={() =>
-                          console.log(est.Study.StudyInstanceUID)
-                          // enviarWhatsApp(row.patientPhone, row.studyId)
-                        }
-                      />
+                      {/* enviar por WhatsApp */}
+                      {est.Patient?.telefono ? (
+                        <WhatsAppButton
+                          phone={est.Patient?.telefono}
+                          studyId={est.Study?.StudyInstanceUID}
+                          id={est.Study?.ID}
+                          dni={est.Patient?.PatientID}
+                        />
+                      ) : (
+                        <DisabledWhatsAppButton />
+                      )}
 
-                      <EmailButton
-                        onClick={() =>
-                          console.log(est.Study.StudyInstanceUID)
-                          // enviarEmail(row.patientEmail, row.studyId)
-                        }
-                      />
+                      {/* enviar por Email */}
+                      {est.Patient?.email ? (
+                        <EmailButton
+                          onClick={
+                            () => console.log(est.Study.StudyInstanceUID)
+                            // enviarEmail(row.patientEmail, row.studyId)
+                          }
+                        />
+                      ) : (
+                        <DisabledEmailButton />
+                      )}
 
                       {/* eliminar estudio */}
                       <DeleteButtonStudy

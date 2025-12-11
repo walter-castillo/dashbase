@@ -9,7 +9,8 @@ import {
   TableHead,
   TableRow,
   TableCell,
-  TableBody
+  TableBody,
+  TableContainer
 } from "@mui/material";
 import { useDropzone } from "react-dropzone";
 
@@ -164,7 +165,10 @@ export default function LabUploader() {
           <Button
             variant="outlined"
             color="error"
-            onClick={() => { setFiles([]); setResults([]) }}
+            onClick={() => {
+              setFiles([]);
+              setResults([]);
+            }}
           >
             Limpiar
           </Button>
@@ -174,57 +178,69 @@ export default function LabUploader() {
       {/* TABLA DE DETALLE */}
       {files.length > 0 && (
         <Paper sx={{ mt: 4 }}>
-          <Table>
-            <TableHead>
-              <TableRow>
-                <TableCell>Archivo</TableCell>
-                <TableCell>Estado</TableCell>
-                <TableCell style={{ width: "30%" }}>Progreso</TableCell>
-                <TableCell>Nombre</TableCell>
-                <TableCell>DNI</TableCell>
-                <TableCell>Fecha Estudio</TableCell>
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {files.map((f, i) => (
-                <TableRow key={i}>
-                  <TableCell>{f.file.name}</TableCell>
-
-                  {/* Estado con colores */}
-                  <TableCell
-                    sx={{
-                      color:
-                        f.status === "ok"
-                          ? "green"
-                          : f.status === "error"
-                          ? "red"
-                          : f.status === "uploading"
-                          ? "#1976d2"
-                          : "#555",
-                      fontWeight: 600,
-                    }}
-                  >
-                    {f.status}
-                  </TableCell>
-
-                  {/* Barra de progreso */}
-                  <TableCell>
-                    <LinearProgress
-                      variant="determinate"
-                      value={f.progress}
-                      sx={{ height: 10, borderRadius: 5}}
-                    />
-                  </TableCell>
-
-                  {/* Datos */}
-                  <TableCell>{f.data?.["NOMBRE Y APELLIDO"] || "-"}</TableCell>
-                  <TableCell>{f.data?.["DNI / ID PACIENTE"] || "-"}</TableCell>
-                  <TableCell>{f.data?.["FECHA DEL ESTUDIO"] || "-"}</TableCell>
+          <TableContainer sx={{ maxWidth: "100%", overflowX: "auto" }}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Archivo</TableCell>
+                  <TableCell>Estado</TableCell>
+                  <TableCell style={{ width: "20%" }}>Progreso</TableCell>
+                  <TableCell>Nombre</TableCell>
+                  <TableCell>DNI</TableCell>
+                  <TableCell>Fecha Estudio</TableCell>
+                  <TableCell>Telefono</TableCell>
+                  <TableCell>Email</TableCell>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHead>
+
+              <TableBody>
+                {files.map((f, i) => (
+                  <TableRow key={i}>
+                    <TableCell>{f.file.name}</TableCell>
+
+                    {/* Estado con colores */}
+                    <TableCell
+                      sx={{
+                        color:
+                          f.status === "ok"
+                            ? "green"
+                            : f.status === "error"
+                            ? "red"
+                            : f.status === "uploading"
+                            ? "#1976d2"
+                            : "#555",
+                        fontWeight: 600,
+                      }}
+                    >
+                      {f.status}
+                    </TableCell>
+
+                    {/* Barra de progreso */}
+                    <TableCell>
+                      <LinearProgress
+                        variant="determinate"
+                        value={f.progress}
+                        sx={{ height: 10, borderRadius: 5 }}
+                      />
+                    </TableCell>
+
+                    {/* Datos */}
+                    <TableCell>
+                      {f.data?.["NOMBRE Y APELLIDO"] || "-"}
+                    </TableCell>
+                    <TableCell>
+                      {f.data?.["DNI / ID PACIENTE"] || "-"}
+                    </TableCell>
+                    <TableCell>
+                      {f.data?.["FECHA DEL ESTUDIO"] || "-"}
+                    </TableCell>
+                    <TableCell>{f.data?.["TELEFONO"] || "-"}</TableCell>
+                    <TableCell>{f.data?.["EMAIL"] || "-"}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
         </Paper>
       )}
     </Box>

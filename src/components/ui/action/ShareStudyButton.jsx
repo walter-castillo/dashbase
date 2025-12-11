@@ -36,6 +36,8 @@ const ShareStudyButton = ({ id, studyId, endpoint, fetcher }) => {
   const handleGenerateQR = async (link) => {
     try {
       const qr = await QRCode.toDataURL(link);
+      console.log(qr, '39');
+      console.log(link, '40');
       setQrImage(qr);
       setQrOpen(true);
     } catch (err) {
@@ -50,10 +52,9 @@ const ShareStudyButton = ({ id, studyId, endpoint, fetcher }) => {
 
     try {
       const body = { id, studyId, duration };
+
       const response = await fetcher.post(endpoint, body);
       const { link, expiresIn, expiresAt } = response.data;
-
-      console.log("Share Response:", response.data);
 
       if (mode === "qr") {
         return handleGenerateQR(link);

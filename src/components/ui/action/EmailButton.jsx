@@ -31,9 +31,9 @@ export default function EmailButton({
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
-          justifyContent: "center",
-          height: 32,
-          width: 32,
+          // justifyContent: "center",
+          // height: 32,
+          // width: 32,
           cursor: loading ? "not-allowed" : "pointer",
           transition: "0.2s",
           "&:hover": {
@@ -46,7 +46,8 @@ export default function EmailButton({
           sx={{
             fontSize: 20,
             color,
-            mb: "-3px",
+            mt: "7px",
+
           }}
         />
 
