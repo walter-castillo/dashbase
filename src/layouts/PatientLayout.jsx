@@ -23,7 +23,7 @@ const PatientLayout = () => {
         setStudies(studies);
       } catch (error) {
         console.error('Error al cargar estudios:', error);
-        navigate('/loginPatient');
+        navigate('/login/paciente');
       }
     };
     fetchStudies();

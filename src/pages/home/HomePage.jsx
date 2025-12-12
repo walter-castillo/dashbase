@@ -17,7 +17,7 @@ export const HomePage = () => {
             >
               Ir a Dashboard
             </Button>
-            <Button component={Link} to="/loginPatient" variant="contained">
+            <Button component={Link} to="/login/paciente" variant="contained">
               Portal paciente
             </Button>
           </Stack>

@@ -45,7 +45,7 @@ export  const NavBar = ({ toggleDrawer, open }) => {
           noWrap
           sx={{ flexGrow: 1 }}
         >
-          Dashboard - {state.user?.email || 'no name'}
+          {/* Dashboard - {state.user?.email || 'no name'} */}
         </Typography>
         {/* <Button 
           variant="contained" 

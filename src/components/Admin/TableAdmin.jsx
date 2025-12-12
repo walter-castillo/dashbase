@@ -288,7 +288,7 @@ const TableAdmin = ({
                           <DownloadButton
                             fetcher={dashAxios}
                             endpoint="/dashboard/download/study/jpeg"
-                            id={est.Study.ID}
+                            id={est.Study.StudyInstanceUID}
                             label="JPG"
                             tooltip="Descargar imágenes JPG"
                             color="#2e7d32"
@@ -342,10 +342,10 @@ const TableAdmin = ({
                       {/* enviar por Email */}
                       {est.Patient?.email ? (
                         <EmailButton
-                          onClick={
-                            () => console.log(est.Study.StudyInstanceUID)
-                            // enviarEmail(row.patientEmail, row.studyId)
-                          }
+                          email={est.Patient?.email}
+                          studyId={est.Study?.StudyInstanceUID}
+                          id={est.Study?.ID}
+                          dni={est.Patient?.PatientID}
                         />
                       ) : (
                         <DisabledEmailButton />

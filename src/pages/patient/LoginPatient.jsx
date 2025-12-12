@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const LoginPatient = () => {
   // const [code, setCode] = useState('G9WYCA');
-  const [code, setCode] = useState("YGOR1U");
+  const [code, setCode] = useState("KV6JI8");
   const [dni, setDni] = useState("5394119");
   // const [dni, setDni] = useState('39814413');
   const [loading, setLoading] = useState(false);
@@ -16,7 +16,7 @@ const LoginPatient = () => {
     setLoading(true);
     try {
       const res = await PatientAxios.post('/validateCode', { code, dni });   
-      navigate('/patient');
+      navigate('/paciente');
     } catch (err) {
       console.log(err);
       alert('FALLÓ: ' + JSON.stringify(err.response?.data || err.message));

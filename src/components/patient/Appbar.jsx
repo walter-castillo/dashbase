@@ -33,7 +33,7 @@ const Appbar = ({ patient, guest = false }) => {
     } catch (error) {
       console.error("Error al cerrar sesión:", error);
     } finally {
-      navigate("/loginPatient");
+      navigate("/login/paciente");
     }
   };
 

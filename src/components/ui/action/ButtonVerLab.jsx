@@ -1,4 +1,4 @@
-// EyeLabPreviewButton.jsx
+// src\components\ui\action\ButtonVerLab.jsx
 import {
   Tooltip,
   Dialog,
@@ -104,7 +104,13 @@ export default function ButtonVerLab({ est, fetcher, endpoint }) {
       </Tooltip>
 
       {/* --- VISOR INTERNO --- */}
-      <Dialog open={open} onClose={() => setOpen(false)} fullScreen>
+      <Dialog
+        open={open}
+        onClose={() => setOpen(false)}
+        fullScreen
+        disableEnforceFocus
+        disableRestoreFocus
+      >
         {/* HEADER */}
         <div
           style={{

@@ -5,8 +5,8 @@ import LoginPatient from '../pages/patient/LoginPatient';
 export const Patient = ()=> {
   return (
     <>
-      <Route path="/loginPatient" element={<LoginPatient />} />
-      <Route path="/patient" element={<PatientLayout />} />
+      <Route path="/login/paciente" element={<LoginPatient />} />
+      <Route path="/paciente" element={<PatientLayout />} />
     </>
   );
 }
